@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Data", "Boxyz\Boxyz.Data\Boxyz.Data.csproj", "{7177B8BF-3625-4DBE-A370-FD514307EA26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Data", "Boxyz.Data\Boxyz.Data.csproj", "{5FCDEFF0-4763-471B-8E4C-CD549EA6BCB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boxyz.Seeder", "Boxyz\Boxyz.Seeder\Boxyz.Seeder.csproj", "{D8B7F787-4738-44CB-A1F2-C2BB67653445}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Migrations.PostgreSql", "Boxyz.Migrations.PostgreSql\Boxyz.Migrations.PostgreSql.csproj", "{B3E9978F-3600-4CD3-9658-8EBF3376112F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Api.GraphQL", "Boxyz\Boxyz.Api.GraphQL\Boxyz.Api.GraphQL.csproj", "{0FA0FF38-AD96-4A1C-AC1E-FE148204C565}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Seeder", "Boxyz.Seeder\Boxyz.Seeder.csproj", "{2B87B9EC-E442-4D21-AEFD-5B2301900B06}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Migrations.PostgreSql", "Boxyz\Boxyz.Migrations.PostgreSql\Boxyz.Migrations.PostgreSql.csproj", "{6F6584C2-7A77-46F9-AA2C-D8CD2513D58C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Api.GraphQL", "Boxyz.Api.GraphQL\Boxyz.Api.GraphQL.csproj", "{014A8BF0-1628-470C-8FE8-FA2862EBFAC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,22 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7177B8BF-3625-4DBE-A370-FD514307EA26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7177B8BF-3625-4DBE-A370-FD514307EA26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7177B8BF-3625-4DBE-A370-FD514307EA26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7177B8BF-3625-4DBE-A370-FD514307EA26}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8B7F787-4738-44CB-A1F2-C2BB67653445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8B7F787-4738-44CB-A1F2-C2BB67653445}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8B7F787-4738-44CB-A1F2-C2BB67653445}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8B7F787-4738-44CB-A1F2-C2BB67653445}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FA0FF38-AD96-4A1C-AC1E-FE148204C565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FA0FF38-AD96-4A1C-AC1E-FE148204C565}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FA0FF38-AD96-4A1C-AC1E-FE148204C565}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FA0FF38-AD96-4A1C-AC1E-FE148204C565}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F6584C2-7A77-46F9-AA2C-D8CD2513D58C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F6584C2-7A77-46F9-AA2C-D8CD2513D58C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F6584C2-7A77-46F9-AA2C-D8CD2513D58C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F6584C2-7A77-46F9-AA2C-D8CD2513D58C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FCDEFF0-4763-471B-8E4C-CD549EA6BCB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FCDEFF0-4763-471B-8E4C-CD549EA6BCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FCDEFF0-4763-471B-8E4C-CD549EA6BCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FCDEFF0-4763-471B-8E4C-CD549EA6BCB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3E9978F-3600-4CD3-9658-8EBF3376112F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3E9978F-3600-4CD3-9658-8EBF3376112F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3E9978F-3600-4CD3-9658-8EBF3376112F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3E9978F-3600-4CD3-9658-8EBF3376112F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B87B9EC-E442-4D21-AEFD-5B2301900B06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B87B9EC-E442-4D21-AEFD-5B2301900B06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B87B9EC-E442-4D21-AEFD-5B2301900B06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B87B9EC-E442-4D21-AEFD-5B2301900B06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{014A8BF0-1628-470C-8FE8-FA2862EBFAC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{014A8BF0-1628-470C-8FE8-FA2862EBFAC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{014A8BF0-1628-470C-8FE8-FA2862EBFAC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{014A8BF0-1628-470C-8FE8-FA2862EBFAC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
