@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Api.GraphQL.Types
 {
-    public class BoxShapeBoardType : ObjectGraphType<BoxShapeBoardModel>
+    public class ShapeBoardType : ObjectGraphType<ShapeBoardModel>
     {
-       public BoxShapeBoardType()
+       public ShapeBoardType()
        {
             Field(x => x.Id);
             Field(x => x.Name);            
             Field(x => x.Path, nullable: true);
             Field(x => x.Level);
 
-            Field(x => x.Cultures, nullable: true, type: typeof(ListGraphType<BoxShapeBoardCultureType>));
+            Field(x => x.Cultures, nullable: true, type: typeof(ListGraphType<ShapeBoardCultureType>));
 
-            Field<BoxShapeBoardCultureType>("getCulture",
+            Field<ShapeBoardCultureType>("getCulture",
                 arguments: new QueryArguments(
                     new QueryArgument<BigIntGraphType> { Name = "boardId" }, 
                     new QueryArgument<StringGraphType> { Name = "culture" }),

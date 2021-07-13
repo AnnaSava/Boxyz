@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Api.GraphQL.Types
 {
-    public class BoxShapeSideCultureType : ObjectGraphType<BoxShapeSideCultureModel>
+    public class ShapeSideCultureType : ObjectGraphType<ShapeSideCultureModel>
     {
-        public BoxShapeSideCultureType()
+        public ShapeSideCultureType()
         {
             Field(x => x.Culture);
             Field(x => x.ShapeSideId);

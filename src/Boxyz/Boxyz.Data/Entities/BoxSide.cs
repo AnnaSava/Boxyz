@@ -14,7 +14,7 @@ namespace Boxyz.Data.Entities
 
         public long ShapeSideId { get; set; }
 
-        public virtual BoxShapeSide ShapeSide { get; set; }
+        public virtual ShapeSide ShapeSide { get; set; }
 
         public string UniversalValue { get; set; }
 

@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Boxyz.Data\Boxyz.Data.csproj" />
+    <ProjectReference Include="..\Boxyz.Migrations.PostgreSql\Boxyz.Migrations.PostgreSql.csproj" />
   </ItemGroup>
 
   <ItemGroup>

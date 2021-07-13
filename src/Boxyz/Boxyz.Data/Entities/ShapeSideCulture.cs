@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Boxyz.Data.Contract
+namespace Boxyz.Data.Entities
 {
-    public class BoxShapeVersionCultureModel : BaseCultureModel
+    public class ShapeSideCulture : BaseCultureEntity
     {
         public string Title { get; set; }
 
-        public long ShapeVersionId { get; set; }
+        [Key]
+        public long ShapeSideId { get; set; }
 
-        public virtual BoxShapeVersionModel ShapeVersion { get; set; }
+        public virtual ShapeSide ShapeSide { get; set; }
     }
 }

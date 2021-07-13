@@ -8,7 +8,7 @@ namespace Boxyz.Data.Contract
 {
     public class BoxModel : BaseModel
     {
-        public virtual BoxShapeModel Shape { get; set; }
+        public virtual ShapeModel Shape { get; set; }
 
         public virtual List<BoxVersionModel> Versions { get; set; }
     }

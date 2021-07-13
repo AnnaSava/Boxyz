@@ -13,7 +13,7 @@ namespace Boxyz.Api.GraphQL
     {
         public BoxContextQuery(IBoxServiceContext srvContext)
         {
-            Field<BoxShapeBoardType>(
+            Field<ShapeBoardType>(
                 "getBoard",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<BigIntGraphType>> { Name = "id" }

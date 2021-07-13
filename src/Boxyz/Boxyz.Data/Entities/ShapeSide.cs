@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Entities
 {
-    public class BoxShapeSide : BaseEntity
+    public class ShapeSide : BaseEntity
     {
         public string ConstName { get; set; }
 
         public long ShapeVersionId { get; set; }
 
-        public virtual BoxShapeVersion ShapeVersion { get; set; }
+        public virtual ShapeVersion ShapeVersion { get; set; }
 
         public string DataType { get; set; }
 
-        public virtual ICollection<BoxShapeSideCulture> Cultures { get; set; }
+        public virtual ICollection<ShapeSideCulture> Cultures { get; set; }
     }
 }

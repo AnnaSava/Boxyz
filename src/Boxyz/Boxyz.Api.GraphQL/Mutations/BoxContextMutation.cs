@@ -15,14 +15,14 @@ namespace Boxyz.Api.GraphQL
         {
             Name = "Mutation";
 
-            Field<BoxShapeBoardType>(
+            Field<ShapeBoardType>(
                 "createBoxShapeBoard",
                 arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<BoxShapeBoardInputType>> { Name = "boxShapeBoard" }
+                    new QueryArgument<NonNullGraphType<ShapeBoardInputType>> { Name = "boxShapeBoard" }
                 ),
                 resolve: context =>
                 {
-                    var board = context.GetArgument<BoxShapeBoardModel>("boxShapeBoard");
+                    var board = context.GetArgument<ShapeBoardModel>("boxShapeBoard");
                     return srvContext.ShapeBoardService.Create(board);
                 });
         }

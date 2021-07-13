@@ -12,19 +12,19 @@ namespace Boxyz.Data
             //Database.EnsureCreated();
         }
 
-        public DbSet<BoxShapeBoard> BoxShapeBoards { get; set; }
+        public DbSet<ShapeBoard> BoxShapeBoards { get; set; }
 
-        public DbSet<BoxShapeBoardCulture> BoxShapeBoardCultures { get; set; }
+        public DbSet<ShapeBoardCulture> BoxShapeBoardCultures { get; set; }
 
-        public DbSet<BoxShape> BoxShapes { get; set; }
+        public DbSet<Shape> BoxShapes { get; set; }
 
-        public DbSet<BoxShapeVersion> BoxShapeVersions { get; set; }
+        public DbSet<ShapeVersion> BoxShapeVersions { get; set; }
 
-        public DbSet<BoxShapeVersionCulture> BoxShapeVersionCultures { get; set; }
+        public DbSet<ShapeVersionCulture> BoxShapeVersionCultures { get; set; }
 
-        public DbSet<BoxShapeSide> BoxShapeSides { get; set; }
+        public DbSet<ShapeSide> BoxShapeSides { get; set; }
 
-        public DbSet<BoxShapeSideCulture> BoxShapeSideCultures { get; set; }
+        public DbSet<ShapeSideCulture> BoxShapeSideCultures { get; set; }
 
         public DbSet<Box> Boxes { get; set; }
 
@@ -38,7 +38,7 @@ namespace Boxyz.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<BoxShapeBoard>(b =>
+            builder.Entity<ShapeBoard>(b =>
             {
                 b.HasMany(m => m.ChildBoards)
                     .WithOne(m => m.ParentBoard)
@@ -49,13 +49,13 @@ namespace Boxyz.Data
                     .HasForeignKey(m => m.BoardId)
                     .IsRequired();
 
-                b.HasMany<BoxShape>()
+                b.HasMany<Shape>()
                     .WithOne(m => m.Board)
                     .HasForeignKey(m => m.BoardId)
                     .IsRequired();
             });
 
-            builder.Entity<BoxShape>(b =>
+            builder.Entity<Shape>(b =>
             {
                 b.HasMany(m => m.Versions)
                     .WithOne(m => m.Shape)
@@ -68,7 +68,7 @@ namespace Boxyz.Data
                     .IsRequired();
             });
 
-            builder.Entity<BoxShapeVersion>(b =>
+            builder.Entity<ShapeVersion>(b =>
             {
                 b.HasMany(m => m.Cultures)
                     .WithOne(m => m.ShapeVersion)
@@ -86,7 +86,7 @@ namespace Boxyz.Data
                     .IsRequired();
             });
 
-            builder.Entity<BoxShapeSide>(b =>
+            builder.Entity<ShapeSide>(b =>
             {
                 b.HasMany(m => m.Cultures)
                     .WithOne(m => m.ShapeSide)
@@ -123,13 +123,13 @@ namespace Boxyz.Data
                     .IsRequired();
             });
 
-            builder.Entity<BoxShapeBoardCulture>()
+            builder.Entity<ShapeBoardCulture>()
                 .HasKey(m => new { m.Culture, m.BoardId });
 
-            builder.Entity<BoxShapeVersionCulture>()
+            builder.Entity<ShapeVersionCulture>()
                 .HasKey(m => new { m.Culture, m.ShapeVersionId });
 
-            builder.Entity<BoxShapeSideCulture>()
+            builder.Entity<ShapeSideCulture>()
                 .HasKey(m => new { m.Culture, m.ShapeSideId });
 
             builder.Entity<BoxSideCulture>()

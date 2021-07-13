@@ -13,26 +13,26 @@ namespace Boxyz.Data.Mapper
     {
         public BoxMapperProfile()
         {
-            CreateMap<BoxShapeBoard, BoxShapeBoardModel>();
-            CreateMap<BoxShapeBoardModel, BoxShapeBoard>();
+            CreateMap<ShapeBoard, ShapeBoardModel>();
+            CreateMap<ShapeBoardModel, ShapeBoard>();
 
-            CreateMap<BoxShapeBoardCulture, BoxShapeBoardCultureModel>();
-            CreateMap<BoxShapeBoardCultureModel, BoxShapeBoardCulture>();
+            CreateMap<ShapeBoardCulture, ShapeBoardCultureModel>();
+            CreateMap<ShapeBoardCultureModel, ShapeBoardCulture>();
 
-            CreateMap<BoxShape, BoxShapeModel>();
-            CreateMap<BoxShapeModel, BoxShape>();
+            CreateMap<Shape, ShapeModel>();
+            CreateMap<ShapeModel, Shape>();
 
-            CreateMap<BoxShapeVersion, BoxShapeVersionModel>();
-            CreateMap<BoxShapeVersionModel, BoxShapeVersion>();
+            CreateMap<ShapeVersion, ShapeVersionModel>();
+            CreateMap<ShapeVersionModel, ShapeVersion>();
 
-            CreateMap<BoxShapeVersionCulture, BoxShapeVersionCultureModel>();
-            CreateMap<BoxShapeVersionCultureModel, BoxShapeVersionCulture>();
+            CreateMap<ShapeVersionCulture, ShapeVersionCultureModel>();
+            CreateMap<ShapeVersionCultureModel, ShapeVersionCulture>();
 
-            CreateMap<BoxShapeSide, BoxShapeSideModel>();
-            CreateMap<BoxShapeSideModel, BoxShapeSide>();
+            CreateMap<ShapeSide, ShapeSideModel>();
+            CreateMap<ShapeSideModel, ShapeSide>();
 
-            CreateMap<BoxShapeSideCulture, BoxShapeSideCultureModel>();
-            CreateMap<BoxShapeSideCultureModel, BoxShapeSideCulture>();
+            CreateMap<ShapeSideCulture, ShapeSideCultureModel>();
+            CreateMap<ShapeSideCultureModel, ShapeSideCulture>();
 
             CreateMap<Box, BoxModel>();
             CreateMap<BoxModel, Box>();

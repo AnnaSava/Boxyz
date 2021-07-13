@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Contract
 {
-    public class BoxShapeBoardCultureModel : BaseCultureModel
+    public interface IShapeService
     {
-        public long BoardId { get; set; }
-
-        public string Title { get; set; }        
+        Task<ShapeModel> GetOne(long Id);
     }
 }

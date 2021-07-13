@@ -40,7 +40,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_box_shape_board_cultures", x => x.culture);
+                    table.PrimaryKey("pk_box_shape_board_cultures", x => new { x.culture, x.board_id });
                     table.ForeignKey(
                         name: "fk_box_shape_board_cultures_box_shape_boards_board_id",
                         column: x => x.board_id,
@@ -136,12 +136,12 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 columns: table => new
                 {
                     culture = table.Column<string>(type: "text", nullable: false),
-                    title = table.Column<string>(type: "text", nullable: true),
-                    shape_version_id = table.Column<long>(type: "bigint", nullable: false)
+                    shape_version_id = table.Column<long>(type: "bigint", nullable: false),
+                    title = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_box_shape_version_cultures", x => x.culture);
+                    table.PrimaryKey("pk_box_shape_version_cultures", x => new { x.culture, x.shape_version_id });
                     table.ForeignKey(
                         name: "fk_box_shape_version_cultures_box_shape_versions_shape_version",
                         column: x => x.shape_version_id,
@@ -183,12 +183,12 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 columns: table => new
                 {
                     culture = table.Column<string>(type: "text", nullable: false),
-                    title = table.Column<string>(type: "text", nullable: true),
-                    shape_side_id = table.Column<long>(type: "bigint", nullable: false)
+                    shape_side_id = table.Column<long>(type: "bigint", nullable: false),
+                    title = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_box_shape_side_cultures", x => x.culture);
+                    table.PrimaryKey("pk_box_shape_side_cultures", x => new { x.culture, x.shape_side_id });
                     table.ForeignKey(
                         name: "fk_box_shape_side_cultures_box_shape_sides_shape_side_id",
                         column: x => x.shape_side_id,
@@ -234,7 +234,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_box_side_cultures", x => x.culture);
+                    table.PrimaryKey("pk_box_side_cultures", x => new { x.culture, x.box_side_id });
                     table.ForeignKey(
                         name: "fk_box_side_cultures_box_sides_box_side_id",
                         column: x => x.box_side_id,

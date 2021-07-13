@@ -10,7 +10,7 @@ namespace Boxyz.Data.Entities
     {
         public long ShapeId { get; set; }
 
-        public virtual BoxShape Shape { get; set; }
+        public virtual Shape Shape { get; set; }
 
         public virtual ICollection<BoxVersion> Versions { get; set; }
     }

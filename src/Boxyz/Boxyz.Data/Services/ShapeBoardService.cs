@@ -11,37 +11,37 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Services
 {
-    public class BoxShapeBoardService : BaseService, IBoxShapeBoardService
+    public class ShapeBoardService : BaseService, IShapeBoardService
     {
-        public BoxShapeBoardService(BoxDbContext dbContext, IMapper mapper) : base (dbContext, mapper)
+        public ShapeBoardService(BoxDbContext dbContext, IMapper mapper) : base (dbContext, mapper)
         {
 
         }
 
-        public async Task<BoxShapeBoardModel> Create(BoxShapeBoardModel model)
+        public async Task<ShapeBoardModel> Create(ShapeBoardModel model)
         {
-            var entity = _mapper.Map<BoxShapeBoard>(model);
+            var entity = _mapper.Map<ShapeBoard>(model);
 
             _dbContext.BoxShapeBoards.Add(entity);
             await _dbContext.SaveChangesAsync();
             return model;
         }
 
-        public async Task<BoxShapeBoardModel> GetOne(long id)
+        public async Task<ShapeBoardModel> GetOne(long id)
         {
             var entity = await _dbContext.BoxShapeBoards
                 .Where(m => m.Id == id)
                 .Include(m => m.Cultures)
                 .FirstOrDefaultAsync();
 
-            return _mapper.Map<BoxShapeBoardModel>(entity);
+            return _mapper.Map<ShapeBoardModel>(entity);
         }
 
-        public async Task<IEnumerable<BoxShapeBoardCultureModel>> GetCultures(long boardId)
+        public async Task<IEnumerable<ShapeBoardCultureModel>> GetCultures(long boardId)
         {
             return await _dbContext.BoxShapeBoardCultures
                 .Where(m => m.BoardId == boardId)                
-                .ProjectTo<BoxShapeBoardCultureModel>(_mapper.ConfigurationProvider)
+                .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
     }

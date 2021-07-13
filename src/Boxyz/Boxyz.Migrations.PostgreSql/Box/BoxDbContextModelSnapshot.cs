@@ -3,17 +3,15 @@ using System;
 using Boxyz.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Boxyz.Migrations.PostgreSql.Box
 {
     [DbContext(typeof(BoxDbContext))]
-    [Migration("20210713150141_CultureKeys")]
-    partial class CultureKeys
+    partial class BoxDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,195 +38,6 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasDatabaseName("ix_boxes_shape_id");
 
                     b.ToTable("boxes");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShape", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<long>("BoardId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("board_id");
-
-                    b.Property<string>("ConstName")
-                        .HasColumnType("text")
-                        .HasColumnName("const_name");
-
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("last_updated");
-
-                    b.HasKey("Id")
-                        .HasName("pk_box_shapes");
-
-                    b.HasIndex("BoardId")
-                        .HasDatabaseName("ix_box_shapes_board_id");
-
-                    b.ToTable("box_shapes");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeBoard", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("Level")
-                        .HasColumnType("integer")
-                        .HasColumnName("level");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.Property<long?>("ParentBoardId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("parent_board_id");
-
-                    b.Property<string>("Path")
-                        .HasColumnType("text")
-                        .HasColumnName("path");
-
-                    b.HasKey("Id")
-                        .HasName("pk_box_shape_boards");
-
-                    b.HasIndex("ParentBoardId")
-                        .HasDatabaseName("ix_box_shape_boards_parent_board_id");
-
-                    b.ToTable("box_shape_boards");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeBoardCulture", b =>
-                {
-                    b.Property<string>("Culture")
-                        .HasColumnType("text")
-                        .HasColumnName("culture");
-
-                    b.Property<long>("BoardId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("board_id");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text")
-                        .HasColumnName("title");
-
-                    b.HasKey("Culture", "BoardId")
-                        .HasName("pk_box_shape_board_cultures");
-
-                    b.HasIndex("BoardId")
-                        .HasDatabaseName("ix_box_shape_board_cultures_board_id");
-
-                    b.ToTable("box_shape_board_cultures");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeSide", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("ConstName")
-                        .HasColumnType("text")
-                        .HasColumnName("const_name");
-
-                    b.Property<string>("DataType")
-                        .HasColumnType("text")
-                        .HasColumnName("data_type");
-
-                    b.Property<long>("ShapeVersionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("shape_version_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_box_shape_sides");
-
-                    b.HasIndex("ShapeVersionId")
-                        .HasDatabaseName("ix_box_shape_sides_shape_version_id");
-
-                    b.ToTable("box_shape_sides");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeSideCulture", b =>
-                {
-                    b.Property<string>("Culture")
-                        .HasColumnType("text")
-                        .HasColumnName("culture");
-
-                    b.Property<long>("ShapeSideId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("shape_side_id");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text")
-                        .HasColumnName("title");
-
-                    b.HasKey("Culture", "ShapeSideId")
-                        .HasName("pk_box_shape_side_cultures");
-
-                    b.HasIndex("ShapeSideId")
-                        .HasDatabaseName("ix_box_shape_side_cultures_shape_side_id");
-
-                    b.ToTable("box_shape_side_cultures");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeVersion", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created");
-
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_approved");
-
-                    b.Property<long>("ShapeId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("shape_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_box_shape_versions");
-
-                    b.HasIndex("ShapeId")
-                        .HasDatabaseName("ix_box_shape_versions_shape_id");
-
-                    b.ToTable("box_shape_versions");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeVersionCulture", b =>
-                {
-                    b.Property<string>("Culture")
-                        .HasColumnType("text")
-                        .HasColumnName("culture");
-
-                    b.Property<long>("ShapeVersionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("shape_version_id");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text")
-                        .HasColumnName("title");
-
-                    b.HasKey("Culture", "ShapeVersionId")
-                        .HasName("pk_box_shape_version_cultures");
-
-                    b.HasIndex("ShapeVersionId")
-                        .HasDatabaseName("ix_box_shape_version_cultures_shape_version_id");
-
-                    b.ToTable("box_shape_version_cultures");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.BoxSide", b =>
@@ -322,9 +131,198 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.ToTable("box_versions");
                 });
 
+            modelBuilder.Entity("Boxyz.Data.Entities.Shape", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<long>("BoardId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("board_id");
+
+                    b.Property<string>("ConstName")
+                        .HasColumnType("text")
+                        .HasColumnName("const_name");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("last_updated");
+
+                    b.HasKey("Id")
+                        .HasName("pk_box_shapes");
+
+                    b.HasIndex("BoardId")
+                        .HasDatabaseName("ix_box_shapes_board_id");
+
+                    b.ToTable("box_shapes");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeBoard", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("Level")
+                        .HasColumnType("integer")
+                        .HasColumnName("level");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<long?>("ParentBoardId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("parent_board_id");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text")
+                        .HasColumnName("path");
+
+                    b.HasKey("Id")
+                        .HasName("pk_box_shape_boards");
+
+                    b.HasIndex("ParentBoardId")
+                        .HasDatabaseName("ix_box_shape_boards_parent_board_id");
+
+                    b.ToTable("box_shape_boards");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeBoardCulture", b =>
+                {
+                    b.Property<string>("Culture")
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
+
+                    b.Property<long>("BoardId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("board_id");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text")
+                        .HasColumnName("title");
+
+                    b.HasKey("Culture", "BoardId")
+                        .HasName("pk_box_shape_board_cultures");
+
+                    b.HasIndex("BoardId")
+                        .HasDatabaseName("ix_box_shape_board_cultures_board_id");
+
+                    b.ToTable("box_shape_board_cultures");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeSide", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ConstName")
+                        .HasColumnType("text")
+                        .HasColumnName("const_name");
+
+                    b.Property<string>("DataType")
+                        .HasColumnType("text")
+                        .HasColumnName("data_type");
+
+                    b.Property<long>("ShapeVersionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("shape_version_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_box_shape_sides");
+
+                    b.HasIndex("ShapeVersionId")
+                        .HasDatabaseName("ix_box_shape_sides_shape_version_id");
+
+                    b.ToTable("box_shape_sides");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeSideCulture", b =>
+                {
+                    b.Property<string>("Culture")
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
+
+                    b.Property<long>("ShapeSideId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("shape_side_id");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text")
+                        .HasColumnName("title");
+
+                    b.HasKey("Culture", "ShapeSideId")
+                        .HasName("pk_box_shape_side_cultures");
+
+                    b.HasIndex("ShapeSideId")
+                        .HasDatabaseName("ix_box_shape_side_cultures_shape_side_id");
+
+                    b.ToTable("box_shape_side_cultures");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeVersion", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_approved");
+
+                    b.Property<long>("ShapeId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("shape_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_box_shape_versions");
+
+                    b.HasIndex("ShapeId")
+                        .HasDatabaseName("ix_box_shape_versions_shape_id");
+
+                    b.ToTable("box_shape_versions");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeVersionCulture", b =>
+                {
+                    b.Property<string>("Culture")
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
+
+                    b.Property<long>("ShapeVersionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("shape_version_id");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text")
+                        .HasColumnName("title");
+
+                    b.HasKey("Culture", "ShapeVersionId")
+                        .HasName("pk_box_shape_version_cultures");
+
+                    b.HasIndex("ShapeVersionId")
+                        .HasDatabaseName("ix_box_shape_version_cultures_shape_version_id");
+
+                    b.ToTable("box_shape_version_cultures");
+                });
+
             modelBuilder.Entity("Boxyz.Data.Entities.Box", b =>
                 {
-                    b.HasOne("Boxyz.Data.Entities.BoxShape", "Shape")
+                    b.HasOne("Boxyz.Data.Entities.Shape", "Shape")
                         .WithMany()
                         .HasForeignKey("ShapeId")
                         .HasConstraintName("fk_boxes_box_shapes_shape_id")
@@ -332,88 +330,6 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .IsRequired();
 
                     b.Navigation("Shape");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShape", b =>
-                {
-                    b.HasOne("Boxyz.Data.Entities.BoxShapeBoard", "Board")
-                        .WithMany()
-                        .HasForeignKey("BoardId")
-                        .HasConstraintName("fk_box_shapes_box_shape_boards_board_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Board");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeBoard", b =>
-                {
-                    b.HasOne("Boxyz.Data.Entities.BoxShapeBoard", "ParentBoard")
-                        .WithMany("ChildBoards")
-                        .HasForeignKey("ParentBoardId")
-                        .HasConstraintName("fk_box_shape_boards_box_shape_boards_parent_board_id");
-
-                    b.Navigation("ParentBoard");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeBoardCulture", b =>
-                {
-                    b.HasOne("Boxyz.Data.Entities.BoxShapeBoard", "Board")
-                        .WithMany("Cultures")
-                        .HasForeignKey("BoardId")
-                        .HasConstraintName("fk_box_shape_board_cultures_box_shape_boards_board_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Board");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeSide", b =>
-                {
-                    b.HasOne("Boxyz.Data.Entities.BoxShapeVersion", "ShapeVersion")
-                        .WithMany("Sides")
-                        .HasForeignKey("ShapeVersionId")
-                        .HasConstraintName("fk_box_shape_sides_box_shape_versions_shape_version_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ShapeVersion");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeSideCulture", b =>
-                {
-                    b.HasOne("Boxyz.Data.Entities.BoxShapeSide", "ShapeSide")
-                        .WithMany("Cultures")
-                        .HasForeignKey("ShapeSideId")
-                        .HasConstraintName("fk_box_shape_side_cultures_box_shape_sides_shape_side_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ShapeSide");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeVersion", b =>
-                {
-                    b.HasOne("Boxyz.Data.Entities.BoxShape", "Shape")
-                        .WithMany("Versions")
-                        .HasForeignKey("ShapeId")
-                        .HasConstraintName("fk_box_shape_versions_box_shapes_shape_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Shape");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeVersionCulture", b =>
-                {
-                    b.HasOne("Boxyz.Data.Entities.BoxShapeVersion", "ShapeVersion")
-                        .WithMany("Cultures")
-                        .HasForeignKey("ShapeVersionId")
-                        .HasConstraintName("fk_box_shape_version_cultures_box_shape_versions_shape_version")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ShapeVersion");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.BoxSide", b =>
@@ -425,7 +341,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Boxyz.Data.Entities.BoxShapeSide", "ShapeSide")
+                    b.HasOne("Boxyz.Data.Entities.ShapeSide", "ShapeSide")
                         .WithMany()
                         .HasForeignKey("ShapeSideId")
                         .HasConstraintName("fk_box_sides_box_shape_sides_shape_side_id")
@@ -458,7 +374,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Boxyz.Data.Entities.BoxShapeVersion", "ShapeVersion")
+                    b.HasOne("Boxyz.Data.Entities.ShapeVersion", "ShapeVersion")
                         .WithMany()
                         .HasForeignKey("ShapeVersionId")
                         .HasConstraintName("fk_box_versions_box_shape_versions_shape_version_id")
@@ -470,33 +386,91 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.Navigation("ShapeVersion");
                 });
 
+            modelBuilder.Entity("Boxyz.Data.Entities.Shape", b =>
+                {
+                    b.HasOne("Boxyz.Data.Entities.ShapeBoard", "Board")
+                        .WithMany()
+                        .HasForeignKey("BoardId")
+                        .HasConstraintName("fk_box_shapes_box_shape_boards_board_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Board");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeBoard", b =>
+                {
+                    b.HasOne("Boxyz.Data.Entities.ShapeBoard", "ParentBoard")
+                        .WithMany("ChildBoards")
+                        .HasForeignKey("ParentBoardId")
+                        .HasConstraintName("fk_box_shape_boards_box_shape_boards_parent_board_id");
+
+                    b.Navigation("ParentBoard");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeBoardCulture", b =>
+                {
+                    b.HasOne("Boxyz.Data.Entities.ShapeBoard", "Board")
+                        .WithMany("Cultures")
+                        .HasForeignKey("BoardId")
+                        .HasConstraintName("fk_box_shape_board_cultures_box_shape_boards_board_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Board");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeSide", b =>
+                {
+                    b.HasOne("Boxyz.Data.Entities.ShapeVersion", "ShapeVersion")
+                        .WithMany("Sides")
+                        .HasForeignKey("ShapeVersionId")
+                        .HasConstraintName("fk_box_shape_sides_box_shape_versions_shape_version_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShapeVersion");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeSideCulture", b =>
+                {
+                    b.HasOne("Boxyz.Data.Entities.ShapeSide", "ShapeSide")
+                        .WithMany("Cultures")
+                        .HasForeignKey("ShapeSideId")
+                        .HasConstraintName("fk_box_shape_side_cultures_box_shape_sides_shape_side_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShapeSide");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeVersion", b =>
+                {
+                    b.HasOne("Boxyz.Data.Entities.Shape", "Shape")
+                        .WithMany("Versions")
+                        .HasForeignKey("ShapeId")
+                        .HasConstraintName("fk_box_shape_versions_box_shapes_shape_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shape");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeVersionCulture", b =>
+                {
+                    b.HasOne("Boxyz.Data.Entities.ShapeVersion", "ShapeVersion")
+                        .WithMany("Cultures")
+                        .HasForeignKey("ShapeVersionId")
+                        .HasConstraintName("fk_box_shape_version_cultures_box_shape_versions_shape_version")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShapeVersion");
+                });
+
             modelBuilder.Entity("Boxyz.Data.Entities.Box", b =>
                 {
                     b.Navigation("Versions");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShape", b =>
-                {
-                    b.Navigation("Versions");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeBoard", b =>
-                {
-                    b.Navigation("ChildBoards");
-
-                    b.Navigation("Cultures");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeSide", b =>
-                {
-                    b.Navigation("Cultures");
-                });
-
-            modelBuilder.Entity("Boxyz.Data.Entities.BoxShapeVersion", b =>
-                {
-                    b.Navigation("Cultures");
-
-                    b.Navigation("Sides");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.BoxSide", b =>
@@ -506,6 +480,30 @@ namespace Boxyz.Migrations.PostgreSql.Box
 
             modelBuilder.Entity("Boxyz.Data.Entities.BoxVersion", b =>
                 {
+                    b.Navigation("Sides");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.Shape", b =>
+                {
+                    b.Navigation("Versions");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeBoard", b =>
+                {
+                    b.Navigation("ChildBoards");
+
+                    b.Navigation("Cultures");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeSide", b =>
+                {
+                    b.Navigation("Cultures");
+                });
+
+            modelBuilder.Entity("Boxyz.Data.Entities.ShapeVersion", b =>
+                {
+                    b.Navigation("Cultures");
+
                     b.Navigation("Sides");
                 });
 #pragma warning restore 612, 618

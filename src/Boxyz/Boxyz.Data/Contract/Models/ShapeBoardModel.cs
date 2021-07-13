@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Contract
 {
-    public class BoxShapeBoardModel : BaseModel
+    public class ShapeBoardModel : BaseModel
     {
         public string Name { get; set; }
 
-        public virtual List<BoxShapeBoardCultureModel> Cultures { get; set; }
+        public virtual List<ShapeBoardCultureModel> Cultures { get; set; }
 
-        public virtual List<BoxShapeBoardModel> ChildBoards { get; set; }
+        public virtual List<ShapeBoardModel> ChildBoards { get; set; }
 
         public int Level { get; set; }
 

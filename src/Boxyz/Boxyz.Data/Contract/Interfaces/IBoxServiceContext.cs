@@ -8,9 +8,9 @@ namespace Boxyz.Data.Contract
 {
     public interface IBoxServiceContext
     {
-        IBoxShapeBoardService ShapeBoardService { get; }
+        IShapeBoardService ShapeBoardService { get; }
 
-        IBoxShapeService ShapeService { get; }
+        IShapeService ShapeService { get; }
 
         IBoxService BoxService { get; }
     }

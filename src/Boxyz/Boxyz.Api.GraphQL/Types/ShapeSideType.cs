@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Api.GraphQL.Types
 {
-    public class BoxShapeSideType : ObjectGraphType<BoxShapeSideModel>
+    public class ShapeSideType : ObjectGraphType<ShapeSideModel>
     {
-       public BoxShapeSideType()
+       public ShapeSideType()
        {
             Field(x => x.Id);
             Field(x => x.ConstName);            
             Field(x => x.DataType);
-            Field(x => x.Cultures, nullable: true, type: typeof(ListGraphType<BoxShapeSideCultureType>));
+            Field(x => x.Cultures, nullable: true, type: typeof(ListGraphType<ShapeSideCultureType>));
 
-            Field<BoxShapeSideCultureType>("getCulture",
+            Field<ShapeSideCultureType>("getCulture",
                 arguments: new QueryArguments(
                     new QueryArgument<BigIntGraphType> { Name = "boardId" }, 
                     new QueryArgument<StringGraphType> { Name = "culture" }),

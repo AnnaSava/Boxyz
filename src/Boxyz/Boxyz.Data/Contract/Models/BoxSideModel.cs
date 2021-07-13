@@ -8,7 +8,7 @@ namespace Boxyz.Data.Contract
 {
     public class BoxSideModel : BaseModel
     {
-        public virtual BoxShapeSideModel ShapeSide { get; set; }
+        public virtual ShapeSideModel ShapeSide { get; set; }
 
         public string UniversalValue { get; set; }
 

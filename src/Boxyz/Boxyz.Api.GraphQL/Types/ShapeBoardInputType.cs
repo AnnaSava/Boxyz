@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Api.GraphQL.Types
 {
-    public class BoxShapeBoardInputType : InputObjectGraphType
+    public class ShapeBoardInputType : InputObjectGraphType
     {
-        public BoxShapeBoardInputType()
+        public ShapeBoardInputType()
         {
             Name = "BoxShapeBoardInput";
             Field<NonNullGraphType<StringGraphType>>("name");

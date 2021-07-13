@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Services
 {
-    public class BoxShapeService : BaseService, IBoxShapeService
+    public class ShapeService : BaseService, IShapeService
     {
-        public BoxShapeService(BoxDbContext dbContext, IMapper mapper)
+        public ShapeService(BoxDbContext dbContext, IMapper mapper)
              : base(dbContext, mapper)
         {
 
         }
 
-        public async Task<BoxShapeModel> GetOne(long id)
+        public async Task<ShapeModel> GetOne(long id)
         {
             var entity = await _dbContext.BoxShapes
                 .Where(m => m.Id == id)
@@ -25,7 +25,7 @@ namespace Boxyz.Data.Services
                 .Include(m => m.Versions).ThenInclude(m => m.Sides).ThenInclude(m => m.Cultures)
                 .FirstOrDefaultAsync();
 
-            return _mapper.Map<BoxShapeModel>(entity);
+            return _mapper.Map<ShapeModel>(entity);
         }
     }
 }

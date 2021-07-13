@@ -8,7 +8,7 @@ namespace Boxyz.Data.Contract
 {
     public class BoxVersionModel : BaseModel
     {
-        public virtual BoxShapeVersionModel ShapeVersion { get; set; }
+        public virtual ShapeVersionModel ShapeVersion { get; set; }
 
         public DateTime Created { get; set; }
 

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Api.GraphQL.Types
 {
-    public class BoxShapeBoardCultureType : ObjectGraphType<BoxShapeBoardCultureModel>
+    public class ShapeVersionCultureType : ObjectGraphType<ShapeVersionCultureModel>
     {
-        public BoxShapeBoardCultureType()
+        public ShapeVersionCultureType()
         {
             Field(x => x.Culture);
-            Field(x => x.BoardId);
+            Field(x => x.ShapeVersionId);
             Field(x => x.Title);
         }
     }

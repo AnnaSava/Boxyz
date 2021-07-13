@@ -14,7 +14,7 @@ namespace Boxyz.Data.Entities
 
         public long ShapeVersionId { get; set; }
 
-        public virtual BoxShapeVersion ShapeVersion { get; set; }
+        public virtual ShapeVersion ShapeVersion { get; set; }
 
         public DateTime Created { get; set; }
 

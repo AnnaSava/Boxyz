@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Entities
 {
-    public class BoxShapeBoard : BaseEntity
+    public class ShapeBoard : BaseEntity
     {
         public string Name { get; set; }
 
-        public virtual ICollection<BoxShapeBoardCulture> Cultures { get; set; }
+        public virtual ICollection<ShapeBoardCulture> Cultures { get; set; }
 
         public long? ParentBoardId { get; set; }
 
-        public virtual BoxShapeBoard ParentBoard { get; set; }
+        public virtual ShapeBoard ParentBoard { get; set; }
 
-        public virtual ICollection<BoxShapeBoard> ChildBoards { get; set; }
+        public virtual ICollection<ShapeBoard> ChildBoards { get; set; }
 
         public int Level { get; set; }
 

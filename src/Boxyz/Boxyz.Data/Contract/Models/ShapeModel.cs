@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Contract
 {
-    public class BoxShapeSideModel : BaseModel
+    public class ShapeModel : BaseModel
     {
         public string ConstName { get; set; }
 
-        public string DataType { get; set; }
+        public DateTime LastUpdated { get; set; }
 
-        public virtual List<BoxShapeSideCultureModel> Cultures { get; set; }
+        public virtual List<ShapeVersionModel> Versions { get; set; }
     }
 }

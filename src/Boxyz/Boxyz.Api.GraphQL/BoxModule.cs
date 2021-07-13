@@ -21,15 +21,15 @@ namespace Boxyz.Data
                 options.UseLazyLoadingProxies();
 
                 options
-                    .UseNpgsql(config.GetConnectionString("BoxConnection"), b => b.MigrationsAssembly("Boxys.Migrations.PostgreSql"))
+                    .UseNpgsql(config.GetConnectionString("BoxConnection"), b => b.MigrationsAssembly("Boxyz.Migrations.PostgreSql"))
                     .UseSnakeCaseNamingConvention();
             }); 
 
-            services.AddScoped<IBoxShapeBoardService>(s => new BoxShapeBoardService(
+            services.AddScoped<IShapeBoardService>(s => new ShapeBoardService(
                 s.GetService<BoxDbContext>(),
                 s.GetService<IMapper>()));
 
-            services.AddScoped<IBoxShapeService>(s => new BoxShapeService(
+            services.AddScoped<IShapeService>(s => new ShapeService(
                 s.GetService<BoxDbContext>(),
                 s.GetService<IMapper>()));
 
@@ -38,8 +38,8 @@ namespace Boxyz.Data
                 s.GetService<IMapper>()));
 
             services.AddScoped<IBoxServiceContext>(s => new BoxServiceContext(
-                s.GetService<IBoxShapeBoardService>(),
-                s.GetService<IBoxShapeService>(),
+                s.GetService<IShapeBoardService>(),
+                s.GetService<IShapeService>(),
                 s.GetService<IBoxService>()));
         }
     }

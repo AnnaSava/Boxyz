@@ -16,7 +16,7 @@ namespace Boxyz.Api.GraphQL
     {
         private int _count;
 
-        public CountFieldMiddleware(IHttpContextAccessor accessor, IBoxShapeBoardService data)
+        public CountFieldMiddleware(IHttpContextAccessor accessor, IShapeBoardService data)
         {
             // these dependencies are not needed here and are used only for demonstration purposes
             Debug.Assert(accessor != null);

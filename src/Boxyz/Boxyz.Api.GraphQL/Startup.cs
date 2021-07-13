@@ -47,15 +47,15 @@ namespace Boxyz.Api.GraphQL
 
             // add graph types
             services.AddScoped<BoxContextQuery>();            
-            services.AddScoped<BoxShapeBoardType>();            
-            services.AddScoped<BoxShapeBoardCultureType>();
-            services.AddScoped<BoxShapeVersionType>();
-            services.AddScoped<BoxShapeVersionCultureType>();
-            services.AddScoped<BoxShapeSideType>();
-            services.AddScoped<BoxShapeSideCultureType>();
+            services.AddScoped<ShapeBoardType>();            
+            services.AddScoped<ShapeBoardCultureType>();
+            services.AddScoped<ShapeVersionType>();
+            services.AddScoped<ShapeVersionCultureType>();
+            services.AddScoped<ShapeSideType>();
+            services.AddScoped<ShapeSideCultureType>();
 
             services.AddScoped<BoxContextMutation>();
-            services.AddScoped<BoxShapeBoardInputType>();
+            services.AddScoped<ShapeBoardInputType>();
 
             // add schema
             services.AddScoped<ISchema, BoxContextSchema>(services =>

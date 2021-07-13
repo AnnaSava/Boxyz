@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Contract
 {
-    public class BoxShapeVersionModel : BaseModel
+    public class ShapeVersionModel : BaseModel
     {
         public bool IsApproved { get; set; }
 
         public DateTime Created { get; set; }
 
-        public virtual List<BoxShapeSideModel> Sides { get; set; }
+        public virtual List<ShapeSideModel> Sides { get; set; }
 
-        public virtual List<BoxShapeVersionCultureModel> Cultures { get; set; }
+        public virtual List<ShapeVersionCultureModel> Cultures { get; set; }
     }
 }

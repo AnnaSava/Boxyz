@@ -52,7 +52,8 @@ namespace Boxyz.Seeder
             return new BoxDbContext(optionsBuilder.Options);
         }
         private static Action<DbContextOptionsBuilder> GetOptionsAction() => options =>
-                options.UseNpgsql("Host=localhost;Port=5432;Database=Boxyz;User Id=postgres;Password=12345678", b => b.MigrationsAssembly("Boxys.Migrations.PostgreSql"))
+            options
+                .UseNpgsql("Host=localhost;Port=5432;Database=Boxyz;User Id=postgres;Password=12345678", b => b.MigrationsAssembly("Boxyz.Migrations.PostgreSql"))
                 .UseSnakeCaseNamingConvention();
     }
 }

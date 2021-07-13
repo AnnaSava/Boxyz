@@ -9,30 +9,30 @@ namespace Boxyz.Data
 {
     public static class TestData
     {
-        public static IEnumerable<BoxShapeBoard> GetBoards()
+        public static IEnumerable<ShapeBoard> GetBoards()
         {
-            var boards = new List<BoxShapeBoard>
+            var boards = new List<ShapeBoard>
             {
-                new BoxShapeBoard
+                new ShapeBoard
                 {
                     //Id = 1,
                     Level = 0,
                     Name = "media",
-                    Cultures = new List<BoxShapeBoardCulture>
+                    Cultures = new List<ShapeBoardCulture>
                     {
-                        new BoxShapeBoardCulture { Culture = "ru", BoardId = 1, Title = "Медиа" },
-                        new BoxShapeBoardCulture { Culture = "en", BoardId = 1, Title = "Media" }
+                        new ShapeBoardCulture { Culture = "ru", BoardId = 1, Title = "Медиа" },
+                        new ShapeBoardCulture { Culture = "en", BoardId = 1, Title = "Media" }
                     },
                 },
-                new BoxShapeBoard
+                new ShapeBoard
                 {
                     //Id = 1,
                     Level = 0,
                     Name = "collections",
-                    Cultures = new List<BoxShapeBoardCulture>
+                    Cultures = new List<ShapeBoardCulture>
                     {
-                        new BoxShapeBoardCulture { Culture = "ru", BoardId = 2, Title = "Коллекции" },
-                        new BoxShapeBoardCulture { Culture = "en", BoardId = 2, Title = "Collections" }
+                        new ShapeBoardCulture { Culture = "ru", BoardId = 2, Title = "Коллекции" },
+                        new ShapeBoardCulture { Culture = "en", BoardId = 2, Title = "Collections" }
                     },
                 }
             };
@@ -40,62 +40,62 @@ namespace Boxyz.Data
             return boards;
         }
 
-        public static IEnumerable<BoxShape> GetShapes()
+        public static IEnumerable<Shape> GetShapes()
         {
-            var shapes = new List<BoxShape>
+            var shapes = new List<Shape>
             {
-                new BoxShape
+                new Shape
                 {
                     //Id = 1,
                     BoardId = 1,
                     ConstName = "books",
                     LastUpdated = DateTime.Now,
-                    Versions = new List<BoxShapeVersion>
+                    Versions = new List<ShapeVersion>
                     {
-                        new BoxShapeVersion
+                        new ShapeVersion
                         {
                             //Id = 1,
                             ShapeId = 1,
                             IsApproved = false,
                             Created = DateTime.Now,
-                            Cultures = new List<BoxShapeVersionCulture>
+                            Cultures = new List<ShapeVersionCulture>
                             {
-                                new BoxShapeVersionCulture { Culture = "ru", ShapeVersionId = 1, Title = "Книги" },
-                                new BoxShapeVersionCulture { Culture = "en", ShapeVersionId = 1, Title = "Books" },
+                                new ShapeVersionCulture { Culture = "ru", ShapeVersionId = 1, Title = "Книги" },
+                                new ShapeVersionCulture { Culture = "en", ShapeVersionId = 1, Title = "Books" },
                             },
-                            Sides = new List<BoxShapeSide>
+                            Sides = new List<ShapeSide>
                             {
-                                new BoxShapeSide
+                                new ShapeSide
                                 {
                                     //Id = 1,
                                     ConstName = "authorName",
                                     DataType = "nativeText",
-                                    Cultures = new List<BoxShapeSideCulture>
+                                    Cultures = new List<ShapeSideCulture>
                                     {
-                                        new BoxShapeSideCulture { Culture = "ru", ShapeSideId = 1, Title = "Имя автора" },
-                                        new BoxShapeSideCulture { Culture = "en", ShapeSideId = 1, Title = "Author's name" }
+                                        new ShapeSideCulture { Culture = "ru", ShapeSideId = 1, Title = "Имя автора" },
+                                        new ShapeSideCulture { Culture = "en", ShapeSideId = 1, Title = "Author's name" }
                                     }
                                 },
-                                new BoxShapeSide
+                                new ShapeSide
                                 {
                                     //Id = 2,
                                     ConstName = "bookName",
                                     DataType = "nativeText",
-                                    Cultures = new List<BoxShapeSideCulture>
+                                    Cultures = new List<ShapeSideCulture>
                                     {
-                                        new BoxShapeSideCulture { Culture = "ru", ShapeSideId = 2, Title = "Название книги" },
-                                        new BoxShapeSideCulture { Culture = "en", ShapeSideId = 2, Title = "Title of the book" }
+                                        new ShapeSideCulture { Culture = "ru", ShapeSideId = 2, Title = "Название книги" },
+                                        new ShapeSideCulture { Culture = "en", ShapeSideId = 2, Title = "Title of the book" }
                                     }
                                 },
-                                new BoxShapeSide
+                                new ShapeSide
                                 {
                                     //Id = 3,
                                     ConstName = "year",
                                     DataType = "year",
-                                    Cultures = new List<BoxShapeSideCulture>
+                                    Cultures = new List<ShapeSideCulture>
                                     {
-                                        new BoxShapeSideCulture { Culture = "ru", ShapeSideId = 3, Title = "Год издания" },
-                                        new BoxShapeSideCulture { Culture = "en", ShapeSideId = 3, Title = "The year of publishing" }
+                                        new ShapeSideCulture { Culture = "ru", ShapeSideId = 3, Title = "Год издания" },
+                                        new ShapeSideCulture { Culture = "en", ShapeSideId = 3, Title = "The year of publishing" }
                                     }
                                 }
                             }
