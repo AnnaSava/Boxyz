@@ -31,10 +31,30 @@ namespace Boxyz.Data.Services
         {
             var entity = await _dbContext.BoxShapeBoards
                 .Where(m => m.Id == id)
-                .Include(m => m.Cultures)
                 .FirstOrDefaultAsync();
 
             return _mapper.Map<ShapeBoardModel>(entity);
+        }
+
+        public async Task<ShapeBoardFlatModel> GetFlat(long id, string culture)
+        {
+            var entity = await _dbContext.BoxShapeBoards
+                .Where(m => m.Id == id)
+                .FirstOrDefaultAsync();
+
+            var cultureEntity = await _dbContext.BoxShapeBoardCultures
+                .Where(m => m.BoardId == id && m.Culture == culture)
+                .FirstOrDefaultAsync();
+
+            return new ShapeBoardFlatModel
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Level = entity.Level,
+                Path = entity.Path,
+                Title = cultureEntity.Title,
+                Culture = culture
+            };
         }
 
         public async Task<IEnumerable<ShapeBoardCultureModel>> GetCultures(long boardId)

@@ -13,5 +13,7 @@ namespace Boxyz.Data.Contract
         IShapeService ShapeService { get; }
 
         IBoxService BoxService { get; }
+
+        Task<IEnumerable<BoxSideFlatModel>> GetFlatBoxSides(long boxVersionId, long shapeVersionId, string culture);
     }
 }

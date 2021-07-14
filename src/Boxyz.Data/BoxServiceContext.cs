@@ -23,5 +23,23 @@ namespace Boxyz.Data
             ShapeService = shapeService;
             BoxService = boxService;
         }
+
+        public async Task<IEnumerable<BoxSideFlatModel>> GetFlatBoxSides(long boxVersionId, long shapeVersionId, string culture)
+        {
+            var boxSides = await BoxService.GetFlatSides(boxVersionId, culture);
+            var shapeSides = await ShapeService.GetFlatSides(shapeVersionId, culture);
+
+            foreach (var boxSide in boxSides)
+            {
+                var shapeSide = shapeSides.FirstOrDefault(m => m.Id == boxSide.ShapeSideId);
+
+                boxSide.Title = shapeSide.Title;
+                boxSide.ConstName = shapeSide.ConstName;
+                boxSide.DataType = shapeSide.DataType;
+                
+            }
+
+            return boxSides;
+        }
     }
 }

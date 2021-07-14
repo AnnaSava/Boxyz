@@ -1,3 +1,4 @@
+using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Api.GraphQL.Types;
 using Boxyz.Data;
 using GraphQL;
@@ -33,6 +34,8 @@ namespace Boxyz.Api.GraphQL
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+
             // add execution components
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
@@ -44,15 +47,27 @@ namespace Boxyz.Api.GraphQL
 
             services.AddMapper();
             services.AddBox(Configuration);
+            services.AddScoped<IContextService, ContextService>();
 
             // add graph types
             services.AddScoped<BoxContextQuery>();            
             services.AddScoped<ShapeBoardType>();            
             services.AddScoped<ShapeBoardCultureType>();
+            services.AddScoped<ShapeType>();
             services.AddScoped<ShapeVersionType>();
             services.AddScoped<ShapeVersionCultureType>();
             services.AddScoped<ShapeSideType>();
             services.AddScoped<ShapeSideCultureType>();
+            services.AddScoped<BoxType>();
+            services.AddScoped<BoxVersionType>();
+            services.AddScoped<BoxSideType>();
+            services.AddScoped<BoxSideCultureType>();
+
+            services.AddScoped<ShapeBoardFlatType>();
+            services.AddScoped<ShapeFlatType>();
+            services.AddScoped<ShapeSideFlatType>();
+            services.AddScoped<BoxFlatType>();
+            services.AddScoped<BoxSideFlatType>();
 
             services.AddScoped<BoxContextMutation>();
             services.AddScoped<ShapeBoardInputType>();

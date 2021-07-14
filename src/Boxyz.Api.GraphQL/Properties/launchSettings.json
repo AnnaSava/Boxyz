@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Boxys.Api.GraphQL": {
+    "Boxyz.Api.GraphQL": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

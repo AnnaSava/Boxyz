@@ -13,12 +13,55 @@ namespace Boxyz.Api.GraphQL
     {
         public BoxContextQuery(IBoxServiceContext srvContext)
         {
-            Field<ShapeBoardType>(
-                "getBoard",
+            FieldAsync<ShapeBoardType>(
+                "rawBoard",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<BigIntGraphType>> { Name = "id" }
                 ),
-                resolve: context => srvContext.ShapeBoardService.GetOne(context.GetArgument<long>("id"))
+                resolve: async context => await srvContext.ShapeBoardService.GetOne(context.GetArgument<long>("id"))
+            );
+
+            FieldAsync<ShapeType>(
+                "rawShape",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<BigIntGraphType>> { Name = "id" }
+                ),
+                resolve: async context => await srvContext.ShapeService.GetOne(context.GetArgument<long>("id"))
+            );
+
+            FieldAsync<BoxType>(
+                "rawBox",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<BigIntGraphType>> { Name = "id" }
+                ),
+                resolve: async context => await srvContext.BoxService.GetOne(context.GetArgument<long>("id"))
+            );
+
+            FieldAsync<ShapeBoardFlatType>(
+                "flatBoard",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<BigIntGraphType>> { Name = "id" },
+                    new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "culture" }
+                ),
+                resolve: async context => await srvContext.ShapeBoardService.GetFlat(context.GetArgument<long>("id"), context.GetArgument<string>("culture"))
+            );
+
+            FieldAsync<ShapeFlatType>(
+                "flatShape",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<BigIntGraphType>> { Name = "id" },
+                    new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "culture" }
+                ),
+                resolve: async context => await srvContext.ShapeService.GetFlat(context.GetArgument<long>("id"), context.GetArgument<string>("culture"))
+            );
+
+            FieldAsync<BoxFlatType>(
+                "flatBox",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<BigIntGraphType>> { Name = "id" },
+                    new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "culture" }
+                ),
+                resolve: async context => await srvContext.BoxService.GetFlat(context.GetArgument<long>("id"), context.GetArgument<string>("culture"))
             );
         }
     }

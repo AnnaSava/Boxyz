@@ -8,16 +8,15 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Api.GraphQL.Types
 {
-    public class ShapeType : ObjectGraphType<ShapeModel>
+    public class BoxType : ObjectGraphType<BoxModel>
     {
-       public ShapeType()
+       public BoxType()
        {
             Field(x => x.Id);
-            Field(x => x.ConstName);
-            Field(x => x.LastUpdated);
-            Field(x => x.Versions, nullable: true, type: typeof(ListGraphType<ShapeVersionType>));
+            Field(x => x.Shape, type: typeof(ShapeType));
+            Field(x => x.Versions, nullable: true, type: typeof(ListGraphType<BoxVersionType>));
 
-            Field<ShapeVersionType>("getVersion",
+            Field<BoxVersionType>("getVersion",
                 arguments: new QueryArguments(new QueryArgument<BigIntGraphType> { Name = "id" }),
                 resolve: context => context.Source.Versions
                     .FirstOrDefault(m => m.Id == context.GetArgument<long>("id")));

@@ -13,7 +13,8 @@ namespace Boxyz.Data.Mapper
     {
         public BoxMapperProfile()
         {
-            CreateMap<ShapeBoard, ShapeBoardModel>();
+            CreateMap<ShapeBoard, ShapeBoardModel>()
+                .ForMember(x => x.Cultures, y => y.Ignore());
             CreateMap<ShapeBoardModel, ShapeBoard>();
 
             CreateMap<ShapeBoardCulture, ShapeBoardCultureModel>();

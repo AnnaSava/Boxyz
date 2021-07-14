@@ -8,10 +8,10 @@ namespace Boxyz.Data.Contract
 {
     public class BoxSideModel : BaseModel
     {
-        public virtual ShapeSideModel ShapeSide { get; set; }
+        public ShapeSideModel ShapeSide { get; set; }
 
         public string UniversalValue { get; set; }
 
-        public virtual List<BoxSideCultureModel> Cultures { get; set; }
+        public List<BoxSideCultureModel> Cultures { get; set; }
     }
 }

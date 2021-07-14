@@ -9,5 +9,9 @@ namespace Boxyz.Data.Contract
     public interface IShapeService
     {
         Task<ShapeModel> GetOne(long Id);
+
+        Task<ShapeFlatModel> GetFlat(long id, string culture);
+
+        Task<IEnumerable<ShapeSideFlatModel>> GetFlatSides(long shapeVersionId, string culture);
     }
 }
