@@ -22,14 +22,14 @@ namespace Boxyz.Data.Services
         {
             var entity = _mapper.Map<ShapeBoard>(model);
 
-            _dbContext.BoxShapeBoards.Add(entity);
+            _dbContext.ShapeBoards.Add(entity);
             await _dbContext.SaveChangesAsync();
             return model;
         }
 
         public async Task<ShapeBoardModel> GetOne(long id)
         {
-            var entity = await _dbContext.BoxShapeBoards
+            var entity = await _dbContext.ShapeBoards
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
 
@@ -38,11 +38,11 @@ namespace Boxyz.Data.Services
 
         public async Task<ShapeBoardFlatModel> GetFlat(long id, string culture)
         {
-            var entity = await _dbContext.BoxShapeBoards
+            var entity = await _dbContext.ShapeBoards
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
 
-            var cultureEntity = await _dbContext.BoxShapeBoardCultures
+            var cultureEntity = await _dbContext.ShapeBoardCultures
                 .Where(m => m.BoardId == id && m.Culture == culture)
                 .FirstOrDefaultAsync();
 
@@ -59,7 +59,7 @@ namespace Boxyz.Data.Services
 
         public async Task<IEnumerable<ShapeBoardCultureModel>> GetCultures(long boardId)
         {
-            return await _dbContext.BoxShapeBoardCultures
+            return await _dbContext.ShapeBoardCultures
                 .Where(m => m.BoardId == boardId)
                 .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
@@ -67,7 +67,7 @@ namespace Boxyz.Data.Services
 
         public async Task<ShapeBoardCultureModel> GetCulture(long boardId, string culture)
         {
-            var entity = await _dbContext.BoxShapeBoardCultures
+            var entity = await _dbContext.ShapeBoardCultures
                 .Where(m => m.BoardId == boardId && m.Culture == culture)
                 .FirstOrDefaultAsync();
 
@@ -76,7 +76,7 @@ namespace Boxyz.Data.Services
 
         public async Task<IEnumerable<ShapeBoardModel>> GetAll(int page, int count)
         {
-            return await _dbContext.BoxShapeBoards
+            return await _dbContext.ShapeBoards
                 .OrderBy(m => m.Id)
                 .Skip((page - 1) * count)
                 .Take(count)
@@ -86,8 +86,8 @@ namespace Boxyz.Data.Services
 
         public async Task<IEnumerable<ShapeBoardFlatModel>> GetAllFlat(int page, int count, string culture)
         {
-            return await _dbContext.BoxShapeBoards
-                .Join(_dbContext.BoxShapeBoardCultures.Where(m => m.Culture == culture),
+            return await _dbContext.ShapeBoards
+                .Join(_dbContext.ShapeBoardCultures.Where(m => m.Culture == culture),
                 b => b.Id,
                 c => c.BoardId,
                 (b, c) => new ShapeBoardFlatModel()

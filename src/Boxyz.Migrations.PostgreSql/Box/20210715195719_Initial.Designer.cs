@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Boxyz.Migrations.PostgreSql.Box
 {
     [DbContext(typeof(BoxDbContext))]
-    [Migration("20210713210032_Initial")]
+    [Migration("20210715195719_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,12 +154,12 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnName("last_updated");
 
                     b.HasKey("Id")
-                        .HasName("pk_box_shapes");
+                        .HasName("pk_shapes");
 
                     b.HasIndex("BoardId")
-                        .HasDatabaseName("ix_box_shapes_board_id");
+                        .HasDatabaseName("ix_shapes_board_id");
 
-                    b.ToTable("box_shapes");
+                    b.ToTable("shapes");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeBoard", b =>
@@ -187,12 +187,12 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnName("path");
 
                     b.HasKey("Id")
-                        .HasName("pk_box_shape_boards");
+                        .HasName("pk_shape_boards");
 
                     b.HasIndex("ParentBoardId")
-                        .HasDatabaseName("ix_box_shape_boards_parent_board_id");
+                        .HasDatabaseName("ix_shape_boards_parent_board_id");
 
-                    b.ToTable("box_shape_boards");
+                    b.ToTable("shape_boards");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeBoardCulture", b =>
@@ -210,12 +210,12 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnName("title");
 
                     b.HasKey("Culture", "BoardId")
-                        .HasName("pk_box_shape_board_cultures");
+                        .HasName("pk_shape_board_cultures");
 
                     b.HasIndex("BoardId")
-                        .HasDatabaseName("ix_box_shape_board_cultures_board_id");
+                        .HasDatabaseName("ix_shape_board_cultures_board_id");
 
-                    b.ToTable("box_shape_board_cultures");
+                    b.ToTable("shape_board_cultures");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeSide", b =>
@@ -239,12 +239,12 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnName("shape_version_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_box_shape_sides");
+                        .HasName("pk_shape_sides");
 
                     b.HasIndex("ShapeVersionId")
-                        .HasDatabaseName("ix_box_shape_sides_shape_version_id");
+                        .HasDatabaseName("ix_shape_sides_shape_version_id");
 
-                    b.ToTable("box_shape_sides");
+                    b.ToTable("shape_sides");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeSideCulture", b =>
@@ -262,12 +262,12 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnName("title");
 
                     b.HasKey("Culture", "ShapeSideId")
-                        .HasName("pk_box_shape_side_cultures");
+                        .HasName("pk_shape_side_cultures");
 
                     b.HasIndex("ShapeSideId")
-                        .HasDatabaseName("ix_box_shape_side_cultures_shape_side_id");
+                        .HasDatabaseName("ix_shape_side_cultures_shape_side_id");
 
-                    b.ToTable("box_shape_side_cultures");
+                    b.ToTable("shape_side_cultures");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeVersion", b =>
@@ -291,12 +291,12 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnName("shape_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_box_shape_versions");
+                        .HasName("pk_shape_versions");
 
                     b.HasIndex("ShapeId")
-                        .HasDatabaseName("ix_box_shape_versions_shape_id");
+                        .HasDatabaseName("ix_shape_versions_shape_id");
 
-                    b.ToTable("box_shape_versions");
+                    b.ToTable("shape_versions");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeVersionCulture", b =>
@@ -314,12 +314,12 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnName("title");
 
                     b.HasKey("Culture", "ShapeVersionId")
-                        .HasName("pk_box_shape_version_cultures");
+                        .HasName("pk_shape_version_cultures");
 
                     b.HasIndex("ShapeVersionId")
-                        .HasDatabaseName("ix_box_shape_version_cultures_shape_version_id");
+                        .HasDatabaseName("ix_shape_version_cultures_shape_version_id");
 
-                    b.ToTable("box_shape_version_cultures");
+                    b.ToTable("shape_version_cultures");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.Box", b =>
@@ -327,7 +327,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasOne("Boxyz.Data.Entities.Shape", "Shape")
                         .WithMany()
                         .HasForeignKey("ShapeId")
-                        .HasConstraintName("fk_boxes_box_shapes_shape_id")
+                        .HasConstraintName("fk_boxes_shapes_shape_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -346,7 +346,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasOne("Boxyz.Data.Entities.ShapeSide", "ShapeSide")
                         .WithMany()
                         .HasForeignKey("ShapeSideId")
-                        .HasConstraintName("fk_box_sides_box_shape_sides_shape_side_id")
+                        .HasConstraintName("fk_box_sides_shape_sides_shape_side_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -379,7 +379,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasOne("Boxyz.Data.Entities.ShapeVersion", "ShapeVersion")
                         .WithMany()
                         .HasForeignKey("ShapeVersionId")
-                        .HasConstraintName("fk_box_versions_box_shape_versions_shape_version_id")
+                        .HasConstraintName("fk_box_versions_shape_versions_shape_version_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -393,7 +393,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasOne("Boxyz.Data.Entities.ShapeBoard", "Board")
                         .WithMany()
                         .HasForeignKey("BoardId")
-                        .HasConstraintName("fk_box_shapes_box_shape_boards_board_id")
+                        .HasConstraintName("fk_shapes_shape_boards_board_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -405,7 +405,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasOne("Boxyz.Data.Entities.ShapeBoard", "ParentBoard")
                         .WithMany("ChildBoards")
                         .HasForeignKey("ParentBoardId")
-                        .HasConstraintName("fk_box_shape_boards_box_shape_boards_parent_board_id");
+                        .HasConstraintName("fk_shape_boards_shape_boards_parent_board_id");
 
                     b.Navigation("ParentBoard");
                 });
@@ -415,7 +415,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasOne("Boxyz.Data.Entities.ShapeBoard", "Board")
                         .WithMany("Cultures")
                         .HasForeignKey("BoardId")
-                        .HasConstraintName("fk_box_shape_board_cultures_box_shape_boards_board_id")
+                        .HasConstraintName("fk_shape_board_cultures_shape_boards_board_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -427,7 +427,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasOne("Boxyz.Data.Entities.ShapeVersion", "ShapeVersion")
                         .WithMany("Sides")
                         .HasForeignKey("ShapeVersionId")
-                        .HasConstraintName("fk_box_shape_sides_box_shape_versions_shape_version_id")
+                        .HasConstraintName("fk_shape_sides_shape_versions_shape_version_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -439,7 +439,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasOne("Boxyz.Data.Entities.ShapeSide", "ShapeSide")
                         .WithMany("Cultures")
                         .HasForeignKey("ShapeSideId")
-                        .HasConstraintName("fk_box_shape_side_cultures_box_shape_sides_shape_side_id")
+                        .HasConstraintName("fk_shape_side_cultures_shape_sides_shape_side_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -451,7 +451,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasOne("Boxyz.Data.Entities.Shape", "Shape")
                         .WithMany("Versions")
                         .HasForeignKey("ShapeId")
-                        .HasConstraintName("fk_box_shape_versions_box_shapes_shape_id")
+                        .HasConstraintName("fk_shape_versions_shapes_shape_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -463,7 +463,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasOne("Boxyz.Data.Entities.ShapeVersion", "ShapeVersion")
                         .WithMany("Cultures")
                         .HasForeignKey("ShapeVersionId")
-                        .HasConstraintName("fk_box_shape_version_cultures_box_shape_versions_shape_version")
+                        .HasConstraintName("fk_shape_version_cultures_shape_versions_shape_version_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

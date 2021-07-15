@@ -20,7 +20,7 @@ namespace Boxyz.Data.Services
 
         public async Task<ShapeModel> GetOne(long id)
         {
-            var entity = await _dbContext.BoxShapes
+            var entity = await _dbContext.Shapes
                 .Where(m => m.Id == id)
                 .Include(m => m.Versions).ThenInclude(m => m.Cultures)
                 .Include(m => m.Versions).ThenInclude(m => m.Sides).ThenInclude(m => m.Cultures)
@@ -31,7 +31,7 @@ namespace Boxyz.Data.Services
 
         public async Task<IEnumerable<ShapeVersionModel>> GetVersions(long shapeId)
         {
-            return await _dbContext.BoxShapeVersions
+            return await _dbContext.ShapeVersions
                 .Where(m => m.ShapeId == shapeId)
                 .ProjectTo<ShapeVersionModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
@@ -39,7 +39,7 @@ namespace Boxyz.Data.Services
 
         public async Task<ShapeVersionModel> GetActualVersion(long shapeId)
         {
-            var entity = await _dbContext.BoxShapeVersions
+            var entity = await _dbContext.ShapeVersions
                 .Where(m => m.ShapeId == shapeId)
                 .OrderByDescending(m => m.Created)
                 .FirstOrDefaultAsync();
@@ -49,7 +49,7 @@ namespace Boxyz.Data.Services
 
         public async Task<IEnumerable<ShapeVersionCultureModel>> GetVersionCultures(long versionId)
         {
-            return await _dbContext.BoxShapeVersionCultures
+            return await _dbContext.ShapeVersionCultures
                 .Where(m => m.ShapeVersionId == versionId)
                 .ProjectTo<ShapeVersionCultureModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
@@ -57,7 +57,7 @@ namespace Boxyz.Data.Services
 
         public async Task<ShapeVersionCultureModel> GetVersionCulture(long versionId, string culture)
         {
-            var entity = await _dbContext.BoxShapeVersionCultures
+            var entity = await _dbContext.ShapeVersionCultures
                 .Where(m => m.ShapeVersionId == versionId && m.Culture == culture)
                 .FirstOrDefaultAsync();
 
@@ -66,7 +66,7 @@ namespace Boxyz.Data.Services
 
         public async Task<IEnumerable<ShapeSideModel>> GetSides(long versionId)
         {
-            return await _dbContext.BoxShapeSides
+            return await _dbContext.ShapeSides
                 .Where(m => m.ShapeVersionId == versionId)
                 .ProjectTo<ShapeSideModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
@@ -74,7 +74,7 @@ namespace Boxyz.Data.Services
 
         public async Task<IEnumerable<ShapeSideCultureModel>> GetSideCultures(long sideId)
         {
-            return await _dbContext.BoxShapeSideCultures
+            return await _dbContext.ShapeSideCultures
                 .Where(m => m.ShapeSideId == sideId)
                 .ProjectTo<ShapeSideCultureModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
@@ -82,7 +82,7 @@ namespace Boxyz.Data.Services
 
         public async Task<ShapeSideCultureModel> GetSideCulture(long sideId, string culture)
         {
-            var entity = await _dbContext.BoxShapeSideCultures
+            var entity = await _dbContext.ShapeSideCultures
                 .Where(m => m.ShapeSideId == sideId && m.Culture == culture)
                 .FirstOrDefaultAsync();
 
@@ -91,16 +91,16 @@ namespace Boxyz.Data.Services
 
         public async Task<ShapeFlatModel> GetFlat(long id, string culture)
         {
-            var entity = await _dbContext.BoxShapes
+            var entity = await _dbContext.Shapes
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
 
-            var actualVersion = await _dbContext.BoxShapeVersions
+            var actualVersion = await _dbContext.ShapeVersions
                 .Where(m => m.ShapeId == id)
                 .OrderByDescending(m => m.Created)
                 .FirstOrDefaultAsync();
 
-            var versionCulture = await _dbContext.BoxShapeVersionCultures
+            var versionCulture = await _dbContext.ShapeVersionCultures
                 .Where(m => m.ShapeVersionId == actualVersion.Id && m.Culture == culture)
                 .FirstOrDefaultAsync();
 
@@ -119,8 +119,8 @@ namespace Boxyz.Data.Services
 
         public async Task<IEnumerable<ShapeSideFlatModel>> GetFlatSides(long shapeVersionId, string culture)
         {
-            var sides = await _dbContext.BoxShapeSides.Where(m => m.ShapeVersionId == shapeVersionId)
-                .Join(_dbContext.BoxShapeSideCultures.Where(m => m.Culture == culture),
+            var sides = await _dbContext.ShapeSides.Where(m => m.ShapeVersionId == shapeVersionId)
+                .Join(_dbContext.ShapeSideCultures.Where(m => m.Culture == culture),
                 s => s.Id,
                 c => c.ShapeSideId,
                 (s, c) => new ShapeSideFlatModel

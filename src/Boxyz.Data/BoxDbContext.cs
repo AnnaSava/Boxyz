@@ -12,19 +12,19 @@ namespace Boxyz.Data
             //Database.EnsureCreated();
         }
 
-        public DbSet<ShapeBoard> BoxShapeBoards { get; set; }
+        public DbSet<ShapeBoard> ShapeBoards { get; set; }
 
-        public DbSet<ShapeBoardCulture> BoxShapeBoardCultures { get; set; }
+        public DbSet<ShapeBoardCulture> ShapeBoardCultures { get; set; }
 
-        public DbSet<Shape> BoxShapes { get; set; }
+        public DbSet<Shape> Shapes { get; set; }
 
-        public DbSet<ShapeVersion> BoxShapeVersions { get; set; }
+        public DbSet<ShapeVersion> ShapeVersions { get; set; }
 
-        public DbSet<ShapeVersionCulture> BoxShapeVersionCultures { get; set; }
+        public DbSet<ShapeVersionCulture> ShapeVersionCultures { get; set; }
 
-        public DbSet<ShapeSide> BoxShapeSides { get; set; }
+        public DbSet<ShapeSide> ShapeSides { get; set; }
 
-        public DbSet<ShapeSideCulture> BoxShapeSideCultures { get; set; }
+        public DbSet<ShapeSideCulture> ShapeSideCultures { get; set; }
 
         public DbSet<Box> Boxes { get; set; }
 
