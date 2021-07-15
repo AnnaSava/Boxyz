@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Contract
 {
-    public interface IShapeService
+    public interface IShapeDalService
     {
         Task<ShapeModel> GetOne(long Id);
 

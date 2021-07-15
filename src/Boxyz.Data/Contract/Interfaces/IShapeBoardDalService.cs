@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Contract
 {
-    public interface IShapeBoardService
+    public interface IShapeBoardDalService
     {
         Task<ShapeBoardModel> Create(ShapeBoardModel model);
 
@@ -15,5 +15,9 @@ namespace Boxyz.Data.Contract
         Task<ShapeBoardFlatModel> GetFlat(long id, string culture);
 
         Task<IEnumerable<ShapeBoardCultureModel>> GetCultures(long boardId);
+
+        Task<IEnumerable<ShapeBoardModel>> GetAll(int page, int count);
+
+        Task<IEnumerable<ShapeBoardFlatModel>> GetAllFlat(int page, int count, string culture);
     }
 }

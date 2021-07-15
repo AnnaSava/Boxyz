@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Services
 {
-    public class ShapeBoardService : BaseService, IShapeBoardService
+    public class ShapeBoardDalService : BaseService, IShapeBoardDalService
     {
-        public ShapeBoardService(BoxDbContext dbContext, IMapper mapper) : base (dbContext, mapper)
+        public ShapeBoardDalService(BoxDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
 
         }
@@ -60,8 +60,39 @@ namespace Boxyz.Data.Services
         public async Task<IEnumerable<ShapeBoardCultureModel>> GetCultures(long boardId)
         {
             return await _dbContext.BoxShapeBoardCultures
-                .Where(m => m.BoardId == boardId)                
+                .Where(m => m.BoardId == boardId)
                 .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ShapeBoardModel>> GetAll(int page, int count)
+        {
+            return await _dbContext.BoxShapeBoards
+                .OrderBy(m => m.Id)
+                .Skip((page - 1) * count)
+                .Take(count)
+                .ProjectTo<ShapeBoardModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ShapeBoardFlatModel>> GetAllFlat(int page, int count, string culture)
+        {
+            return await _dbContext.BoxShapeBoards
+                .Join(_dbContext.BoxShapeBoardCultures.Where(m => m.Culture == culture),
+                b => b.Id,
+                c => c.BoardId,
+                (b, c) => new ShapeBoardFlatModel()
+                {
+                    Id = b.Id,
+                    Name = b.Name,
+                    Level = b.Level,
+                    Path = b.Path,
+                    Title = c.Title,
+                    Culture = culture
+                })
+                .OrderBy(m => m.Id)
+                .Skip((page - 1) * count)
+                .Take(count)
                 .ToListAsync();
         }
     }

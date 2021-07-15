@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Seeder", "Boxyz.Seede
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Api.GraphQL", "Boxyz.Api.GraphQL\Boxyz.Api.GraphQL.csproj", "{014A8BF0-1628-470C-8FE8-FA2862EBFAC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boxyz.Api", "Boxyz.Api\Boxyz.Api.csproj", "{E6DB6EF7-58E0-4D1A-A206-CAD1D0DFBA0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{014A8BF0-1628-470C-8FE8-FA2862EBFAC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{014A8BF0-1628-470C-8FE8-FA2862EBFAC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{014A8BF0-1628-470C-8FE8-FA2862EBFAC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6DB6EF7-58E0-4D1A-A206-CAD1D0DFBA0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6DB6EF7-58E0-4D1A-A206-CAD1D0DFBA0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6DB6EF7-58E0-4D1A-A206-CAD1D0DFBA0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6DB6EF7-58E0-4D1A-A206-CAD1D0DFBA0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

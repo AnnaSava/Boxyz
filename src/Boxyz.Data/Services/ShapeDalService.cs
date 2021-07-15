@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Services
 {
-    public class ShapeService : BaseService, IShapeService
+    public class ShapeDalService : BaseService, IShapeDalService
     {
-        public ShapeService(BoxDbContext dbContext, IMapper mapper)
+        public ShapeDalService(BoxDbContext dbContext, IMapper mapper)
              : base(dbContext, mapper)
         {
 

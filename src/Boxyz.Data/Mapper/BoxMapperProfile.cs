@@ -14,7 +14,8 @@ namespace Boxyz.Data.Mapper
         public BoxMapperProfile()
         {
             CreateMap<ShapeBoard, ShapeBoardModel>()
-                .ForMember(x => x.Cultures, y => y.Ignore());
+                .ForMember(x => x.Cultures, y => y.Ignore())
+                .ForMember(x => x.ChildBoards, y => y.Ignore());
             CreateMap<ShapeBoardModel, ShapeBoard>();
 
             CreateMap<ShapeBoardCulture, ShapeBoardCultureModel>();

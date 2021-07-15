@@ -8,11 +8,11 @@ namespace Boxyz.Data.Contract
 {
     public interface IBoxServiceContext
     {
-        IShapeBoardService ShapeBoardService { get; }
+        IShapeBoardDalService ShapeBoardService { get; }
 
-        IShapeService ShapeService { get; }
+        IShapeDalService ShapeService { get; }
 
-        IBoxService BoxService { get; }
+        IBoxDalService BoxService { get; }
 
         Task<IEnumerable<BoxSideFlatModel>> GetFlatBoxSides(long boxVersionId, long shapeVersionId, string culture);
     }

@@ -8,10 +8,8 @@ namespace Boxyz.Data.Contract
 {
     public interface IBoxService
     {
-        Task<BoxModel> GetOne(long Id);
+        Task<IEnumerable<BoxSideFlatModel>> GetFlatBoxSides(long boxVersionId, long shapeVersionId, string culture);
 
-        Task<BoxFlatModel> GetFlat(long id, string culture);
-
-        Task<IEnumerable<BoxSideFlatModel>> GetFlatSides(long boxVersionId, string culture);
+        Task<BoxObjectModel> GetBoxObject(long id, string culture);
     }
 }

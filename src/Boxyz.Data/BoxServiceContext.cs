@@ -9,15 +9,15 @@ namespace Boxyz.Data
 {
    public class BoxServiceContext : IBoxServiceContext
     {
-        public IShapeBoardService ShapeBoardService { get; }
+        public IShapeBoardDalService ShapeBoardService { get; }
 
-        public IShapeService ShapeService { get; }
+        public IShapeDalService ShapeService { get; }
 
-        public IBoxService BoxService { get; }
+        public IBoxDalService BoxService { get; }
 
-        public BoxServiceContext(IShapeBoardService shapeBoardService,
-            IShapeService shapeService,
-            IBoxService boxService)
+        public BoxServiceContext(IShapeBoardDalService shapeBoardService,
+            IShapeDalService shapeService,
+            IBoxDalService boxService)
         {
             ShapeBoardService = shapeBoardService;
             ShapeService = shapeService;

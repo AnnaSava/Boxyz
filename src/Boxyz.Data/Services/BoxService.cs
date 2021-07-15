@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Boxyz.Data.Contract;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,66 +8,64 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Services
 {
-    public class BoxService : BaseService, IBoxService
+    public class BoxService : IBoxService
     {
-        public BoxService(BoxDbContext dbContext, IMapper mapper)
-             : base(dbContext, mapper)
-        {
+        private readonly IBoxDalService _boxDalService;
+        private readonly IShapeDalService _shapeDalService;
+        private readonly IMapper _mapper;
 
+        public BoxService(IBoxDalService boxDalService, IShapeDalService shapeDalService, IMapper mapper)
+        {
+            _boxDalService = boxDalService;
+            _shapeDalService = shapeDalService;
+            _mapper = mapper;
         }
 
-        public async Task<BoxModel> GetOne(long id)
+        public async Task<IEnumerable<BoxSideFlatModel>> GetFlatBoxSides(long boxVersionId, long shapeVersionId, string culture)
         {
-            var entity = await _dbContext.Boxes
-                .Where(m => m.Id == id)
-                .Include(m => m.Shape)
-                .Include(m => m.Versions).ThenInclude(m => m.Sides).ThenInclude(m => m.Cultures)
-                .Include(m => m.Versions).ThenInclude(m => m.Sides).ThenInclude(m => m.ShapeSide)
-                .Include(m => m.Versions).ThenInclude(m => m.ShapeVersion)
-                .FirstOrDefaultAsync();
+            var boxSides = await _boxDalService.GetFlatSides(boxVersionId, culture);
+            var shapeSides = await _shapeDalService.GetFlatSides(shapeVersionId, culture);
 
-            return _mapper.Map<BoxModel>(entity);
-        }
-
-        public async Task<BoxFlatModel> GetFlat(long id, string culture)
-        {
-            var entity = await _dbContext.Boxes
-                .Where(m => m.Id == id)
-                .FirstOrDefaultAsync();
-
-            var actualVersion = await _dbContext.BoxVersions
-                .Where(m => m.BoxId == id)
-                .OrderByDescending(m => m.Created)
-                .FirstOrDefaultAsync();
-
-            return new BoxFlatModel
+            foreach (var boxSide in boxSides)
             {
-                Id = entity.Id,
-                Created = actualVersion.Created,
-                IsApproved = actualVersion.IsApproved,
-                ShapeId = entity.ShapeId,
-                VersionId = actualVersion.Id,
-                Culture = culture,
-                ShapeVersionId = actualVersion.ShapeVersionId
-            };
+                var shapeSide = shapeSides.FirstOrDefault(m => m.Id == boxSide.ShapeSideId);
+
+                boxSide.Title = shapeSide.Title;
+                boxSide.ConstName = shapeSide.ConstName;
+                boxSide.DataType = shapeSide.DataType;
+            }
+
+            return boxSides;
         }
 
-        public async Task<IEnumerable<BoxSideFlatModel>> GetFlatSides(long boxVersionId, string culture)
+        public async Task<BoxObjectModel> GetBoxObject(long id, string culture)
         {
-            var sides = await _dbContext.BoxSides.Where(m => m.BoxVersionId == boxVersionId)
-                .Join(_dbContext.BoxSideCultures.Where(m => m.Culture == culture),
-                s => s.Id,
-                c => c.BoxSideId,
-                (s, c) => new BoxSideFlatModel
-                {
-                    Id = s.Id,
-                    UniversalValue = s.UniversalValue,
-                    Value = c.Value,
-                    Culture = c.Culture,
-                    ShapeSideId = s.ShapeSideId
-                }).ToListAsync();
+            var box = await _boxDalService.GetFlat(id, culture);
+            var shape = await _shapeDalService.GetFlat(box.ShapeId, culture);
+            var sides = await GetFlatBoxSides(box.VersionId, shape.VersionId, culture);
 
-            return sides;
+            var dict = new BoxObjectModel();
+
+            dict.Add("id", box.Id);
+
+            foreach (var side in sides)
+            {
+                object value;
+                switch(side.DataType)
+                {
+                    case "year":
+                    case "number": 
+                        value = int.Parse(side.UniversalValue);
+                        break;
+                    default: value = side.Value;
+                        break;
+                }
+
+                //dict.Add(side.ConstName, new ValueWithType { Value = side.Value ?? side.UniversalValue, Type = side.DataType });
+                dict.Add(side.ConstName, value);
+            }
+
+            return dict;
         }
     }
 }
