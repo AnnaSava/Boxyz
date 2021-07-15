@@ -65,6 +65,15 @@ namespace Boxyz.Data.Services
                 .ToListAsync();
         }
 
+        public async Task<ShapeBoardCultureModel> GetCulture(long boardId, string culture)
+        {
+            var entity = await _dbContext.BoxShapeBoardCultures
+                .Where(m => m.BoardId == boardId && m.Culture == culture)
+                .FirstOrDefaultAsync();
+
+            return _mapper.Map<ShapeBoardCultureModel>(entity);
+        }
+
         public async Task<IEnumerable<ShapeBoardModel>> GetAll(int page, int count)
         {
             return await _dbContext.BoxShapeBoards

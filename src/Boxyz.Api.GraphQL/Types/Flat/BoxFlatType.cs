@@ -14,8 +14,7 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class BoxFlatType : ObjectGraphType<BoxFlatModel>
     {
-        //public BoxFlatType(IBoxServiceContext srvContext)
-        public BoxFlatType(IHttpContextAccessor _httpContextAccessor)
+        public BoxFlatType(IHttpContextAccessor httpContextAccessor)
         {
             Field(x => x.Id);
             Field(x => x.Created);
@@ -25,13 +24,13 @@ namespace Boxyz.Api.GraphQL.Types
 
             FieldAsync<ShapeFlatType>("shape", resolve: async context =>
             {
-                using var scope = _httpContextAccessor.CreateScope();
-                return await scope.GetService<IBoxServiceContext>().ShapeService.GetFlat(context.Source.ShapeId, context.Source.Culture);
+                using var scope = httpContextAccessor.CreateScope();
+                return await scope.GetService<IShapeDalService>().GetFlat(context.Source.ShapeId, context.Source.Culture);
             });
 
             FieldAsync<ListGraphType<BoxSideFlatType>>("sides", resolve: async context =>
             {
-                using var scope = _httpContextAccessor.CreateScope();
+                using var scope = httpContextAccessor.CreateScope();
                 return await scope.GetService<IBoxServiceContext>().GetFlatBoxSides(context.Source.VersionId, context.Source.ShapeVersionId, context.Source.Culture);
             });
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Boxyz.Data.Contract;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,6 +27,66 @@ namespace Boxyz.Data.Services
                 .FirstOrDefaultAsync();
 
             return _mapper.Map<ShapeModel>(entity);
+        }
+
+        public async Task<IEnumerable<ShapeVersionModel>> GetVersions(long shapeId)
+        {
+            return await _dbContext.BoxShapeVersions
+                .Where(m => m.ShapeId == shapeId)
+                .ProjectTo<ShapeVersionModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<ShapeVersionModel> GetActualVersion(long shapeId)
+        {
+            var entity = await _dbContext.BoxShapeVersions
+                .Where(m => m.ShapeId == shapeId)
+                .OrderByDescending(m => m.Created)
+                .FirstOrDefaultAsync();
+
+            return _mapper.Map<ShapeVersionModel>(entity);
+        }
+
+        public async Task<IEnumerable<ShapeVersionCultureModel>> GetVersionCultures(long versionId)
+        {
+            return await _dbContext.BoxShapeVersionCultures
+                .Where(m => m.ShapeVersionId == versionId)
+                .ProjectTo<ShapeVersionCultureModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<ShapeVersionCultureModel> GetVersionCulture(long versionId, string culture)
+        {
+            var entity = await _dbContext.BoxShapeVersionCultures
+                .Where(m => m.ShapeVersionId == versionId && m.Culture == culture)
+                .FirstOrDefaultAsync();
+
+            return _mapper.Map<ShapeVersionCultureModel>(entity);
+        }
+
+        public async Task<IEnumerable<ShapeSideModel>> GetSides(long versionId)
+        {
+            return await _dbContext.BoxShapeSides
+                .Where(m => m.ShapeVersionId == versionId)
+                .ProjectTo<ShapeSideModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ShapeSideCultureModel>> GetSideCultures(long sideId)
+        {
+            return await _dbContext.BoxShapeSideCultures
+                .Where(m => m.ShapeSideId == sideId)
+                .ProjectTo<ShapeSideCultureModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<ShapeSideCultureModel> GetSideCulture(long sideId, string culture)
+        {
+            var entity = await _dbContext.BoxShapeSideCultures
+                .Where(m => m.ShapeSideId == sideId && m.Culture == culture)
+                .FirstOrDefaultAsync();
+
+            return _mapper.Map<ShapeSideCultureModel>(entity);
         }
 
         public async Task<ShapeFlatModel> GetFlat(long id, string culture)

@@ -21,16 +21,20 @@ namespace Boxyz.Data.Mapper
             CreateMap<ShapeBoardCulture, ShapeBoardCultureModel>();
             CreateMap<ShapeBoardCultureModel, ShapeBoardCulture>();
 
-            CreateMap<Shape, ShapeModel>();
+            CreateMap<Shape, ShapeModel>()
+                .ForMember(x => x.Versions, y => y.Ignore());
             CreateMap<ShapeModel, Shape>();
 
-            CreateMap<ShapeVersion, ShapeVersionModel>();
+            CreateMap<ShapeVersion, ShapeVersionModel>()
+                .ForMember(x => x.Cultures, y => y.Ignore())
+                .ForMember(x => x.Sides, y => y.Ignore());
             CreateMap<ShapeVersionModel, ShapeVersion>();
 
             CreateMap<ShapeVersionCulture, ShapeVersionCultureModel>();
             CreateMap<ShapeVersionCultureModel, ShapeVersionCulture>();
 
-            CreateMap<ShapeSide, ShapeSideModel>();
+            CreateMap<ShapeSide, ShapeSideModel>()
+                .ForMember(x => x.Cultures, y => y.Ignore());
             CreateMap<ShapeSideModel, ShapeSide>();
 
             CreateMap<ShapeSideCulture, ShapeSideCultureModel>();

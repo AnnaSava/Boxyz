@@ -1,6 +1,8 @@
-﻿using Boxyz.Data.Contract;
+﻿using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.Types;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,8 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeFlatType : ObjectGraphType<ShapeFlatModel>
     {
-       public ShapeFlatType(IBoxServiceContext srvContext)
-       {
+        public ShapeFlatType(IHttpContextAccessor httpContextAccessor)
+        {
             Field(x => x.Id);
             Field(x => x.ConstName);
             Field(x => x.LastUpdated);
@@ -21,7 +23,12 @@ namespace Boxyz.Api.GraphQL.Types
             Field(x => x.Culture);
             Field(x => x.VersionId);
 
-            FieldAsync<ListGraphType<ShapeSideFlatType>>("sides", resolve: async context => await srvContext.ShapeService.GetFlatSides(context.Source.VersionId, context.Source.Culture));
+            FieldAsync<ListGraphType<ShapeSideFlatType>>("sides",
+                resolve: async context =>
+                {
+                    using var scope = httpContextAccessor.CreateScope();
+                    return await scope.GetService<IShapeDalService>().GetFlatSides(context.Source.VersionId, context.Source.Culture);
+                });
         }
     }
 }

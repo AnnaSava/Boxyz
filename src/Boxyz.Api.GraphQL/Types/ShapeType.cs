@@ -1,6 +1,8 @@
-﻿using Boxyz.Data.Contract;
+﻿using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.Types;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +12,25 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeType : ObjectGraphType<ShapeModel>
     {
-       public ShapeType()
-       {
+        public ShapeType(IHttpContextAccessor httpContextAccessor)
+        {
             Field(x => x.Id);
             Field(x => x.ConstName);
             Field(x => x.LastUpdated);
-            Field(x => x.Versions, nullable: true, type: typeof(ListGraphType<ShapeVersionType>));
 
-            Field<ShapeVersionType>("getVersion",
-                arguments: new QueryArguments(new QueryArgument<BigIntGraphType> { Name = "id" }),
-                resolve: context => context.Source.Versions
-                    .FirstOrDefault(m => m.Id == context.GetArgument<long>("id")));
+            FieldAsync<ListGraphType<ShapeVersionType>>("versions",
+                resolve: async context =>
+                {
+                    using var scope = httpContextAccessor.CreateScope();
+                    return await scope.GetService<IShapeDalService>().GetVersions(context.Source.Id);
+                });
+
+            FieldAsync<ShapeVersionType>("actualVersion",
+                resolve: async context =>
+                {
+                    using var scope = httpContextAccessor.CreateScope();
+                    return await scope.GetService<IShapeDalService>().GetActualVersion(context.Source.Id);
+                });
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Boxyz.Data.Contract;
+﻿using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.Types;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +12,27 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeSideType : ObjectGraphType<ShapeSideModel>
     {
-       public ShapeSideType()
+       public ShapeSideType(IHttpContextAccessor httpContextAccessor)
        {
             Field(x => x.Id);
             Field(x => x.ConstName);            
             Field(x => x.DataType);
-            Field(x => x.Cultures, nullable: true, type: typeof(ListGraphType<ShapeSideCultureType>));
 
-            Field<ShapeSideCultureType>("getCulture",
+            FieldAsync<ListGraphType<ShapeSideCultureType>>("cultures",
+                resolve: async context =>
+                {
+                    using var scope = httpContextAccessor.CreateScope();
+                    return await scope.GetService<IShapeDalService>().GetSideCultures(context.Source.Id);
+                });
+
+            FieldAsync<ShapeSideCultureType>("culture",
                 arguments: new QueryArguments(
-                    new QueryArgument<BigIntGraphType> { Name = "boardId" }, 
                     new QueryArgument<StringGraphType> { Name = "culture" }),
-                resolve: context => context.Source.Cultures
-                    .FirstOrDefault(m => m.ShapeSideId == context.GetArgument<long>("shapeVersionId") && m.Culture == context.GetArgument<string>("culture")));
+                resolve: async context =>
+                {
+                    using var scope = httpContextAccessor.CreateScope();
+                    return await scope.GetService<IShapeDalService>().GetSideCulture(context.Source.Id, context.GetArgument<string>("culture"));
+                });
         }
     }
 }
