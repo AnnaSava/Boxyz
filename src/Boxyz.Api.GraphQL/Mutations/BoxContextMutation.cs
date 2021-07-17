@@ -1,7 +1,9 @@
-﻿using Boxyz.Api.GraphQL.Types;
+﻿using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Api.GraphQL.Types;
 using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.Types;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +13,18 @@ namespace Boxyz.Api.GraphQL
 {
     public class BoxContextMutation : ObjectGraphType<object>
     {
-        public BoxContextMutation(IBoxServiceContext srvContext)
+        public BoxContextMutation(IHttpContextAccessor httpContextAccessor)
         {
-            Name = "Mutation";
-
-            Field<ShapeBoardType>(
-                "createBoxShapeBoard",
+            FieldAsync<ShapeBoardType>(
+                "createShapeBoard",
                 arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<ShapeBoardInputType>> { Name = "boxShapeBoard" }
+                    new QueryArgument<NonNullGraphType<ShapeBoardInputType>> { Name = "shapeBoard" }
                 ),
-                resolve: context =>
+                resolve: async context =>
                 {
-                    var board = context.GetArgument<ShapeBoardModel>("boxShapeBoard");
-                    return srvContext.ShapeBoardService.Create(board);
+                    using var scope = httpContextAccessor.CreateScope();
+                    var board = context.GetArgument<ShapeBoardInputModel>("shapeBoard");
+                    return await scope.GetService<IShapeBoardDalService>().Create(board);
                 });
         }
     }

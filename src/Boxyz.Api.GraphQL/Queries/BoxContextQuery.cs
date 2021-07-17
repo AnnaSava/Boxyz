@@ -17,7 +17,7 @@ namespace Boxyz.Api.GraphQL
 {
     public class BoxContextQuery : ObjectGraphType<object>
     {
-        public BoxContextQuery(IBoxServiceContext srvContext, IBoxService boxService, IHttpContextAccessor httpContextAccessor)
+        public BoxContextQuery(IHttpContextAccessor httpContextAccessor)
         {
 #if DEBUG
             AddRawEntitiesQueries(httpContextAccessor);
@@ -33,7 +33,8 @@ namespace Boxyz.Api.GraphQL
                 ),
                 resolve: async context =>
                 {
-                    var obj = await boxService.GetBoxObject(context.GetArgument<long>("id"), context.GetArgument<string>("culture"));
+                    using var scope = httpContextAccessor.CreateScope();
+                    var obj = await scope.GetService<IBoxService>().GetBoxObject(context.GetArgument<long>("id"), context.GetArgument<string>("culture"));
                     var json = JsonSerializer.Serialize(obj);
                     return json;
                 }              

@@ -10,8 +10,10 @@ namespace Boxyz.Api.GraphQL.Types
     {
         public ShapeBoardInputType()
         {
-            Name = "BoxShapeBoardInput";
+            Field<NonNullGraphType<StringGraphType>>("id");
             Field<NonNullGraphType<StringGraphType>>("name");
+            Field<NonNullGraphType<StringGraphType>>("culture");
+            Field<NonNullGraphType<StringGraphType>>("title");
         }
     }
 }

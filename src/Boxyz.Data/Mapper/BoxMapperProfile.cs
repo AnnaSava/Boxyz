@@ -21,6 +21,9 @@ namespace Boxyz.Data.Mapper
             CreateMap<ShapeBoardCulture, ShapeBoardCultureModel>();
             CreateMap<ShapeBoardCultureModel, ShapeBoardCulture>();
 
+            CreateMap<ShapeBoardInputModel, ShapeBoard>()
+                .ForMember(x => x.Cultures, y => y.MapFrom(s => new List<ShapeBoardCulture> { new ShapeBoardCulture { Title = s.Title, Culture = s.Culture } }));
+
             CreateMap<Shape, ShapeModel>()
                 .ForMember(x => x.Versions, y => y.Ignore());
             CreateMap<ShapeModel, Shape>();

@@ -8,7 +8,7 @@ namespace Boxyz.Data.Contract
 {
     public interface IShapeBoardDalService
     {
-        Task<ShapeBoardModel> Create(ShapeBoardModel model);
+        Task<ShapeBoardModel> Create(ShapeBoardInputModel model);
 
         Task<ShapeBoardModel> GetOne(long Id);
 

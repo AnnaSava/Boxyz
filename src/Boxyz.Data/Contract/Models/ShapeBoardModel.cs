@@ -10,9 +10,9 @@ namespace Boxyz.Data.Contract
     {
         public string Name { get; set; }
 
-        public virtual List<ShapeBoardCultureModel> Cultures { get; set; }
+        public List<ShapeBoardCultureModel> Cultures { get; set; }
 
-        public virtual List<ShapeBoardModel> ChildBoards { get; set; }
+        public List<ShapeBoardModel> ChildBoards { get; set; }
 
         public int Level { get; set; }
 

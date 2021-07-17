@@ -18,13 +18,13 @@ namespace Boxyz.Data.Services
 
         }
 
-        public async Task<ShapeBoardModel> Create(ShapeBoardModel model)
+        public async Task<ShapeBoardModel> Create(ShapeBoardInputModel model)
         {
             var entity = _mapper.Map<ShapeBoard>(model);
 
             _dbContext.ShapeBoards.Add(entity);
             await _dbContext.SaveChangesAsync();
-            return model;
+            return _mapper.Map<ShapeBoardModel>(entity);
         }
 
         public async Task<ShapeBoardModel> GetOne(long id)
