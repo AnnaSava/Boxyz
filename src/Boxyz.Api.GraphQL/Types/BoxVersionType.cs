@@ -1,6 +1,8 @@
-﻿using Boxyz.Data.Contract;
+﻿using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.Types;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +12,25 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class BoxVersionType : ObjectGraphType<BoxVersionModel>
     {
-       public BoxVersionType()
+       public BoxVersionType(IHttpContextAccessor httpContextAccessor)
        {
             Field(x => x.Id);
             Field(x => x.Created);
             Field(x => x.IsApproved);
-            Field(x => x.ShapeVersion, type: typeof(ShapeVersionType));
-            Field(x => x.Sides, nullable: true, type: typeof(ListGraphType<BoxSideType>));
 
-            Field<BoxSideType>("getSide",
-                arguments: new QueryArguments(new QueryArgument<BigIntGraphType> { Name = "id" }),
-                resolve: context => context.Source.Sides
-                    .FirstOrDefault(m => m.Id == context.GetArgument<long>("id")));
+            FieldAsync<ShapeVersionType>("shapeVersion", 
+                resolve: async context =>
+                {
+                    using var scope = httpContextAccessor.CreateScope();
+                    return await scope.GetService<IShapeDalService>().GetOne(context.Source.ShapeVersionId);
+                });
+
+            FieldAsync<ListGraphType<BoxSideType>>("sides",
+                resolve: async context =>
+                {
+                    using var scope = httpContextAccessor.CreateScope();
+                    return await scope.GetService<IBoxDalService>().GetSides(context.Source.Id);
+                });
         }
     }
 }

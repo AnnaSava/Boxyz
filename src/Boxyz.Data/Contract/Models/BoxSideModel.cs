@@ -10,6 +10,8 @@ namespace Boxyz.Data.Contract
     {
         public ShapeSideModel ShapeSide { get; set; }
 
+        public long ShapeSideId { get; set; }
+
         public string UniversalValue { get; set; }
 
         public List<BoxSideCultureModel> Cultures { get; set; }

@@ -8,12 +8,14 @@ namespace Boxyz.Data.Contract
 {
     public class BoxVersionModel : BaseModel
     {
-        public virtual ShapeVersionModel ShapeVersion { get; set; }
+        public ShapeVersionModel ShapeVersion { get; set; }
+
+        public long ShapeVersionId { get; set; }
 
         public DateTime Created { get; set; }
 
         public bool IsApproved { get; set; }
 
-        public virtual List<BoxSideModel> Sides { get; set; }
+        public List<BoxSideModel> Sides { get; set; }
     }
 }

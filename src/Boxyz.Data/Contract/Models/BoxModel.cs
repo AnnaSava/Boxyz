@@ -10,6 +10,8 @@ namespace Boxyz.Data.Contract
     {
         public ShapeModel Shape { get; set; }
 
+        public long ShapeId { get; set; }
+
         public List<BoxVersionModel> Versions { get; set; }
     }
 }

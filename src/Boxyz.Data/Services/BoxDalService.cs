@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Boxyz.Data.Contract;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,6 +29,49 @@ namespace Boxyz.Data.Services
                 .FirstOrDefaultAsync();
 
             return _mapper.Map<BoxModel>(entity);
+        }
+
+        public async Task<IEnumerable<BoxVersionModel>> GetVersions(long boxId)
+        {
+            return await _dbContext.BoxVersions
+                .Where(m => m.BoxId == boxId)
+                .ProjectTo<BoxVersionModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<BoxVersionModel> GetActualVersion(long boxId)
+        {
+            var entity = await _dbContext.BoxVersions
+                .Where(m => m.BoxId == boxId)
+                .OrderByDescending(m => m.Created)
+                .FirstOrDefaultAsync();
+
+            return _mapper.Map<BoxVersionModel>(entity);
+        }
+
+        public async Task<IEnumerable<BoxSideModel>> GetSides(long versionId)
+        {
+            return await _dbContext.BoxSides
+                .Where(m => m.BoxVersionId == versionId)
+                .ProjectTo<BoxSideModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<BoxSideCultureModel>> GetSideCultures(long sideId)
+        {
+            return await _dbContext.BoxSideCultures
+                .Where(m => m.BoxSideId == sideId)
+                .ProjectTo<BoxSideCultureModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<BoxSideCultureModel> GetSideCulture(long sideId, string culture)
+        {
+            var entity = await _dbContext.BoxSideCultures
+                .Where(m => m.BoxSideId == sideId && m.Culture == culture)
+                .FirstOrDefaultAsync();
+
+            return _mapper.Map<BoxSideCultureModel>(entity);
         }
 
         public async Task<BoxFlatModel> GetFlat(long id, string culture)

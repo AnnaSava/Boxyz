@@ -1,5 +1,6 @@
 using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Api.GraphQL.Types;
+using Boxyz.Api.GraphQL.Types.Raw;
 using Boxyz.Data;
 using GraphQL;
 using GraphQL.Execution;
@@ -68,6 +69,18 @@ namespace Boxyz.Api.GraphQL
             services.AddScoped<ShapeSideFlatType>();
             services.AddScoped<BoxFlatType>();
             services.AddScoped<BoxSideFlatType>();
+
+            services.AddScoped<ShapeBoardRawType>();
+            services.AddScoped<ShapeBoardCultureRawType>();
+            services.AddScoped<ShapeRawType>();
+            services.AddScoped<ShapeVersionRawType>();
+            services.AddScoped<ShapeVersionCultureRawType>();
+            services.AddScoped<ShapeSideRawType>();
+            services.AddScoped<ShapeSideCultureRawType>();
+            services.AddScoped<BoxRawType>();
+            services.AddScoped<BoxVersionRawType>();
+            services.AddScoped<BoxSideRawType>();
+            services.AddScoped<BoxSideCultureRawType>();
 
             services.AddScoped<BoxContextMutation>();
             services.AddScoped<ShapeBoardInputType>();

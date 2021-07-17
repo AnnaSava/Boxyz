@@ -30,8 +30,8 @@ namespace Boxyz.Data.Mapper
                 .ForMember(x => x.Sides, y => y.Ignore());
             CreateMap<ShapeVersionModel, ShapeVersion>();
 
-            CreateMap<ShapeVersionCulture, ShapeVersionCultureModel>();
-            CreateMap<ShapeVersionCultureModel, ShapeVersionCulture>();
+            CreateMap<ShapeVersion, ShapeVersionCultureModel>();
+            CreateMap<ShapeVersionCultureModel, ShapeVersion>();
 
             CreateMap<ShapeSide, ShapeSideModel>()
                 .ForMember(x => x.Cultures, y => y.Ignore());
@@ -40,13 +40,19 @@ namespace Boxyz.Data.Mapper
             CreateMap<ShapeSideCulture, ShapeSideCultureModel>();
             CreateMap<ShapeSideCultureModel, ShapeSideCulture>();
 
-            CreateMap<Box, BoxModel>();
+            CreateMap<Box, BoxModel>()
+                .ForMember(x => x.Shape, y => y.Ignore())
+                .ForMember(x => x.Versions, y => y.Ignore());
             CreateMap<BoxModel, Box>();
 
-            CreateMap<BoxVersion, BoxVersionModel>();
+            CreateMap<BoxVersion, BoxVersionModel>()
+                .ForMember(x => x.ShapeVersion, y => y.Ignore())
+                .ForMember(x => x.Sides, y => y.Ignore());
             CreateMap<BoxVersionModel, BoxVersion>();
 
-            CreateMap<BoxSide, BoxSideModel>();
+            CreateMap<BoxSide, BoxSideModel>()
+                .ForMember(x => x.ShapeSide, y => y.Ignore())
+                .ForMember(x => x.Cultures, y => y.Ignore());
             CreateMap<BoxSideModel, BoxSide>();
 
             CreateMap<BoxSideCulture, BoxSideCultureModel>();

@@ -35,8 +35,7 @@ namespace Boxyz.Data
 
                 boxSide.Title = shapeSide.Title;
                 boxSide.ConstName = shapeSide.ConstName;
-                boxSide.DataType = shapeSide.DataType;
-                
+                boxSide.DataType = shapeSide.DataType;   
             }
 
             return boxSides;
