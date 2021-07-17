@@ -41,11 +41,6 @@ namespace Boxyz.Data
                 s.GetService<IBoxDalService>(),
                 s.GetService<IShapeDalService>(),
                 s.GetService<IMapper>()));
-
-            services.AddScoped<IBoxServiceContext>(s => new BoxServiceContext(
-                s.GetService<IShapeBoardDalService>(),
-                s.GetService<IShapeDalService>(),
-                s.GetService<IBoxDalService>()));
         }
     }
 }

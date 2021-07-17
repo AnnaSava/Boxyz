@@ -31,13 +31,8 @@ namespace Boxyz.Api.GraphQL.Types
             FieldAsync<ListGraphType<BoxSideFlatType>>("sides", resolve: async context =>
             {
                 using var scope = httpContextAccessor.CreateScope();
-                return await scope.GetService<IBoxServiceContext>().GetFlatBoxSides(context.Source.VersionId, context.Source.ShapeVersionId, context.Source.Culture);
+                return await scope.GetService<IBoxService>().GetFlatBoxSides(context.Source.VersionId, context.Source.ShapeVersionId, context.Source.Culture);
             });
-
-            //Field<BoxVersionType>("getVersion",
-            //    arguments: new QueryArguments(new QueryArgument<BigIntGraphType> { Name = "id" }),
-            //    resolve: context => context.Source.Versions
-            //        .FirstOrDefault(m => m.Id == context.GetArgument<long>("id")));
         }
     }
 }
