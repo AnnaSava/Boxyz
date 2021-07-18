@@ -19,12 +19,27 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Boxyz.Api.GraphQL
 {
     public class Startup
     {
+        static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
+        {
+            while (toCheck != null && toCheck != typeof(object))
+            {
+                var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
+                if (generic == cur)
+                {
+                    return true;
+                }
+                toCheck = toCheck.BaseType;
+            }
+            return false;
+        }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -53,39 +68,13 @@ namespace Boxyz.Api.GraphQL
             services.AddScoped<IContextService, ContextService>();
 
             // add graph types
-            services.AddScoped<BoxContextQuery>();            
-            services.AddScoped<ShapeBoardType>();            
-            services.AddScoped<ShapeBoardCultureType>();
-            services.AddScoped<ShapeType>();
-            services.AddScoped<ShapeVersionType>();
-            services.AddScoped<ShapeVersionCultureType>();
-            services.AddScoped<ShapeSideType>();
-            services.AddScoped<ShapeSideCultureType>();
-            services.AddScoped<BoxType>();
-            services.AddScoped<BoxVersionType>();
-            services.AddScoped<BoxSideType>();
-            services.AddScoped<BoxSideCultureType>();
-
-            services.AddScoped<ShapeBoardFlatType>();
-            services.AddScoped<ShapeFlatType>();
-            services.AddScoped<ShapeSideFlatType>();
-            services.AddScoped<BoxFlatType>();
-            services.AddScoped<BoxSideFlatType>();
-
-            services.AddScoped<ShapeBoardRawType>();
-            services.AddScoped<ShapeBoardCultureRawType>();
-            services.AddScoped<ShapeRawType>();
-            services.AddScoped<ShapeVersionRawType>();
-            services.AddScoped<ShapeVersionCultureRawType>();
-            services.AddScoped<ShapeSideRawType>();
-            services.AddScoped<ShapeSideCultureRawType>();
-            services.AddScoped<BoxRawType>();
-            services.AddScoped<BoxVersionRawType>();
-            services.AddScoped<BoxSideRawType>();
-            services.AddScoped<BoxSideCultureRawType>();
-
-            services.AddScoped<BoxContextMutation>();
-            services.AddScoped<ShapeBoardInputType>();
+            Assembly.GetAssembly(typeof(BoxContextSchema)).GetTypes()
+               .Where(m => !m.IsAbstract && !m.IsInterface)
+               .Where(m => m.IsSubclassOf(typeof(ObjectGraphType)) 
+                    || IsSubclassOfRawGeneric(typeof(ObjectGraphType<>), m)
+                    || m.IsSubclassOf(typeof(InputObjectGraphType)))
+               .ToList()
+               .ForEach(t => services.AddScoped(t));
 
             // add schema
             services.AddScoped<ISchema, BoxContextSchema>(services =>
