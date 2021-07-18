@@ -1,4 +1,5 @@
 using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Api.GraphQL.Infrastructure;
 using Boxyz.Api.GraphQL.Types;
 using Boxyz.Api.GraphQL.Types.Raw;
 using Boxyz.Data;
@@ -38,7 +39,8 @@ namespace Boxyz.Api.GraphQL
             services.AddHttpContextAccessor();
 
             // add execution components
-            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
+            //services.AddSingleton<IDocumentExecuter, DocumentExecuter>(); // default DocumentExecutor works in parallel
+            services.AddSingleton<IDocumentExecuter, SerialDocumentExecuter>();
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
             services.AddSingleton<IErrorInfoProvider>(services =>
             {

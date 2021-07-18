@@ -161,7 +161,7 @@ namespace Boxyz.Api.GraphQL
 
             // Set this false if you want the program to fail on the attempt to use one instance of dbContext in all resolvers
             // instead of failing on using lazy-loading
-            bool failOnLazyLoading = false;
+            bool failOnLazyLoading = true;
 
             FieldAsync<ShapeBoardRawType>(
                "rawBoard",

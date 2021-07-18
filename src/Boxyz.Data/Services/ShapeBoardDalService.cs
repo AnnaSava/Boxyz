@@ -77,6 +77,7 @@ namespace Boxyz.Data.Services
         public async Task<IEnumerable<ShapeBoardModel>> GetAll(int page, int count)
         {
             return await _dbContext.ShapeBoards
+                .AsNoTracking()
                 .OrderBy(m => m.Id)
                 .Skip((page - 1) * count)
                 .Take(count)

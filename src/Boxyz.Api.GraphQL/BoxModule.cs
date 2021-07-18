@@ -23,7 +23,7 @@ namespace Boxyz.Data
                 options
                     .UseNpgsql(config.GetConnectionString("BoxConnection"), b => b.MigrationsAssembly("Boxyz.Migrations.PostgreSql"))
                     .UseSnakeCaseNamingConvention();
-            }); 
+            });
 
             services.AddScoped<IShapeBoardDalService>(s => new ShapeBoardDalService(
                 s.GetService<BoxDbContext>(),
