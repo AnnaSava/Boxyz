@@ -14,7 +14,11 @@ namespace Boxyz.Data.Contract
 
         Task<ShapeBoardFlatModel> GetFlat(long id, string culture);
 
-        Task<IEnumerable<ShapeBoardCultureModel>> GetCultures(long boardId);
+        Task<IEnumerable<ShapeBoardCultureModel>> GetCulturesByBoardId(long boardId);
+
+        Task<IEnumerable<ShapeBoardCultureModel>> GetCulturesByBoardId(IEnumerable<long> boardIds);
+
+        Task<IEnumerable<ShapeBoardCultureModel>> GetCultures(IEnumerable<(long, string)> keys);
 
         Task<ShapeBoardCultureModel> GetCulture(long boardId, string culture);
 

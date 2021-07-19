@@ -1,6 +1,8 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
+﻿using Boxyz.Api.GraphQL.Adapters;
+using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Data.Contract;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -12,25 +14,34 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeType : ObjectGraphType<ShapeModel>
     {
-        public ShapeType(IHttpContextAccessor httpContextAccessor)
+        public ShapeType(IHttpContextAccessor httpContextAccessor, IDataLoaderContextAccessor accessor, ShapeServiceAdapter shapeServiceAdapter)
         {
             Field(x => x.Id);
             Field(x => x.ConstName);
             Field(x => x.LastUpdated);
 
-            FieldAsync<ListGraphType<ShapeVersionType>>("versions",
-                resolve: async context =>
+            Field<ListGraphType<ShapeVersionType>, IEnumerable<ShapeVersionModel>>()
+                .Name("versions")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeDalService>().GetVersions(context.Source.Id);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeVersionModel>("GetVersionsByShapeId", shapeServiceAdapter.GetVersionsByShapeId);
+                    return loader.LoadAsync(ctx.Source.Id);
                 });
 
-            FieldAsync<ShapeVersionType>("actualVersion",
-                resolve: async context =>
+            Field<ShapeVersionType, ShapeVersionModel>()
+                .Name("actualVersion")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeDalService>().GetActualVersion(context.Source.Id);
+                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeVersionModel>("GetActualVersionsByShapeId", shapeServiceAdapter.GetActualVersionsByShapeId);
+                    return loader.LoadAsync(ctx.Source.Id);
                 });
+
+            //FieldAsync<ShapeVersionType>("actualVersion",
+            //    resolve: async context =>
+            //    {
+            //        using var scope = httpContextAccessor.CreateScope();
+            //        return await scope.GetService<IShapeDalService>().GetActualVersion(context.Source.Id);
+            //    });
         }
     }
 }

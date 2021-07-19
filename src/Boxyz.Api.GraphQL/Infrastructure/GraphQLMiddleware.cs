@@ -2,10 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Instrumentation;
 using GraphQL.SystemTextJson;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Boxyz.Api.GraphQL
@@ -30,7 +32,7 @@ namespace Boxyz.Api.GraphQL
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "ASP.NET Core convention")]
-        public async Task Invoke(HttpContext context, ISchema schema)
+        public async Task Invoke(HttpContext context, ISchema schema, IServiceProvider serviceProvider)
         {
             if (!IsGraphQLRequest(context))
             {
@@ -38,7 +40,7 @@ namespace Boxyz.Api.GraphQL
                 return;
             }
 
-            await ExecuteAsync(context, schema);
+            await ExecuteAsync(context, schema, serviceProvider);
         }
 
         private bool IsGraphQLRequest(HttpContext context)
@@ -47,7 +49,7 @@ namespace Boxyz.Api.GraphQL
                 && string.Equals(context.Request.Method, "POST", StringComparison.OrdinalIgnoreCase);
         }
 
-        private async Task ExecuteAsync(HttpContext context, ISchema schema)
+        private async Task ExecuteAsync(HttpContext context, ISchema schema, IServiceProvider serviceProvider)
         {
             var start = DateTime.UtcNow;
 
@@ -63,6 +65,7 @@ namespace Boxyz.Api.GraphQL
                 options.EnableMetrics = _settings.EnableMetrics;
                 options.RequestServices = context.RequestServices;
                 options.CancellationToken = context.RequestAborted;
+                options.Listeners.Add(serviceProvider.GetRequiredService<DataLoaderDocumentListener>());
             });
 
             if (_settings.EnableMetrics)

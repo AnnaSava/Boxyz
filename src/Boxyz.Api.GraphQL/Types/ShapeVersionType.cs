@@ -1,6 +1,8 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
+﻿using Boxyz.Api.GraphQL.Adapters;
+using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Data.Contract;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -12,24 +14,26 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeVersionType : ObjectGraphType<ShapeVersionModel>
     {
-       public ShapeVersionType(IHttpContextAccessor httpContextAccessor)
+       public ShapeVersionType(IHttpContextAccessor httpContextAccessor, IShapeDalService shapeDalService, IDataLoaderContextAccessor accessor, ShapeServiceAdapter shapeServiceAdapter)
        {
             Field(x => x.Id);
             Field(x => x.IsApproved);            
             Field(x => x.Created);
 
-            FieldAsync<ListGraphType<ShapeSideType>>("sides",
-                resolve: async context =>
+            Field<ListGraphType<ShapeSideType>, IEnumerable<ShapeSideModel>>()
+                .Name("sides")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeDalService>().GetSides(context.Source.Id);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeSideModel>("GetSidesByVersionId", shapeServiceAdapter.GetSidesByVersionId);
+                    return loader.LoadAsync(ctx.Source.Id);
                 });
 
-            FieldAsync<ListGraphType<ShapeVersionCultureType>>("cultures",
-                resolve: async context =>
+            Field<ListGraphType<ShapeVersionCultureType>, IEnumerable<ShapeVersionCultureModel>>()
+                .Name("cultures")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeDalService>().GetVersionCultures(context.Source.Id);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeVersionCultureModel>("GetVersionCulturesByVersionId", shapeServiceAdapter.GetVersionCulturesByVersionId);
+                    return loader.LoadAsync(ctx.Source.Id);
                 });
 
             FieldAsync<ShapeVersionCultureType>("culture",

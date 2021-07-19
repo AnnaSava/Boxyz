@@ -31,10 +31,18 @@ namespace Boxyz.Data.Services
             return _mapper.Map<BoxModel>(entity);
         }
 
-        public async Task<IEnumerable<BoxVersionModel>> GetVersions(long boxId)
+        public async Task<IEnumerable<BoxVersionModel>> GetVersionsByBoxId(long boxId)
         {
             return await _dbContext.BoxVersions
                 .Where(m => m.BoxId == boxId)
+                .ProjectTo<BoxVersionModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<BoxVersionModel>> GetVersionsByBoxId(IEnumerable<long> boxIds)
+        {
+            return await _dbContext.BoxVersions
+                .Where(m => boxIds.Contains(m.BoxId))
                 .ProjectTo<BoxVersionModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -49,7 +57,7 @@ namespace Boxyz.Data.Services
             return _mapper.Map<BoxVersionModel>(entity);
         }
 
-        public async Task<IEnumerable<BoxSideModel>> GetSides(long versionId)
+        public async Task<IEnumerable<BoxSideModel>> GetSidesByVersionId(long versionId)
         {
             return await _dbContext.BoxSides
                 .Where(m => m.BoxVersionId == versionId)
@@ -57,10 +65,26 @@ namespace Boxyz.Data.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<BoxSideCultureModel>> GetSideCultures(long sideId)
+        public async Task<IEnumerable<BoxSideModel>> GetSidesByVersionId(IEnumerable<long> versionIds)
+        {
+            return await _dbContext.BoxSides
+                .Where(m => versionIds.Contains(m.BoxVersionId))
+                .ProjectTo<BoxSideModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<BoxSideCultureModel>> GetSideCulturesBySideId(long sideId)
         {
             return await _dbContext.BoxSideCultures
                 .Where(m => m.BoxSideId == sideId)
+                .ProjectTo<BoxSideCultureModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<BoxSideCultureModel>> GetSideCulturesBySideId(IEnumerable<long> sideIds)
+        {
+            return await _dbContext.BoxSideCultures
+                .Where(m => sideIds.Contains(m.BoxSideId))
                 .ProjectTo<BoxSideCultureModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }

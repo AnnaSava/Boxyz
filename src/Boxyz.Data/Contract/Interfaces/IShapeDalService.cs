@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Boxyz.Data.Contract
@@ -10,17 +11,31 @@ namespace Boxyz.Data.Contract
     {
         Task<ShapeModel> GetOne(long Id);
 
-        Task<IEnumerable<ShapeVersionModel>> GetVersions(long shapeId);
+        Task<IEnumerable<ShapeModel>> GetById(IEnumerable<long> ids);
+
+        Task<IEnumerable<ShapeVersionModel>> GetVersionsByShapeId(long shapeId);
+
+        Task<IEnumerable<ShapeVersionModel>> GetVersionsByShapeId(IEnumerable<long> shapeIds);
 
         Task<ShapeVersionModel> GetActualVersion(long shapeId);
 
-        Task<IEnumerable<ShapeVersionCultureModel>> GetVersionCultures(long versionId);
-        
+        Task<IEnumerable<ShapeVersionModel>> GetActualVersions(IEnumerable<long> shapeIds);
+
+        Task<IEnumerable<ShapeVersionCultureModel>> GetVersionCulturesByVersionId(long versionId);
+
+        Task<IEnumerable<ShapeVersionCultureModel>> GetVersionCulturesByVersionId(IEnumerable<long> versionIds);
+
         Task<ShapeVersionCultureModel> GetVersionCulture(long versionId, string culture);
 
-        Task<IEnumerable<ShapeSideModel>> GetSides(long versionId);
+        Task<IEnumerable<ShapeSideModel>> GetSidesByVersionId(long versionId);
 
-        Task<IEnumerable<ShapeSideCultureModel>> GetSideCultures(long sideId);
+        Task<IEnumerable<ShapeSideModel>> GetSidesByVersionId(IEnumerable<long> versionIds);
+
+        Task<ShapeSideModel> GetSide(long sideId);
+
+        Task<IEnumerable<ShapeSideCultureModel>> GetSideCulturesBySideId(long sideId);
+
+        Task<IEnumerable<ShapeSideCultureModel>> GetSideCulturesBySideId(IEnumerable<long> sideIds);
 
         Task<ShapeSideCultureModel> GetSideCulture(long sideId, string culture);
 

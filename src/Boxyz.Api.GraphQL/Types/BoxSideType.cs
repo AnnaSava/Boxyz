@@ -1,6 +1,8 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
+﻿using Boxyz.Api.GraphQL.Adapters;
+using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Data.Contract;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -12,22 +14,24 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class BoxSideType : ObjectGraphType<BoxSideModel>
     {
-       public BoxSideType(IHttpContextAccessor httpContextAccessor)
+       public BoxSideType(IHttpContextAccessor httpContextAccessor, IDataLoaderContextAccessor accessor, BoxServiceAdapter boxServiceAdapter, ShapeServiceAdapter shapeServiceAdapter)
        {
             Field(x => x.Id);
 
-            FieldAsync<ShapeSideType>("shapeSide",
-                resolve: async context =>
+            Field<ShapeSideType, ShapeSideModel>()
+                .Name("shapeSide")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeDalService>().GetOne(context.Source.ShapeSideId);
+                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeSideModel>("GetSingleSidesByVersionId", shapeServiceAdapter.GetSingleSidesByVersionId);
+                    return loader.LoadAsync(ctx.Source.ShapeSideId);
                 });
 
-            FieldAsync<ListGraphType<BoxSideCultureType>>("cultures",
-                resolve: async context =>
+            Field<ListGraphType<BoxSideCultureType>, IEnumerable<BoxSideCultureModel>>()
+                .Name("cultures")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IBoxDalService>().GetSideCultures(context.Source.Id);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, BoxSideCultureModel>("GetBoxSideCulturesBySideId", boxServiceAdapter.GetSideCulturesBySideId);
+                    return loader.LoadAsync(ctx.Source.Id);
                 });
 
             FieldAsync<BoxSideCultureType>("culture",

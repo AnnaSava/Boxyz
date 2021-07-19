@@ -8,6 +8,8 @@ namespace Boxyz.Data.Contract
 {
     public class BoxSideModel : BaseModel
     {
+        public long BoxVersionId { get; set; }
+
         public ShapeSideModel ShapeSide { get; set; }
 
         public long ShapeSideId { get; set; }

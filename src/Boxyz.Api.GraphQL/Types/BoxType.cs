@@ -1,6 +1,8 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
+﻿using Boxyz.Api.GraphQL.Adapters;
+using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Data.Contract;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -12,21 +14,25 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class BoxType : ObjectGraphType<BoxModel>
     {
-       public BoxType(IHttpContextAccessor httpContextAccessor)
+       public BoxType(IHttpContextAccessor httpContextAccessor, IDataLoaderContextAccessor accessor, BoxServiceAdapter boxServiceAdapter, ShapeServiceAdapter shapeServiceAdapter)
        {
             Field(x => x.Id);
-            FieldAsync<ShapeType>("shape", resolve: async context => 
-            {
-                using var scope = httpContextAccessor.CreateScope();
-                return await scope.GetService<IShapeDalService>().GetOne(context.Source.ShapeId);
-            });
 
-            FieldAsync<ListGraphType<BoxVersionType>>("versions",
-                resolve: async context =>
+            Field<ShapeType, ShapeModel>()
+                .Name("shape")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IBoxDalService>().GetVersions(context.Source.Id);
+                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeModel>("GetShapesById", shapeServiceAdapter.GetSingleShapesById);
+                    return loader.LoadAsync(ctx.Source.ShapeId);
                 });
+
+            Field<ListGraphType<BoxVersionType>, IEnumerable<BoxVersionModel>>()
+               .Name("versions")
+               .ResolveAsync(ctx =>
+               {
+                   var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, BoxVersionModel>("GetVersionsByBoxId", boxServiceAdapter.GetVersionsByBoxId);
+                   return loader.LoadAsync(ctx.Source.Id);
+               });
 
             FieldAsync<BoxVersionType>("actualVersion",
                 resolve: async context =>

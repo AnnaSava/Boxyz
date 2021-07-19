@@ -33,8 +33,8 @@ namespace Boxyz.Data.Mapper
                 .ForMember(x => x.Sides, y => y.Ignore());
             CreateMap<ShapeVersionModel, ShapeVersion>();
 
-            CreateMap<ShapeVersion, ShapeVersionCultureModel>();
-            CreateMap<ShapeVersionCultureModel, ShapeVersion>();
+            CreateMap<ShapeVersionCulture, ShapeVersionCultureModel>();
+            CreateMap<ShapeVersionCultureModel, ShapeVersionCulture>();
 
             CreateMap<ShapeSide, ShapeSideModel>()
                 .ForMember(x => x.Cultures, y => y.Ignore());

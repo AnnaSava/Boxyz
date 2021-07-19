@@ -1,9 +1,11 @@
+using Boxyz.Api.GraphQL.Adapters;
 using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Api.GraphQL.Infrastructure;
 using Boxyz.Api.GraphQL.Types;
 using Boxyz.Api.GraphQL.Types.Raw;
 using Boxyz.Data;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Execution;
 using GraphQL.Instrumentation;
 using GraphQL.SystemTextJson;
@@ -26,6 +28,7 @@ namespace Boxyz.Api.GraphQL
 {
     public class Startup
     {
+        //https://stackoverflow.com/questions/457676/check-if-a-class-is-derived-from-a-generic-class
         static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
         {
             while (toCheck != null && toCheck != typeof(object))
@@ -54,8 +57,8 @@ namespace Boxyz.Api.GraphQL
             services.AddHttpContextAccessor();
 
             // add execution components
-            //services.AddSingleton<IDocumentExecuter, DocumentExecuter>(); // default DocumentExecutor works in parallel
-            services.AddSingleton<IDocumentExecuter, SerialDocumentExecuter>();
+            services.AddSingleton<IDocumentExecuter, DocumentExecuter>(); // default DocumentExecutor works in parallel
+            //services.AddSingleton<IDocumentExecuter, SerialDocumentExecuter>();
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
             services.AddSingleton<IErrorInfoProvider>(services =>
             {
@@ -63,9 +66,18 @@ namespace Boxyz.Api.GraphQL
                 return new ErrorInfoProvider(new ErrorInfoProviderOptions { ExposeExceptionStackTrace = settings.Value.ExposeExceptions });
             });
 
+            // https://fiyazhasan.me/graphql-with-net-core-part-x-execution-strategies/
+            services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
+            services.AddSingleton<DataLoaderDocumentListener>();
+
             services.AddMapper();
             services.AddBox(Configuration);
             services.AddScoped<IContextService, ContextService>();
+
+            // adapters for DataLoader
+            services.AddScoped<ShapeBoardServiceAdapter>();
+            services.AddScoped<ShapeServiceAdapter>();
+            services.AddScoped<BoxServiceAdapter>();
 
             // add graph types
             Assembly.GetAssembly(typeof(BoxContextSchema)).GetTypes()

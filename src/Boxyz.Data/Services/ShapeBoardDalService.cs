@@ -57,10 +57,18 @@ namespace Boxyz.Data.Services
             };
         }
 
-        public async Task<IEnumerable<ShapeBoardCultureModel>> GetCultures(long boardId)
+        public async Task<IEnumerable<ShapeBoardCultureModel>> GetCulturesByBoardId(long boardId)
         {
             return await _dbContext.ShapeBoardCultures
                 .Where(m => m.BoardId == boardId)
+                .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ShapeBoardCultureModel>> GetCulturesByBoardId(IEnumerable<long> boardIds)
+        {
+            return await _dbContext.ShapeBoardCultures
+                .Where(m => boardIds.Contains(m.BoardId))
                 .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -72,6 +80,27 @@ namespace Boxyz.Data.Services
                 .FirstOrDefaultAsync();
 
             return _mapper.Map<ShapeBoardCultureModel>(entity);
+        }
+
+        public async Task<IEnumerable<ShapeBoardCultureModel>> GetCultures(IEnumerable<(long, string)> keys)
+        {
+            var boardIds = keys.Select(k => k.Item1);
+            var cultures = keys.Select(k => k.Item2);
+
+            var rawSelection = await _dbContext.ShapeBoardCultures
+                .Where(m => boardIds.Contains(m.BoardId) && cultures.Contains(m.Culture))
+                .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return rawSelection.Join(keys,
+                  s => new { s.BoardId, s.Culture },
+                  k => new { BoardId = k.Item1, Culture = k.Item2 },
+                  (s, k) => s);
+
+            //return await _dbContext.ShapeBoardCultures
+            //    .Where(m => keys.Contains(m.BoardId))
+            //    .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
+            //    .ToListAsync();
         }
 
         public async Task<IEnumerable<ShapeBoardModel>> GetAll(int page, int count)

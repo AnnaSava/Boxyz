@@ -1,6 +1,8 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
+﻿using Boxyz.Api.GraphQL.Adapters;
+using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Data.Contract;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -12,27 +14,28 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeBoardType : ObjectGraphType<ShapeBoardModel>
     {
-        public ShapeBoardType(IHttpContextAccessor httpContextAccessor)
+        public ShapeBoardType(IHttpContextAccessor httpContextAccessor, IDataLoaderContextAccessor accessor, ShapeBoardServiceAdapter shapeBoardServiceAdapter)
         {
             Field(x => x.Id);
             Field(x => x.Name);
             Field(x => x.Path, nullable: true);
             Field(x => x.Level);
 
-            FieldAsync<ListGraphType<ShapeBoardCultureType>>("cultures",
-                resolve: async context =>
+            Field<ListGraphType<ShapeBoardCultureType>, IEnumerable<ShapeBoardCultureModel>>()
+                .Name("cultures")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeBoardDalService>().GetCultures(context.Source.Id);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeBoardCultureModel>("GetCulturesByBoardId", shapeBoardServiceAdapter.GetCulturesByBoardId);
+                    return loader.LoadAsync(ctx.Source.Id);
                 });
 
-            FieldAsync<ShapeBoardCultureType>("culture",
-                arguments: new QueryArguments(
-                    new QueryArgument<StringGraphType> { Name = "culture" }),
-                resolve: async context =>
+            Field<ShapeBoardCultureType, ShapeBoardCultureModel>()
+                .Name("culture")
+                .Argument<StringGraphType>("culture")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeBoardDalService>().GetCulture(context.Source.Id, context.GetArgument<string>("culture"));
+                    var loader = accessor.Context.GetOrAddBatchLoader<(long, string), ShapeBoardCultureModel>("GetSingleCulturesByKey", shapeBoardServiceAdapter.GetSingleCulturesByKey);
+                    return loader.LoadAsync((ctx.Source.Id, ctx.GetArgument<string>("culture")));
                 });
         }
     }

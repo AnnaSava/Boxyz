@@ -1,6 +1,8 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
+﻿using Boxyz.Api.GraphQL.Adapters;
+using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Data.Contract;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -12,25 +14,27 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class BoxVersionType : ObjectGraphType<BoxVersionModel>
     {
-       public BoxVersionType(IHttpContextAccessor httpContextAccessor)
+       public BoxVersionType(IDataLoaderContextAccessor accessor, BoxServiceAdapter boxServiceAdapter, ShapeServiceAdapter shapeServiceAdapter)
        {
             Field(x => x.Id);
             Field(x => x.Created);
             Field(x => x.IsApproved);
 
-            FieldAsync<ShapeVersionType>("shapeVersion", 
-                resolve: async context =>
+            Field<ShapeVersionType, ShapeVersionModel>()
+                .Name("shapeVersion")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeDalService>().GetOne(context.Source.ShapeVersionId);
+                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeVersionModel>("GetSingleVersionsByShapeId", shapeServiceAdapter.GetSingleVersionsByShapeId);
+                    return loader.LoadAsync(ctx.Source.ShapeVersionId);
                 });
 
-            FieldAsync<ListGraphType<BoxSideType>>("sides",
-                resolve: async context =>
-                {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IBoxDalService>().GetSides(context.Source.Id);
-                });
+            Field<ListGraphType<BoxSideType>, IEnumerable<BoxSideModel>>()
+               .Name("sides")
+               .ResolveAsync(ctx =>
+               {
+                   var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, BoxSideModel>("GetSidesByBoxVersionId", boxServiceAdapter.GetSidesByVersionId);
+                   return loader.LoadAsync(ctx.Source.Id);
+               });
         }
     }
 }

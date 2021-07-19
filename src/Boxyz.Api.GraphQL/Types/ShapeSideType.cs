@@ -1,6 +1,8 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
+﻿using Boxyz.Api.GraphQL.Adapters;
+using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Data.Contract;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -12,17 +14,18 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeSideType : ObjectGraphType<ShapeSideModel>
     {
-       public ShapeSideType(IHttpContextAccessor httpContextAccessor)
+       public ShapeSideType(IHttpContextAccessor httpContextAccessor, IDataLoaderContextAccessor accessor, ShapeServiceAdapter shapeServiceAdapter)
        {
             Field(x => x.Id);
             Field(x => x.ConstName);            
             Field(x => x.DataType);
 
-            FieldAsync<ListGraphType<ShapeSideCultureType>>("cultures",
-                resolve: async context =>
+            Field<ListGraphType<ShapeSideCultureType>, IEnumerable<ShapeSideCultureModel>>()
+                .Name("cultures")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeDalService>().GetSideCultures(context.Source.Id);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeSideCultureModel>("GetSideCulturesBySideId", shapeServiceAdapter.GetSideCulturesBySideId);
+                    return loader.LoadAsync(ctx.Source.Id);
                 });
 
             FieldAsync<ShapeSideCultureType>("culture",
