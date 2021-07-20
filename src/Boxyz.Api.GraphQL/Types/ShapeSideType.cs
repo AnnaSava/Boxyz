@@ -1,5 +1,6 @@
 ﻿using Boxyz.Api.GraphQL.Adapters;
 using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Api.GraphQL.Schemas;
 using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.DataLoader;
@@ -14,7 +15,7 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeSideType : ObjectGraphType<ShapeSideModel>
     {
-       public ShapeSideType(IHttpContextAccessor httpContextAccessor, IDataLoaderContextAccessor accessor, ShapeServiceAdapter shapeServiceAdapter)
+       public ShapeSideType(IDataLoaderContextAccessor accessor, ShapeServiceAdapter shapeServiceAdapter)
        {
             Field(x => x.Id);
             Field(x => x.ConstName);            
@@ -24,18 +25,18 @@ namespace Boxyz.Api.GraphQL.Types
                 .Name("cultures")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeSideCultureModel>("GetSideCulturesBySideId", shapeServiceAdapter.GetSideCulturesBySideId);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeSideCultureModel>(DataLoaderKey.GetShapeSideCultures, shapeServiceAdapter.GetSideCulturesBySideId);
                     return loader.LoadAsync(ctx.Source.Id);
                 });
 
-            FieldAsync<ShapeSideCultureType>("culture",
-                arguments: new QueryArguments(
-                    new QueryArgument<StringGraphType> { Name = "culture" }),
-                resolve: async context =>
-                {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeDalService>().GetSideCulture(context.Source.Id, context.GetArgument<string>("culture"));
-                });
+            Field<ShapeSideCultureType, ShapeSideCultureModel>()
+               .Name("culture")
+               .Argument<StringGraphType>("culture")
+               .ResolveAsync(ctx =>
+               {
+                   var loader = accessor.Context.GetOrAddBatchLoader<(long, string), ShapeSideCultureModel>(DataLoaderKey.GetShapeSideCulture, shapeServiceAdapter.GetSingleSideCultures);
+                   return loader.LoadAsync((ctx.Source.Id, ctx.GetArgument<string>("culture")));
+               });
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Boxyz.Api.GraphQL.Adapters;
 using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Api.GraphQL.Schemas;
 using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.DataLoader;
@@ -14,7 +15,7 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class BoxType : ObjectGraphType<BoxModel>
     {
-       public BoxType(IHttpContextAccessor httpContextAccessor, IDataLoaderContextAccessor accessor, BoxServiceAdapter boxServiceAdapter, ShapeServiceAdapter shapeServiceAdapter)
+       public BoxType(IDataLoaderContextAccessor accessor, BoxServiceAdapter boxServiceAdapter, ShapeServiceAdapter shapeServiceAdapter)
        {
             Field(x => x.Id);
 
@@ -22,7 +23,7 @@ namespace Boxyz.Api.GraphQL.Types
                 .Name("shape")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeModel>("GetShapesById", shapeServiceAdapter.GetSingleShapesById);
+                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeModel>(DataLoaderKey.GetShapes, shapeServiceAdapter.GetSingleShapesById);
                     return loader.LoadAsync(ctx.Source.ShapeId);
                 });
 
@@ -30,15 +31,16 @@ namespace Boxyz.Api.GraphQL.Types
                .Name("versions")
                .ResolveAsync(ctx =>
                {
-                   var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, BoxVersionModel>("GetVersionsByBoxId", boxServiceAdapter.GetVersionsByBoxId);
+                   var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, BoxVersionModel>(DataLoaderKey.GetBoxVersions, boxServiceAdapter.GetVersionsByBoxId);
                    return loader.LoadAsync(ctx.Source.Id);
                });
 
-            FieldAsync<BoxVersionType>("actualVersion",
-                resolve: async context =>
+            Field<BoxVersionType, BoxVersionModel>()
+                .Name("actualVersion")
+                .ResolveAsync(ctx =>
                 {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IBoxDalService>().GetActualVersion(context.Source.Id);
+                    var loader = accessor.Context.GetOrAddBatchLoader<long, BoxVersionModel>(DataLoaderKey.GetActualBoxVersions, boxServiceAdapter.GetActualVersionsByBoxId);
+                    return loader.LoadAsync(ctx.Source.Id);
                 });
         }
     }

@@ -34,16 +34,16 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 name: "shape_board_cultures",
                 columns: table => new
                 {
+                    content_id = table.Column<long>(type: "bigint", nullable: false),
                     culture = table.Column<string>(type: "text", nullable: false),
-                    board_id = table.Column<long>(type: "bigint", nullable: false),
                     title = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_shape_board_cultures", x => new { x.culture, x.board_id });
+                    table.PrimaryKey("pk_shape_board_cultures", x => new { x.culture, x.content_id });
                     table.ForeignKey(
-                        name: "fk_shape_board_cultures_shape_boards_board_id",
-                        column: x => x.board_id,
+                        name: "fk_shape_board_cultures_shape_boards_content_id",
+                        column: x => x.content_id,
                         principalTable: "shape_boards",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -95,7 +95,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    shape_id = table.Column<long>(type: "bigint", nullable: false),
+                    content_id = table.Column<long>(type: "bigint", nullable: false),
                     is_approved = table.Column<bool>(type: "boolean", nullable: false),
                     created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -103,8 +103,8 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 {
                     table.PrimaryKey("pk_shape_versions", x => x.id);
                     table.ForeignKey(
-                        name: "fk_shape_versions_shapes_shape_id",
-                        column: x => x.shape_id,
+                        name: "fk_shape_versions_shapes_content_id",
+                        column: x => x.content_id,
                         principalTable: "shapes",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -116,7 +116,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    box_id = table.Column<long>(type: "bigint", nullable: false),
+                    content_id = table.Column<long>(type: "bigint", nullable: false),
                     shape_version_id = table.Column<long>(type: "bigint", nullable: false),
                     created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     is_approved = table.Column<bool>(type: "boolean", nullable: false)
@@ -125,8 +125,8 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 {
                     table.PrimaryKey("pk_box_versions", x => x.id);
                     table.ForeignKey(
-                        name: "fk_box_versions_boxes_box_id",
-                        column: x => x.box_id,
+                        name: "fk_box_versions_boxes_content_id",
+                        column: x => x.content_id,
                         principalTable: "boxes",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -163,16 +163,16 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 name: "shape_version_cultures",
                 columns: table => new
                 {
+                    content_id = table.Column<long>(type: "bigint", nullable: false),
                     culture = table.Column<string>(type: "text", nullable: false),
-                    shape_version_id = table.Column<long>(type: "bigint", nullable: false),
                     title = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_shape_version_cultures", x => new { x.culture, x.shape_version_id });
+                    table.PrimaryKey("pk_shape_version_cultures", x => new { x.culture, x.content_id });
                     table.ForeignKey(
-                        name: "fk_shape_version_cultures_shape_versions_shape_version_id",
-                        column: x => x.shape_version_id,
+                        name: "fk_shape_version_cultures_shape_versions_content_id",
+                        column: x => x.content_id,
                         principalTable: "shape_versions",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -209,16 +209,16 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 name: "shape_side_cultures",
                 columns: table => new
                 {
+                    content_id = table.Column<long>(type: "bigint", nullable: false),
                     culture = table.Column<string>(type: "text", nullable: false),
-                    shape_side_id = table.Column<long>(type: "bigint", nullable: false),
                     title = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_shape_side_cultures", x => new { x.culture, x.shape_side_id });
+                    table.PrimaryKey("pk_shape_side_cultures", x => new { x.culture, x.content_id });
                     table.ForeignKey(
-                        name: "fk_shape_side_cultures_shape_sides_shape_side_id",
-                        column: x => x.shape_side_id,
+                        name: "fk_shape_side_cultures_shape_sides_content_id",
+                        column: x => x.content_id,
                         principalTable: "shape_sides",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -228,25 +228,25 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 name: "box_side_cultures",
                 columns: table => new
                 {
+                    content_id = table.Column<long>(type: "bigint", nullable: false),
                     culture = table.Column<string>(type: "text", nullable: false),
-                    box_side_id = table.Column<long>(type: "bigint", nullable: false),
                     value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_box_side_cultures", x => new { x.culture, x.box_side_id });
+                    table.PrimaryKey("pk_box_side_cultures", x => new { x.culture, x.content_id });
                     table.ForeignKey(
-                        name: "fk_box_side_cultures_box_sides_box_side_id",
-                        column: x => x.box_side_id,
+                        name: "fk_box_side_cultures_box_sides_content_id",
+                        column: x => x.content_id,
                         principalTable: "box_sides",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_box_side_cultures_box_side_id",
+                name: "ix_box_side_cultures_content_id",
                 table: "box_side_cultures",
-                column: "box_side_id");
+                column: "content_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_box_sides_box_version_id",
@@ -259,9 +259,9 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 column: "shape_side_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_box_versions_box_id",
+                name: "ix_box_versions_content_id",
                 table: "box_versions",
-                column: "box_id");
+                column: "content_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_box_versions_shape_version_id",
@@ -274,9 +274,9 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 column: "shape_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_shape_board_cultures_board_id",
+                name: "ix_shape_board_cultures_content_id",
                 table: "shape_board_cultures",
-                column: "board_id");
+                column: "content_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_shape_boards_parent_board_id",
@@ -284,9 +284,9 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 column: "parent_board_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_shape_side_cultures_shape_side_id",
+                name: "ix_shape_side_cultures_content_id",
                 table: "shape_side_cultures",
-                column: "shape_side_id");
+                column: "content_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_shape_sides_shape_version_id",
@@ -294,14 +294,14 @@ namespace Boxyz.Migrations.PostgreSql.Box
                 column: "shape_version_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_shape_version_cultures_shape_version_id",
+                name: "ix_shape_version_cultures_content_id",
                 table: "shape_version_cultures",
-                column: "shape_version_id");
+                column: "content_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_shape_versions_shape_id",
+                name: "ix_shape_versions_content_id",
                 table: "shape_versions",
-                column: "shape_id");
+                column: "content_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_shapes_board_id",

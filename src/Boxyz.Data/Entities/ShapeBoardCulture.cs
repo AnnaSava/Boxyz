@@ -7,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Entities
 {
-    public class ShapeBoardCulture : BaseCultureEntity
+    public class ShapeBoardCulture : BaseCultureEntity<ShapeBoard>
     {
-        [Key]
-        public long BoardId { get; set; }
-
-        public virtual ShapeBoard Board { get; set; }
-
         public string Title { get; set; }
     }
 }

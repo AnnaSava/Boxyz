@@ -1,5 +1,6 @@
 ﻿using Boxyz.Api.GraphQL.Adapters;
 using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Api.GraphQL.Schemas;
 using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.DataLoader;
@@ -14,7 +15,7 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class BoxSideType : ObjectGraphType<BoxSideModel>
     {
-       public BoxSideType(IHttpContextAccessor httpContextAccessor, IDataLoaderContextAccessor accessor, BoxServiceAdapter boxServiceAdapter, ShapeServiceAdapter shapeServiceAdapter)
+       public BoxSideType(IDataLoaderContextAccessor accessor, BoxServiceAdapter boxServiceAdapter, ShapeServiceAdapter shapeServiceAdapter)
        {
             Field(x => x.Id);
 
@@ -22,7 +23,7 @@ namespace Boxyz.Api.GraphQL.Types
                 .Name("shapeSide")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeSideModel>("GetSingleSidesByVersionId", shapeServiceAdapter.GetSingleSidesByVersionId);
+                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeSideModel>(DataLoaderKey.GetBoxSide, shapeServiceAdapter.GetSingleSidesByVersionId);
                     return loader.LoadAsync(ctx.Source.ShapeSideId);
                 });
 
@@ -30,18 +31,18 @@ namespace Boxyz.Api.GraphQL.Types
                 .Name("cultures")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, BoxSideCultureModel>("GetBoxSideCulturesBySideId", boxServiceAdapter.GetSideCulturesBySideId);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, BoxSideCultureModel>(DataLoaderKey.GetBoxSideCultures, boxServiceAdapter.GetSideCulturesBySideId);
                     return loader.LoadAsync(ctx.Source.Id);
                 });
 
-            FieldAsync<BoxSideCultureType>("culture",
-                arguments: new QueryArguments(
-                    new QueryArgument<StringGraphType> { Name = "culture" }),
-                resolve: async context =>
-                {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IBoxDalService>().GetSideCulture(context.Source.Id, context.GetArgument<string>("culture"));
-                });    
+            Field<BoxSideCultureType, BoxSideCultureModel>()
+               .Name("culture")
+               .Argument<StringGraphType>("culture")
+               .ResolveAsync(ctx =>
+               {
+                   var loader = accessor.Context.GetOrAddBatchLoader<(long, string), BoxSideCultureModel>(DataLoaderKey.GetBoxSideCulture, boxServiceAdapter.GetSingleSideCultures);
+                   return loader.LoadAsync((ctx.Source.Id, ctx.GetArgument<string>("culture")));
+               });
         }
     }
 }

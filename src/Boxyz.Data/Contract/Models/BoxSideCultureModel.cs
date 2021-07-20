@@ -8,8 +8,6 @@ namespace Boxyz.Data.Contract
 {
     public class BoxSideCultureModel : BaseCultureModel
     {
-        public long BoxSideId { get; set; }
-
         public string Value { get; set; }
     }
 }

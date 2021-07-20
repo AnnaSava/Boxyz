@@ -19,13 +19,13 @@ namespace Boxyz.Api.GraphQL.Adapters
         public async Task<ILookup<long, ShapeBoardCultureModel>> GetCulturesByBoardId(IEnumerable<long> boardIds, CancellationToken cancellationToken)
         {
             var cultures = await _shapeBoardDalService.GetCulturesByBoardId(boardIds);
-            return cultures.ToLookup(c => c.BoardId);
+            return cultures.ToLookup(c => c.ContentId);
         }
 
-        public async Task<IDictionary<(long, string), ShapeBoardCultureModel>> GetSingleCulturesByKey(IEnumerable<(long, string)> keys, CancellationToken cancellationToken)
+        public async Task<IDictionary<(long, string), ShapeBoardCultureModel>> GetSingleCultures(IEnumerable<(long, string)> keys, CancellationToken cancellationToken)
         {
             var cultures = await _shapeBoardDalService.GetCultures(keys);
-            return cultures.ToDictionary(c => (c.BoardId, c.Culture));
+            return cultures.ToDictionary(c => (c.ContentId, c.Culture));
         }
     }
 }

@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Boxyz.Migrations.PostgreSql.Box
 {
     [DbContext(typeof(BoxDbContext))]
-    [Migration("20210715195719_Initial")]
+    [Migration("20210720161903_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,19 +80,19 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnType("text")
                         .HasColumnName("culture");
 
-                    b.Property<long>("BoxSideId")
+                    b.Property<long>("ContentId")
                         .HasColumnType("bigint")
-                        .HasColumnName("box_side_id");
+                        .HasColumnName("content_id");
 
                     b.Property<string>("Value")
                         .HasColumnType("text")
                         .HasColumnName("value");
 
-                    b.HasKey("Culture", "BoxSideId")
+                    b.HasKey("Culture", "ContentId")
                         .HasName("pk_box_side_cultures");
 
-                    b.HasIndex("BoxSideId")
-                        .HasDatabaseName("ix_box_side_cultures_box_side_id");
+                    b.HasIndex("ContentId")
+                        .HasDatabaseName("ix_box_side_cultures_content_id");
 
                     b.ToTable("box_side_cultures");
                 });
@@ -105,9 +105,9 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<long>("BoxId")
+                    b.Property<long>("ContentId")
                         .HasColumnType("bigint")
-                        .HasColumnName("box_id");
+                        .HasColumnName("content_id");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp without time zone")
@@ -124,8 +124,8 @@ namespace Boxyz.Migrations.PostgreSql.Box
                     b.HasKey("Id")
                         .HasName("pk_box_versions");
 
-                    b.HasIndex("BoxId")
-                        .HasDatabaseName("ix_box_versions_box_id");
+                    b.HasIndex("ContentId")
+                        .HasDatabaseName("ix_box_versions_content_id");
 
                     b.HasIndex("ShapeVersionId")
                         .HasDatabaseName("ix_box_versions_shape_version_id");
@@ -201,19 +201,19 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnType("text")
                         .HasColumnName("culture");
 
-                    b.Property<long>("BoardId")
+                    b.Property<long>("ContentId")
                         .HasColumnType("bigint")
-                        .HasColumnName("board_id");
+                        .HasColumnName("content_id");
 
                     b.Property<string>("Title")
                         .HasColumnType("text")
                         .HasColumnName("title");
 
-                    b.HasKey("Culture", "BoardId")
+                    b.HasKey("Culture", "ContentId")
                         .HasName("pk_shape_board_cultures");
 
-                    b.HasIndex("BoardId")
-                        .HasDatabaseName("ix_shape_board_cultures_board_id");
+                    b.HasIndex("ContentId")
+                        .HasDatabaseName("ix_shape_board_cultures_content_id");
 
                     b.ToTable("shape_board_cultures");
                 });
@@ -253,19 +253,19 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnType("text")
                         .HasColumnName("culture");
 
-                    b.Property<long>("ShapeSideId")
+                    b.Property<long>("ContentId")
                         .HasColumnType("bigint")
-                        .HasColumnName("shape_side_id");
+                        .HasColumnName("content_id");
 
                     b.Property<string>("Title")
                         .HasColumnType("text")
                         .HasColumnName("title");
 
-                    b.HasKey("Culture", "ShapeSideId")
+                    b.HasKey("Culture", "ContentId")
                         .HasName("pk_shape_side_cultures");
 
-                    b.HasIndex("ShapeSideId")
-                        .HasDatabaseName("ix_shape_side_cultures_shape_side_id");
+                    b.HasIndex("ContentId")
+                        .HasDatabaseName("ix_shape_side_cultures_content_id");
 
                     b.ToTable("shape_side_cultures");
                 });
@@ -278,6 +278,10 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<long>("ContentId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("content_id");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created");
@@ -286,15 +290,11 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnType("boolean")
                         .HasColumnName("is_approved");
 
-                    b.Property<long>("ShapeId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("shape_id");
-
                     b.HasKey("Id")
                         .HasName("pk_shape_versions");
 
-                    b.HasIndex("ShapeId")
-                        .HasDatabaseName("ix_shape_versions_shape_id");
+                    b.HasIndex("ContentId")
+                        .HasDatabaseName("ix_shape_versions_content_id");
 
                     b.ToTable("shape_versions");
                 });
@@ -305,19 +305,19 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .HasColumnType("text")
                         .HasColumnName("culture");
 
-                    b.Property<long>("ShapeVersionId")
+                    b.Property<long>("ContentId")
                         .HasColumnType("bigint")
-                        .HasColumnName("shape_version_id");
+                        .HasColumnName("content_id");
 
                     b.Property<string>("Title")
                         .HasColumnType("text")
                         .HasColumnName("title");
 
-                    b.HasKey("Culture", "ShapeVersionId")
+                    b.HasKey("Culture", "ContentId")
                         .HasName("pk_shape_version_cultures");
 
-                    b.HasIndex("ShapeVersionId")
-                        .HasDatabaseName("ix_shape_version_cultures_shape_version_id");
+                    b.HasIndex("ContentId")
+                        .HasDatabaseName("ix_shape_version_cultures_content_id");
 
                     b.ToTable("shape_version_cultures");
                 });
@@ -357,22 +357,22 @@ namespace Boxyz.Migrations.PostgreSql.Box
 
             modelBuilder.Entity("Boxyz.Data.Entities.BoxSideCulture", b =>
                 {
-                    b.HasOne("Boxyz.Data.Entities.BoxSide", "BoxSide")
+                    b.HasOne("Boxyz.Data.Entities.BoxSide", "Content")
                         .WithMany("Cultures")
-                        .HasForeignKey("BoxSideId")
-                        .HasConstraintName("fk_box_side_cultures_box_sides_box_side_id")
+                        .HasForeignKey("ContentId")
+                        .HasConstraintName("fk_box_side_cultures_box_sides_content_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BoxSide");
+                    b.Navigation("Content");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.BoxVersion", b =>
                 {
-                    b.HasOne("Boxyz.Data.Entities.Box", "Box")
+                    b.HasOne("Boxyz.Data.Entities.Box", "Content")
                         .WithMany("Versions")
-                        .HasForeignKey("BoxId")
-                        .HasConstraintName("fk_box_versions_boxes_box_id")
+                        .HasForeignKey("ContentId")
+                        .HasConstraintName("fk_box_versions_boxes_content_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -383,7 +383,7 @@ namespace Boxyz.Migrations.PostgreSql.Box
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Box");
+                    b.Navigation("Content");
 
                     b.Navigation("ShapeVersion");
                 });
@@ -412,14 +412,14 @@ namespace Boxyz.Migrations.PostgreSql.Box
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeBoardCulture", b =>
                 {
-                    b.HasOne("Boxyz.Data.Entities.ShapeBoard", "Board")
+                    b.HasOne("Boxyz.Data.Entities.ShapeBoard", "Content")
                         .WithMany("Cultures")
-                        .HasForeignKey("BoardId")
-                        .HasConstraintName("fk_shape_board_cultures_shape_boards_board_id")
+                        .HasForeignKey("ContentId")
+                        .HasConstraintName("fk_shape_board_cultures_shape_boards_content_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Board");
+                    b.Navigation("Content");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeSide", b =>
@@ -436,38 +436,38 @@ namespace Boxyz.Migrations.PostgreSql.Box
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeSideCulture", b =>
                 {
-                    b.HasOne("Boxyz.Data.Entities.ShapeSide", "ShapeSide")
+                    b.HasOne("Boxyz.Data.Entities.ShapeSide", "Content")
                         .WithMany("Cultures")
-                        .HasForeignKey("ShapeSideId")
-                        .HasConstraintName("fk_shape_side_cultures_shape_sides_shape_side_id")
+                        .HasForeignKey("ContentId")
+                        .HasConstraintName("fk_shape_side_cultures_shape_sides_content_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ShapeSide");
+                    b.Navigation("Content");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeVersion", b =>
                 {
-                    b.HasOne("Boxyz.Data.Entities.Shape", "Shape")
+                    b.HasOne("Boxyz.Data.Entities.Shape", "Content")
                         .WithMany("Versions")
-                        .HasForeignKey("ShapeId")
-                        .HasConstraintName("fk_shape_versions_shapes_shape_id")
+                        .HasForeignKey("ContentId")
+                        .HasConstraintName("fk_shape_versions_shapes_content_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Shape");
+                    b.Navigation("Content");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.ShapeVersionCulture", b =>
                 {
-                    b.HasOne("Boxyz.Data.Entities.ShapeVersion", "ShapeVersion")
+                    b.HasOne("Boxyz.Data.Entities.ShapeVersion", "Content")
                         .WithMany("Cultures")
-                        .HasForeignKey("ShapeVersionId")
-                        .HasConstraintName("fk_shape_version_cultures_shape_versions_shape_version_id")
+                        .HasForeignKey("ContentId")
+                        .HasConstraintName("fk_shape_version_cultures_shape_versions_content_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ShapeVersion");
+                    b.Navigation("Content");
                 });
 
             modelBuilder.Entity("Boxyz.Data.Entities.Box", b =>

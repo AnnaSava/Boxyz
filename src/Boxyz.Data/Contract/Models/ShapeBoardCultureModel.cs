@@ -8,8 +8,6 @@ namespace Boxyz.Data.Contract
 {
     public class ShapeBoardCultureModel : BaseCultureModel
     {
-        public long BoardId { get; set; }
-
-        public string Title { get; set; }        
+        public string Title { get; set; }    
     }
 }

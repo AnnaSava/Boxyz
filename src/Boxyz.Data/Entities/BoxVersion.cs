@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Entities
 {
-    public class BoxVersion : BaseEntity
+    public class BoxVersion : BaseEntity, IVersion
     {
-        public long BoxId { get; set; }
+        public long ContentId { get; set; }
 
-        public virtual Box Box { get; set; }
+        public virtual Box Content { get; set; }
 
         public long ShapeVersionId { get; set; }
 

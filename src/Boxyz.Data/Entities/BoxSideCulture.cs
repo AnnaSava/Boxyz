@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Entities
 {
-    public class BoxSideCulture : BaseCultureEntity
+    public class BoxSideCulture : BaseCultureEntity<BoxSide>
     {
-        public long BoxSideId { get; set; }
-
-        public virtual BoxSide BoxSide { get; set; }
-
         public string Value { get; set; }
     }
 }

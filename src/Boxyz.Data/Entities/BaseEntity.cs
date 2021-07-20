@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Entities
 {
+    public interface IVersion
+    {
+        public long ContentId { get; set; }
+
+        public DateTime Created { get; set; }
+    }
+
     public abstract class BaseEntity
     {
         public long Id { get; set; }

@@ -8,6 +8,8 @@ namespace Boxyz.Data.Contract
 {
     public abstract class BaseCultureModel
     {
+        public long ContentId { get; set; }
+
         public string Culture { get; set; }
     }
 }

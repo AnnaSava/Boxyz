@@ -27,6 +27,8 @@ namespace Boxyz.Data.Contract
 
         Task<ShapeVersionCultureModel> GetVersionCulture(long versionId, string culture);
 
+        Task<IEnumerable<ShapeVersionCultureModel>> GetVersionCultures(IEnumerable<(long, string)> keys);
+
         Task<IEnumerable<ShapeSideModel>> GetSidesByVersionId(long versionId);
 
         Task<IEnumerable<ShapeSideModel>> GetSidesByVersionId(IEnumerable<long> versionIds);
@@ -38,6 +40,8 @@ namespace Boxyz.Data.Contract
         Task<IEnumerable<ShapeSideCultureModel>> GetSideCulturesBySideId(IEnumerable<long> sideIds);
 
         Task<ShapeSideCultureModel> GetSideCulture(long sideId, string culture);
+
+        Task<IEnumerable<ShapeSideCultureModel>> GetSideCultures(IEnumerable<(long, string)> keys);
 
         Task<ShapeFlatModel> GetFlat(long id, string culture);
 

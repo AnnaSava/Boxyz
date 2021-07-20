@@ -20,26 +20,21 @@ namespace Boxyz.Seeder
             var context = GetContext();
             context.Database.Migrate();
 
-            if (!await context.ShapeBoards.AnyAsync())
-            {
-                var boards = TestData.GetBoards();
-                context.ShapeBoards.AddRange(boards);
-                await context.SaveChangesAsync();
-            }
+            if (await context.ShapeBoards.AnyAsync())
+                return;
 
-            if (!await context.Shapes.AnyAsync())
-            {
-                var shapes = TestData.GetShapes();
-                context.Shapes.AddRange(shapes);
-                await context.SaveChangesAsync();
-            }
+            var boards = TestData.GetBoards();
+            context.ShapeBoards.AddRange(boards);
+            await context.SaveChangesAsync();
 
-            if (!await context.Boxes.AnyAsync())
-            {
-                var boxes = TestData.GetBoxes();
-                context.Boxes.AddRange(boxes);
-                await context.SaveChangesAsync();
-            }
+            var shapes = TestData.GetShapes(boards);
+            context.Shapes.AddRange(shapes);
+            await context.SaveChangesAsync();
+
+            var boxes = TestData.GetBoxes(shapes);
+            context.Boxes.AddRange(boxes);
+            await context.SaveChangesAsync();
+
         }
 
         private static BoxDbContext GetContext()

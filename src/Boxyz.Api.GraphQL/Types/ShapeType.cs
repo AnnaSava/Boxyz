@@ -1,5 +1,6 @@
 ﻿using Boxyz.Api.GraphQL.Adapters;
 using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Api.GraphQL.Schemas;
 using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.DataLoader;
@@ -14,7 +15,7 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeType : ObjectGraphType<ShapeModel>
     {
-        public ShapeType(IHttpContextAccessor httpContextAccessor, IDataLoaderContextAccessor accessor, ShapeServiceAdapter shapeServiceAdapter)
+        public ShapeType(IDataLoaderContextAccessor accessor, ShapeServiceAdapter shapeServiceAdapter)
         {
             Field(x => x.Id);
             Field(x => x.ConstName);
@@ -24,7 +25,7 @@ namespace Boxyz.Api.GraphQL.Types
                 .Name("versions")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeVersionModel>("GetVersionsByShapeId", shapeServiceAdapter.GetVersionsByShapeId);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeVersionModel>(DataLoaderKey.GetShapeVersions, shapeServiceAdapter.GetVersionsByShapeId);
                     return loader.LoadAsync(ctx.Source.Id);
                 });
 
@@ -32,16 +33,9 @@ namespace Boxyz.Api.GraphQL.Types
                 .Name("actualVersion")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeVersionModel>("GetActualVersionsByShapeId", shapeServiceAdapter.GetActualVersionsByShapeId);
+                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeVersionModel>(DataLoaderKey.GetActualShapeVersions, shapeServiceAdapter.GetActualVersionsByShapeId);
                     return loader.LoadAsync(ctx.Source.Id);
                 });
-
-            //FieldAsync<ShapeVersionType>("actualVersion",
-            //    resolve: async context =>
-            //    {
-            //        using var scope = httpContextAccessor.CreateScope();
-            //        return await scope.GetService<IShapeDalService>().GetActualVersion(context.Source.Id);
-            //    });
         }
     }
 }

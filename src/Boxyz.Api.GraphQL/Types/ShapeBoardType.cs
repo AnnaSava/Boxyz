@@ -1,5 +1,6 @@
 ﻿using Boxyz.Api.GraphQL.Adapters;
 using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Api.GraphQL.Schemas;
 using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.DataLoader;
@@ -14,7 +15,7 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeBoardType : ObjectGraphType<ShapeBoardModel>
     {
-        public ShapeBoardType(IHttpContextAccessor httpContextAccessor, IDataLoaderContextAccessor accessor, ShapeBoardServiceAdapter shapeBoardServiceAdapter)
+        public ShapeBoardType(IDataLoaderContextAccessor accessor, ShapeBoardServiceAdapter shapeBoardServiceAdapter)
         {
             Field(x => x.Id);
             Field(x => x.Name);
@@ -25,7 +26,7 @@ namespace Boxyz.Api.GraphQL.Types
                 .Name("cultures")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeBoardCultureModel>("GetCulturesByBoardId", shapeBoardServiceAdapter.GetCulturesByBoardId);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeBoardCultureModel>(DataLoaderKey.GetShapeBoardCultures, shapeBoardServiceAdapter.GetCulturesByBoardId);
                     return loader.LoadAsync(ctx.Source.Id);
                 });
 
@@ -34,7 +35,7 @@ namespace Boxyz.Api.GraphQL.Types
                 .Argument<StringGraphType>("culture")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddBatchLoader<(long, string), ShapeBoardCultureModel>("GetSingleCulturesByKey", shapeBoardServiceAdapter.GetSingleCulturesByKey);
+                    var loader = accessor.Context.GetOrAddBatchLoader<(long, string), ShapeBoardCultureModel>(DataLoaderKey.GetShapeBoardCulture, shapeBoardServiceAdapter.GetSingleCultures);
                     return loader.LoadAsync((ctx.Source.Id, ctx.GetArgument<string>("culture")));
                 });
         }

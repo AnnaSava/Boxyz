@@ -1,5 +1,6 @@
 ﻿using Boxyz.Api.GraphQL.Adapters;
 using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Api.GraphQL.Schemas;
 using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.DataLoader;
@@ -24,7 +25,7 @@ namespace Boxyz.Api.GraphQL.Types
                 .Name("shapeVersion")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeVersionModel>("GetSingleVersionsByShapeId", shapeServiceAdapter.GetSingleVersionsByShapeId);
+                    var loader = accessor.Context.GetOrAddBatchLoader<long, ShapeVersionModel>(DataLoaderKey.GetBoxVersion, shapeServiceAdapter.GetSingleVersionsByShapeId);
                     return loader.LoadAsync(ctx.Source.ShapeVersionId);
                 });
 
@@ -32,7 +33,7 @@ namespace Boxyz.Api.GraphQL.Types
                .Name("sides")
                .ResolveAsync(ctx =>
                {
-                   var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, BoxSideModel>("GetSidesByBoxVersionId", boxServiceAdapter.GetSidesByVersionId);
+                   var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, BoxSideModel>(DataLoaderKey.GetBoxSides, boxServiceAdapter.GetSidesByVersionId);
                    return loader.LoadAsync(ctx.Source.Id);
                });
         }

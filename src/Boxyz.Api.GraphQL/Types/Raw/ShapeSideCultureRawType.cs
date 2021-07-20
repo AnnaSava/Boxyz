@@ -13,7 +13,7 @@ namespace Boxyz.Api.GraphQL.Types.Raw
         public ShapeSideCultureRawType()
         {
             Field(x => x.Culture);
-            Field(x => x.ShapeSideId);
+            Field(x => x.ContentId);
             Field(x => x.Title);
         }
     }

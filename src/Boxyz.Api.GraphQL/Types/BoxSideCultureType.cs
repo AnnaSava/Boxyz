@@ -12,7 +12,7 @@ namespace Boxyz.Api.GraphQL.Types
     {
        public BoxSideCultureType()
        {
-            Field(x => x.BoxSideId);
+            Field(x => x.ContentId);
             Field(x => x.Culture);
             Field(x => x.Value);
         }

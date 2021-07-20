@@ -8,7 +8,7 @@ namespace Boxyz.Data.Contract
 {
     public class BoxVersionModel : BaseModel
     {
-        public long BoxId { get; set; }
+        public long ContentId { get; set; }
 
         public ShapeVersionModel ShapeVersion { get; set; }
 

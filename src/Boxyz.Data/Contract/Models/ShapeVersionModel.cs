@@ -8,7 +8,7 @@ namespace Boxyz.Data.Contract
 {
     public class ShapeVersionModel : BaseModel
     {
-        public long ShapeId { get; set; }
+        public long ContentId { get; set; }
 
         public bool IsApproved { get; set; }
 

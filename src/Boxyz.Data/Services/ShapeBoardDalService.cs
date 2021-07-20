@@ -43,7 +43,7 @@ namespace Boxyz.Data.Services
                 .FirstOrDefaultAsync();
 
             var cultureEntity = await _dbContext.ShapeBoardCultures
-                .Where(m => m.BoardId == id && m.Culture == culture)
+                .Where(m => m.ContentId == id && m.Culture == culture)
                 .FirstOrDefaultAsync();
 
             return new ShapeBoardFlatModel
@@ -60,7 +60,7 @@ namespace Boxyz.Data.Services
         public async Task<IEnumerable<ShapeBoardCultureModel>> GetCulturesByBoardId(long boardId)
         {
             return await _dbContext.ShapeBoardCultures
-                .Where(m => m.BoardId == boardId)
+                .Where(m => m.ContentId == boardId)
                 .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -68,7 +68,7 @@ namespace Boxyz.Data.Services
         public async Task<IEnumerable<ShapeBoardCultureModel>> GetCulturesByBoardId(IEnumerable<long> boardIds)
         {
             return await _dbContext.ShapeBoardCultures
-                .Where(m => boardIds.Contains(m.BoardId))
+                .Where(m => boardIds.Contains(m.ContentId))
                 .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -76,7 +76,7 @@ namespace Boxyz.Data.Services
         public async Task<ShapeBoardCultureModel> GetCulture(long boardId, string culture)
         {
             var entity = await _dbContext.ShapeBoardCultures
-                .Where(m => m.BoardId == boardId && m.Culture == culture)
+                .Where(m => m.ContentId == boardId && m.Culture == culture)
                 .FirstOrDefaultAsync();
 
             return _mapper.Map<ShapeBoardCultureModel>(entity);
@@ -84,23 +84,7 @@ namespace Boxyz.Data.Services
 
         public async Task<IEnumerable<ShapeBoardCultureModel>> GetCultures(IEnumerable<(long, string)> keys)
         {
-            var boardIds = keys.Select(k => k.Item1);
-            var cultures = keys.Select(k => k.Item2);
-
-            var rawSelection = await _dbContext.ShapeBoardCultures
-                .Where(m => boardIds.Contains(m.BoardId) && cultures.Contains(m.Culture))
-                .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-
-            return rawSelection.Join(keys,
-                  s => new { s.BoardId, s.Culture },
-                  k => new { BoardId = k.Item1, Culture = k.Item2 },
-                  (s, k) => s);
-
-            //return await _dbContext.ShapeBoardCultures
-            //    .Where(m => keys.Contains(m.BoardId))
-            //    .ProjectTo<ShapeBoardCultureModel>(_mapper.ConfigurationProvider)
-            //    .ToListAsync();
+            return await _dbContext.GetCultures<ShapeBoardCulture, ShapeBoardCultureModel>(keys, _mapper);
         }
 
         public async Task<IEnumerable<ShapeBoardModel>> GetAll(int page, int count)
@@ -119,7 +103,7 @@ namespace Boxyz.Data.Services
             return await _dbContext.ShapeBoards
                 .Join(_dbContext.ShapeBoardCultures.Where(m => m.Culture == culture),
                 b => b.Id,
-                c => c.BoardId,
+                c => c.ContentId,
                 (b, c) => new ShapeBoardFlatModel()
                 {
                     Id = b.Id,

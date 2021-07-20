@@ -1,5 +1,6 @@
 ﻿using Boxyz.Api.GraphQL.Adapters;
 using Boxyz.Api.GraphQL.ForDbContext;
+using Boxyz.Api.GraphQL.Schemas;
 using Boxyz.Data.Contract;
 using GraphQL;
 using GraphQL.DataLoader;
@@ -14,7 +15,7 @@ namespace Boxyz.Api.GraphQL.Types
 {
     public class ShapeVersionType : ObjectGraphType<ShapeVersionModel>
     {
-       public ShapeVersionType(IHttpContextAccessor httpContextAccessor, IShapeDalService shapeDalService, IDataLoaderContextAccessor accessor, ShapeServiceAdapter shapeServiceAdapter)
+       public ShapeVersionType(IDataLoaderContextAccessor accessor, ShapeServiceAdapter shapeServiceAdapter)
        {
             Field(x => x.Id);
             Field(x => x.IsApproved);            
@@ -24,7 +25,7 @@ namespace Boxyz.Api.GraphQL.Types
                 .Name("sides")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeSideModel>("GetSidesByVersionId", shapeServiceAdapter.GetSidesByVersionId);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeSideModel>(DataLoaderKey.GetShapeSides, shapeServiceAdapter.GetSidesByVersionId);
                     return loader.LoadAsync(ctx.Source.Id);
                 });
 
@@ -32,18 +33,18 @@ namespace Boxyz.Api.GraphQL.Types
                 .Name("cultures")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeVersionCultureModel>("GetVersionCulturesByVersionId", shapeServiceAdapter.GetVersionCulturesByVersionId);
+                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeVersionCultureModel>(DataLoaderKey.GetShapeVersionCultures, shapeServiceAdapter.GetVersionCulturesByVersionId);
                     return loader.LoadAsync(ctx.Source.Id);
                 });
 
-            FieldAsync<ShapeVersionCultureType>("culture",
-                arguments: new QueryArguments(
-                    new QueryArgument<StringGraphType> { Name = "culture" }),
-                resolve: async context =>
-                {
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeDalService>().GetVersionCulture(context.Source.Id, context.GetArgument<string>("culture"));
-                });
+            Field<ShapeVersionCultureType, ShapeVersionCultureModel>()
+               .Name("culture")
+               .Argument<StringGraphType>("culture")
+               .ResolveAsync(ctx =>
+               {
+                   var loader = accessor.Context.GetOrAddBatchLoader<(long, string), ShapeVersionCultureModel>(DataLoaderKey.GetShapeVersionCulture, shapeServiceAdapter.GetSingleVersionCultures);
+                   return loader.LoadAsync((ctx.Source.Id, ctx.GetArgument<string>("culture")));
+               });
         }
     }
 }

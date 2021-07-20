@@ -11,156 +11,213 @@ namespace Boxyz.Data
     {
         public static IEnumerable<ShapeBoard> GetBoards()
         {
-            var boards = new List<ShapeBoard>
+            var boardsArr = new List<object[]>
             {
-                new ShapeBoard
-                {
-                    //Id = 1,
-                    Level = 0,
-                    Name = "media",
-                    Cultures = new List<ShapeBoardCulture>
-                    {
-                        new ShapeBoardCulture { Culture = "ru", BoardId = 1, Title = "Медиа" },
-                        new ShapeBoardCulture { Culture = "en", BoardId = 1, Title = "Media" }
-                    },
-                },
-                new ShapeBoard
-                {
-                    //Id = 1,
-                    Level = 0,
-                    Name = "collections",
-                    Cultures = new List<ShapeBoardCulture>
-                    {
-                        new ShapeBoardCulture { Culture = "ru", BoardId = 2, Title = "Коллекции" },
-                        new ShapeBoardCulture { Culture = "en", BoardId = 2, Title = "Collections" }
-                    },
-                }
+                new object[] { "media", "Медиа", "Media" },
+                new object[] { "collections", "Коллекции", "Collections" },
+                new object[] { "travel", "Путешествия", "Travel" },
             };
+
+            var boards = new List<ShapeBoard>();
+
+            foreach (var arrLine in boardsArr)
+            {
+                boards.Add(new ShapeBoard
+                {
+                    Level = 0,
+                    Name = arrLine[0].ToString(),
+                    Cultures = new List<ShapeBoardCulture>
+                    {
+                        new ShapeBoardCulture { Culture = "ru", Title = arrLine[1].ToString() },
+                        new ShapeBoardCulture { Culture = "en", Title = arrLine[2].ToString() }
+                    },
+                });
+            }
 
             return boards;
         }
 
-        public static IEnumerable<Shape> GetShapes()
+        public static IEnumerable<Shape> GetShapes(IEnumerable<ShapeBoard> boards)
         {
-            var shapes = new List<Shape>
+            var shapesArr = new List<object[]>
             {
-                new Shape
+                new object[] { "media", "books", "Книги", "Books",
+                    new List<object[]>
+                    {
+                        new object[] { "authorName", "text", "Имя автора", "Author's name" },
+                        new object[] { "bookName", "text", "Название книги", "Title of the book" },
+                        new object[] { "year", "year", "Год издания", "The year of publishing" }
+                    }
+                },
+                new object[] { "media", "movies", "Фильмы", "Movies",
+                    new List<object[]>
+                    {
+                        new object[] { "movieName", "text", "Название фильма", "Title of the movie" },
+                        new object[] { "year", "year", "Год выпуска", "The year of issue" }
+                    }
+                },
+                new object[] { "collections", "dolls", "Куклы", "Dolls",
+                    new List<object[]>
+                    {
+                        new object[] { "dollName", "text", "Имя куклы", "Doll's name" },
+                        new object[] { "size", "float", "Размер", "Size" },
+                        new object[] { "price", "money", "Стоимость при покупке", "Cost upon purchase" }
+                    }
+                },
+                new object[] { "travel", "hotels", "Гостиницы", "Hotels",
+                    new List<object[]>
+                    {
+                        new object[] { "name", "text", "Название", "Name" },
+                        new object[] { "whatIsNice", "text", "Чем понравилась", "What did I like" }
+                    }
+                },
+                new object[] { "travel", "cities", "Города", "Cities",
+                    new List<object[]>
+                    {
+                        new object[] { "name", "text", "Название", "Name" },
+                        new object[] { "whatToSee", "text", "Что посмотреть", "What to see" }
+                    }
+                },
+            };
+
+            var shapes = new List<Shape>();
+
+            foreach (var shapeLine in shapesArr)
+            {
+                var shape = new Shape
                 {
-                    //Id = 1,
-                    BoardId = 1,
-                    ConstName = "books",
+                    BoardId = boards.First(b => b.Name == shapeLine[0].ToString()).Id,
+                    ConstName = shapeLine[1].ToString(),
                     LastUpdated = DateTime.Now,
                     Versions = new List<ShapeVersion>
                     {
                         new ShapeVersion
                         {
-                            //Id = 1,
-                            ShapeId = 1,
-                            IsApproved = false,
                             Created = DateTime.Now,
                             Cultures = new List<ShapeVersionCulture>
                             {
-                                new ShapeVersionCulture { Culture = "ru", ShapeVersionId = 1, Title = "Книги" },
-                                new ShapeVersionCulture { Culture = "en", ShapeVersionId = 1, Title = "Books" },
+                                new ShapeVersionCulture { Culture = "ru", Title = shapeLine[2].ToString() },
+                                new ShapeVersionCulture { Culture = "en", Title = shapeLine[3].ToString() },
                             },
-                            Sides = new List<ShapeSide>
-                            {
-                                new ShapeSide
-                                {
-                                    //Id = 1,
-                                    ConstName = "authorName",
-                                    DataType = "nativeText",
-                                    Cultures = new List<ShapeSideCulture>
-                                    {
-                                        new ShapeSideCulture { Culture = "ru", ShapeSideId = 1, Title = "Имя автора" },
-                                        new ShapeSideCulture { Culture = "en", ShapeSideId = 1, Title = "Author's name" }
-                                    }
-                                },
-                                new ShapeSide
-                                {
-                                    //Id = 2,
-                                    ConstName = "bookName",
-                                    DataType = "nativeText",
-                                    Cultures = new List<ShapeSideCulture>
-                                    {
-                                        new ShapeSideCulture { Culture = "ru", ShapeSideId = 2, Title = "Название книги" },
-                                        new ShapeSideCulture { Culture = "en", ShapeSideId = 2, Title = "Title of the book" }
-                                    }
-                                },
-                                new ShapeSide
-                                {
-                                    //Id = 3,
-                                    ConstName = "year",
-                                    DataType = "year",
-                                    Cultures = new List<ShapeSideCulture>
-                                    {
-                                        new ShapeSideCulture { Culture = "ru", ShapeSideId = 3, Title = "Год издания" },
-                                        new ShapeSideCulture { Culture = "en", ShapeSideId = 3, Title = "The year of publishing" }
-                                    }
-                                }
-                            }
+                            Sides = new List<ShapeSide> { }
                         }
                     }
+                };
+
+                foreach (var sideLine in shapeLine[4] as List<object[]>)
+                {
+                    shape.Versions.First().Sides.Add(new ShapeSide
+                    {
+                        ConstName = sideLine[0].ToString(),
+                        DataType = sideLine[1].ToString(),
+                        Cultures = new List<ShapeSideCulture>
+                        {
+                            new ShapeSideCulture { Culture = "ru", Title = sideLine[2].ToString() },
+                            new ShapeSideCulture { Culture = "en", Title = sideLine[3].ToString() }
+                        }
+                    });
                 }
-            };
+
+                shapes.Add(shape);
+            }
+
             return shapes;
         }
 
-        public static IEnumerable<Box> GetBoxes()
-        { 
-            var boxes = new List<Box>
+        public static IEnumerable<Box> GetBoxes(IEnumerable<Shape> shapes)
+        {
+            var boxesArr = new List<object[]>
             {
-                new Box
+                new object[] { "books",
+                    new List<object[]>
+                    { 
+                        new object[] { "authorName", "Анна Ахматова", "Анна Ахматова", "Anna Akhmatova" },
+                        new object[] { "bookName", "Вечер", "Вечер", "Vecher (Evening)" },
+                        new object[] { "year", "1912" }
+                    } 
+                },
+                new object[] { "dolls",
+                    new List<object[]>
+                    {
+                        new object[] { "dollName", "Barbie", "Барби", "Barbie" },
+                        new object[] { "size", "29" },
+                        new object[] { "price", "9,99" }
+                    }
+                },
+                new object[] { "dolls",
+                    new List<object[]>
+                    {
+                        new object[] { "dollName", "Sindy", "Синди", "Sindy" },
+                        new object[] { "size", "29" },
+                        new object[] { "price", "10,99" }
+                    }
+                },
+                new object[] { "dolls",
+                    new List<object[]>
+                    {
+                        new object[] { "dollName", "Susy", "Сюзи", "Susy" },
+                        new object[] { "size", "29" },
+                        new object[] { "price", "5,99" }
+                    }
+                },
+                new object[] { "cities",
+                    new List<object[]>
+                    {
+                        new object[] { "name", "Москва", "Москва", "Moscow" },
+                        new object[] { "whatToSee", "Красная площадь", "Красная площадь", "Red Square" },
+                    }
+                },
+                new object[] { "cities",
+                    new List<object[]>
+                    {
+                        new object[] { "name", "London", "Лондон", "London" },
+                        new object[] { "whatToSee", "Buckingham Palace", "Букингемский дворец", "Buckingham Palace" },
+                    }
+                }
+            };
+
+            var boxes = new List<Box>();
+
+            foreach (var boxLine in boxesArr)
+            {
+                var shape = shapes.First(s => s.ConstName == boxLine[0].ToString());
+                var box = new Box
                 {
-                    //Id = 1,
-                    ShapeId = 1,
+                    ShapeId = shape.Id,
                     Versions = new List<BoxVersion>
                     {
                         new BoxVersion
                         {
-                            //Id = 1,
-                            BoxId = 1,
-                            ShapeVersionId = 1,     
+                            ShapeVersionId = shape.Versions.First().Id,
                             Created = DateTime.Now,
-                            IsApproved = false,
-                            Sides = new List<BoxSide>
-                            {
-                                new BoxSide
-                                {
-                                    //Id = 1,
-                                    BoxVersionId = 1,
-                                    ShapeSideId = 1,
-                                    UniversalValue = "Анна Ахматова",
-                                    Cultures = new List<BoxSideCulture>
-                                    {
-                                        new BoxSideCulture { Culture = "ru", BoxSideId = 1, Value = "Анна Ахматова" },
-                                        new BoxSideCulture { Culture = "en", BoxSideId = 1, Value = "Anna Akhmatova" }
-                                    }
-                                },
-                                new BoxSide
-                                {
-                                    //Id = 2,
-                                    BoxVersionId = 1,
-                                    ShapeSideId = 2,
-                                    UniversalValue = "Вечер",
-                                    Cultures = new List<BoxSideCulture>
-                                    {
-                                        new BoxSideCulture { Culture = "ru", BoxSideId = 2, Value = "Вечер" },
-                                        new BoxSideCulture { Culture = "en", BoxSideId = 2, Value = "Vecher (Evening)" }
-                                    }
-                                },
-                                new BoxSide
-                                {
-                                    //Id = 3,
-                                    BoxVersionId = 1,
-                                    ShapeSideId = 3,
-                                    UniversalValue = "1912"
-                                },
-                            }
+                            Sides = new List<BoxSide> { }
                         }
                     }
+                };
+
+                foreach (var sideLine in boxLine[1] as List<object[]>)
+                {
+                    var side = new BoxSide
+                    {
+                        ShapeSideId = shape.Versions.First().Sides.First(s => s.ConstName == sideLine[0].ToString()).Id,
+                        UniversalValue = sideLine[1].ToString(),
+                    };
+
+                    if (sideLine.Length > 2)
+                    {
+                        side.Cultures = new List<BoxSideCulture>
+                        {
+                            new BoxSideCulture { Culture = "ru", Value = sideLine[2].ToString() },
+                            new BoxSideCulture { Culture = "en", Value = sideLine[3].ToString() }
+                        };
+                    }
+
+                    box.Versions.First().Sides.Add(side);
                 }
-            };
+
+                boxes.Add(box);
+            }
+
             return boxes;
         }
     }

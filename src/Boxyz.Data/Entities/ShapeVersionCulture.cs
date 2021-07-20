@@ -7,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Data.Entities
 {
-    public class ShapeVersionCulture : BaseCultureEntity
+    public class ShapeVersionCulture : BaseCultureEntity<ShapeVersion>
     {
         public string Title { get; set; }
-
-        [Key]
-        public long ShapeVersionId { get; set; }
-
-        public virtual ShapeVersion ShapeVersion { get; set; }
     }
 }

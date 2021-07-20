@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Boxyz.Data.Contract;
+using Boxyz.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace Boxyz.Data.Services
         public async Task<IEnumerable<BoxVersionModel>> GetVersionsByBoxId(long boxId)
         {
             return await _dbContext.BoxVersions
-                .Where(m => m.BoxId == boxId)
+                .Where(m => m.ContentId == boxId)
                 .ProjectTo<BoxVersionModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -42,7 +43,7 @@ namespace Boxyz.Data.Services
         public async Task<IEnumerable<BoxVersionModel>> GetVersionsByBoxId(IEnumerable<long> boxIds)
         {
             return await _dbContext.BoxVersions
-                .Where(m => boxIds.Contains(m.BoxId))
+                .Where(m => boxIds.Contains(m.ContentId))
                 .ProjectTo<BoxVersionModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -50,11 +51,16 @@ namespace Boxyz.Data.Services
         public async Task<BoxVersionModel> GetActualVersion(long boxId)
         {
             var entity = await _dbContext.BoxVersions
-                .Where(m => m.BoxId == boxId)
+                .Where(m => m.ContentId == boxId)
                 .OrderByDescending(m => m.Created)
                 .FirstOrDefaultAsync();
 
             return _mapper.Map<BoxVersionModel>(entity);
+        }
+
+        public async Task<IEnumerable<BoxVersionModel>> GetActualVersions(IEnumerable<long> boxIds)
+        {
+            return await _dbContext.GetActualVersions<BoxVersion, BoxVersionModel>(boxIds, _mapper);
         }
 
         public async Task<IEnumerable<BoxSideModel>> GetSidesByVersionId(long versionId)
@@ -76,7 +82,7 @@ namespace Boxyz.Data.Services
         public async Task<IEnumerable<BoxSideCultureModel>> GetSideCulturesBySideId(long sideId)
         {
             return await _dbContext.BoxSideCultures
-                .Where(m => m.BoxSideId == sideId)
+                .Where(m => m.ContentId == sideId)
                 .ProjectTo<BoxSideCultureModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -84,7 +90,7 @@ namespace Boxyz.Data.Services
         public async Task<IEnumerable<BoxSideCultureModel>> GetSideCulturesBySideId(IEnumerable<long> sideIds)
         {
             return await _dbContext.BoxSideCultures
-                .Where(m => sideIds.Contains(m.BoxSideId))
+                .Where(m => sideIds.Contains(m.ContentId))
                 .ProjectTo<BoxSideCultureModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
@@ -92,10 +98,15 @@ namespace Boxyz.Data.Services
         public async Task<BoxSideCultureModel> GetSideCulture(long sideId, string culture)
         {
             var entity = await _dbContext.BoxSideCultures
-                .Where(m => m.BoxSideId == sideId && m.Culture == culture)
+                .Where(m => m.ContentId == sideId && m.Culture == culture)
                 .FirstOrDefaultAsync();
 
             return _mapper.Map<BoxSideCultureModel>(entity);
+        }
+
+        public async Task<IEnumerable<BoxSideCultureModel>> GetSideCultures(IEnumerable<(long, string)> keys)
+        {
+            return await _dbContext.GetCultures<BoxSideCulture, BoxSideCultureModel>(keys, _mapper);
         }
 
         public async Task<BoxFlatModel> GetFlat(long id, string culture)
@@ -105,7 +116,7 @@ namespace Boxyz.Data.Services
                 .FirstOrDefaultAsync();
 
             var actualVersion = await _dbContext.BoxVersions
-                .Where(m => m.BoxId == id)
+                .Where(m => m.ContentId == id)
                 .OrderByDescending(m => m.Created)
                 .FirstOrDefaultAsync();
 
@@ -147,7 +158,7 @@ namespace Boxyz.Data.Services
             return await _dbContext.BoxSides.Where(m => m.BoxVersionId == boxVersionId)
                 .GroupJoin(_dbContext.BoxSideCultures.Where(m => m.Culture == culture),
                     s => s.Id,
-                    c => c.BoxSideId,
+                    c => c.ContentId,
                     (s, c) => new { Side = s, Culture = c })
                 .SelectMany(sc => sc.Culture.DefaultIfEmpty(),
                     (x, y) => new { Side = x.Side, Culture = y })

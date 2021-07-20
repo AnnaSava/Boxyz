@@ -16,6 +16,8 @@ namespace Boxyz.Data.Contract
 
         Task<BoxVersionModel> GetActualVersion(long boxId);
 
+        Task<IEnumerable<BoxVersionModel>> GetActualVersions(IEnumerable<long> boxIds);
+
         Task<IEnumerable<BoxSideModel>> GetSidesByVersionId(long versionId);
 
         Task<IEnumerable<BoxSideModel>> GetSidesByVersionId(IEnumerable<long> versionIds);
@@ -25,6 +27,8 @@ namespace Boxyz.Data.Contract
         Task<IEnumerable<BoxSideCultureModel>> GetSideCulturesBySideId(IEnumerable<long> sideIds);
 
         Task<BoxSideCultureModel> GetSideCulture(long sideId, string culture);
+
+        Task<IEnumerable<BoxSideCultureModel>> GetSideCultures(IEnumerable<(long, string)> keys);
 
         Task<BoxFlatModel> GetFlat(long id, string culture);
 
