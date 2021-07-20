@@ -1,10 +1,6 @@
-using Boxyz.Api.GraphQL.Adapters;
-using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Api.GraphQL.Infrastructure;
-using Boxyz.Api.GraphQL.Types;
 using Boxyz.Data;
 using GraphQL;
-using GraphQL.DataLoader;
 using GraphQL.Execution;
 using GraphQL.Instrumentation;
 using GraphQL.SystemTextJson;
@@ -12,6 +8,7 @@ using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,41 +20,21 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL
+namespace Boxyz.Api.GraphQL.Raw
 {
     public class Startup
     {
-        //https://stackoverflow.com/questions/457676/check-if-a-class-is-derived-from-a-generic-class
-        static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
-        {
-            while (toCheck != null && toCheck != typeof(object))
-            {
-                var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
-                if (generic == cur)
-                {
-                    return true;
-                }
-                toCheck = toCheck.BaseType;
-            }
-            return false;
-        }
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpContextAccessor();
-
-            // add execution components
-            services.AddSingleton<IDocumentExecuter, DocumentExecuter>(); // default DocumentExecutor works in parallel
-            //services.AddSingleton<IDocumentExecuter, SerialDocumentExecuter>();
+            services.AddSingleton<IDocumentExecuter, SerialDocumentExecuter>();
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
             services.AddSingleton<IErrorInfoProvider>(services =>
             {
@@ -65,27 +42,17 @@ namespace Boxyz.Api.GraphQL
                 return new ErrorInfoProvider(new ErrorInfoProviderOptions { ExposeExceptionStackTrace = settings.Value.ExposeExceptions });
             });
 
-            // https://fiyazhasan.me/graphql-with-net-core-part-x-execution-strategies/
-            services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
-            services.AddSingleton<DataLoaderDocumentListener>();
+            services.AddDbContext<BoxDbContext>(options =>
+            {
+                options.UseLazyLoadingProxies();
 
-            services.AddMapper();
-            services.AddBox(Configuration);
-            services.AddScoped<IContextService, ContextService>();
-
-            // adapters for DataLoader
-            services.AddScoped<ShapeBoardServiceAdapter>();
-            services.AddScoped<ShapeServiceAdapter>();
-            services.AddScoped<BoxServiceAdapter>();
+                options
+                    .UseNpgsql(Configuration.GetConnectionString("BoxConnection"), b => b.MigrationsAssembly("Boxyz.Migrations.PostgreSql"))
+                    .UseSnakeCaseNamingConvention();
+            });
 
             // add graph types
-            Assembly.GetAssembly(typeof(BoxContextSchema)).GetTypes()
-               .Where(m => !m.IsAbstract && !m.IsInterface)
-               .Where(m => m.IsSubclassOf(typeof(ObjectGraphType)) 
-                    || IsSubclassOfRawGeneric(typeof(ObjectGraphType<>), m)
-                    || m.IsSubclassOf(typeof(InputObjectGraphType)))
-               .ToList()
-               .ForEach(t => services.AddScoped(t));
+            services.AddGraphQLTypes(Assembly.GetAssembly(typeof(BoxContextSchema)).GetTypes());
 
             // add schema
             services.AddScoped<ISchema, BoxContextSchema>(services =>

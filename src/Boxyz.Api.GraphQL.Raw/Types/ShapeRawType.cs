@@ -1,5 +1,4 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
-using Boxyz.Data.Contract;
+﻿using Boxyz.Data.Contract;
 using Boxyz.Data.Entities;
 using GraphQL;
 using GraphQL.Types;
@@ -9,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Types.Raw
+namespace Boxyz.Api.GraphQL.Raw.Types
 {
     public class ShapeRawType : ObjectGraphType<Shape>
     {

@@ -1,6 +1,5 @@
 ﻿using Boxyz.Api.GraphQL.ForDbContext;
 using Boxyz.Api.GraphQL.Types;
-using Boxyz.Api.GraphQL.Types.Raw;
 using Boxyz.Data;
 using Boxyz.Data.Contract;
 using GraphQL;
@@ -17,11 +16,8 @@ namespace Boxyz.Api.GraphQL
 {
     public class BoxContextQuery : ObjectGraphType<object>
     {
-        public BoxContextQuery(IHttpContextAccessor httpContextAccessor, BoxDbContext dbContext)
+        public BoxContextQuery(IHttpContextAccessor httpContextAccessor)
         {
-#if DEBUG
-            AddRawEntitiesQueries(httpContextAccessor, dbContext);
-#endif
             AddFlatModelQueries(httpContextAccessor);
             AddHierarchicModelQueries(httpContextAccessor);
 
@@ -146,68 +142,6 @@ namespace Boxyz.Api.GraphQL
                     using var scope = httpContextAccessor.CreateScope();
                     return await scope.GetService<IShapeBoardDalService>().GetAllFlat(context.GetArgument<int>("page"),
                         context.GetArgument<int>("count"), context.GetArgument<string>("culture"));
-                }
-            );
-        }
-
-        /// <summary> 
-        /// Very experimental method
-        /// Here the classes of DAL are used directly
-        /// </summary>
-        private void AddRawEntitiesQueries(IHttpContextAccessor httpContextAccessor, BoxDbContext dbContext)
-        {
-            // Something is broken here
-            // Lazy-loading vs. multi-thread dbcontext access
-
-            // Set this false if you want the program to fail on the attempt to use one instance of dbContext in all resolvers
-            // instead of failing on using lazy-loading
-            bool failOnLazyLoading = true;
-
-            FieldAsync<ShapeBoardRawType>(
-               "rawBoard",
-               arguments: new QueryArguments(
-                   new QueryArgument<NonNullGraphType<BigIntGraphType>> { Name = "id" }
-               ),
-               resolve: async context =>
-               {
-                   var id = context.GetArgument<long>("id");
-                   if (failOnLazyLoading)
-                       return await dbContext.ShapeBoards.FirstOrDefaultAsync(m => m.Id == id);
-
-                   using var scope = httpContextAccessor.CreateScope();
-                   return await scope.GetService<BoxDbContext>().ShapeBoards.FirstOrDefaultAsync(m => m.Id == id);
-               }
-           );
-
-            FieldAsync<ShapeRawType>(
-                "rawShape",
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<BigIntGraphType>> { Name = "id" }
-                ),
-                resolve: async context =>
-                {
-                    var id = context.GetArgument<long>("id");
-                    if (failOnLazyLoading)
-                        return await dbContext.Shapes.FirstOrDefaultAsync(m => m.Id == id);
-
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<BoxDbContext>().Shapes.FirstOrDefaultAsync(m => m.Id == id);
-                }
-            );
-
-            FieldAsync<BoxRawType>(
-                "rawBox",
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<BigIntGraphType>> { Name = "id" }
-                ),
-                resolve: async context =>
-                {
-                    var id = context.GetArgument<long>("id");
-                    if (failOnLazyLoading)
-                        return await dbContext.Boxes.FirstOrDefaultAsync(m => m.Id == id);
-
-                    using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<BoxDbContext>().Boxes.FirstOrDefaultAsync(m => m.Id == id);
                 }
             );
         }

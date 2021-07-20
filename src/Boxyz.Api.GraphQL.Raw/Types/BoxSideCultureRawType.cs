@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Types.Raw
+namespace Boxyz.Api.GraphQL.Raw.Types
 {
     public class BoxSideCultureRawType : ObjectGraphType<BoxSideCulture>
     {

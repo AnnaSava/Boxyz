@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Types.Raw
+namespace Boxyz.Api.GraphQL.Raw.Types
 {
-    public class ShapeVersionCultureRawType : ObjectGraphType<ShapeVersionCulture>
+    public class ShapeBoardCultureRawType : ObjectGraphType<ShapeBoardCulture>
     {
-        public ShapeVersionCultureRawType()
+        public ShapeBoardCultureRawType()
         {
             Field(x => x.Culture);
             Field(x => x.ContentId);
