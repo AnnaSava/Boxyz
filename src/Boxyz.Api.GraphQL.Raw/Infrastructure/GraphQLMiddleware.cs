@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Boxyz.Api.GraphQL.Infrastructure;
 using GraphQL;
 using GraphQL.DataLoader;
 using GraphQL.Instrumentation;

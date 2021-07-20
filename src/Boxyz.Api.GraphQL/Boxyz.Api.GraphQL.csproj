@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Boxyz.Api.GraphQL.Infrastructure\Boxyz.Api.GraphQL.Infrastructure.csproj" />
     <ProjectReference Include="..\Boxyz.Data\Boxyz.Data.csproj" />
     <ProjectReference Include="..\Boxyz.Migrations.PostgreSql\Boxyz.Migrations.PostgreSql.csproj" />
   </ItemGroup>

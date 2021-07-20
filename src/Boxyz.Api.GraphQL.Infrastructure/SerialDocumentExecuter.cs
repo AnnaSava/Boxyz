@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Raw
+namespace Boxyz.Api.GraphQL.Infrastructure
 {
     // https://fiyazhasan.me/graphql-with-net-core-part-x-execution-strategies/
     public class SerialDocumentExecuter : DocumentExecuter

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Raw
+namespace Boxyz.Api.GraphQL.Infrastructure
 {
 
     public sealed class CountFieldMiddleware : IFieldMiddleware, IDisposable

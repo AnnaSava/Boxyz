@@ -79,13 +79,7 @@ namespace Boxyz.Api.GraphQL
             services.AddScoped<BoxServiceAdapter>();
 
             // add graph types
-            Assembly.GetAssembly(typeof(BoxContextSchema)).GetTypes()
-               .Where(m => !m.IsAbstract && !m.IsInterface)
-               .Where(m => m.IsSubclassOf(typeof(ObjectGraphType)) 
-                    || IsSubclassOfRawGeneric(typeof(ObjectGraphType<>), m)
-                    || m.IsSubclassOf(typeof(InputObjectGraphType)))
-               .ToList()
-               .ForEach(t => services.AddScoped(t));
+            services.AddGraphQLTypes(Assembly.GetAssembly(typeof(BoxContextSchema)).GetTypes());
 
             // add schema
             services.AddScoped<ISchema, BoxContextSchema>(services =>
