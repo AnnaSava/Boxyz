@@ -16,6 +16,8 @@ namespace Boxyz.Data
                 new object[] { "media", "Медиа", "Media" },
                 new object[] { "collections", "Коллекции", "Collections" },
                 new object[] { "travel", "Путешествия", "Travel" },
+                new object[] { "purchases", "Покупки", "Purchases" },
+                new object[] { "figures", "Фигуры", "Figures" },
             };
 
             var boards = new List<ShapeBoard>();
@@ -60,7 +62,7 @@ namespace Boxyz.Data
                     new List<object[]>
                     {
                         new object[] { "dollName", "text", "Имя куклы", "Doll's name" },
-                        new object[] { "size", "float", "Размер", "Size" },
+                        new object[] { "size", "integer", "Размер", "Size" },
                         new object[] { "price", "money", "Стоимость при покупке", "Cost upon purchase" }
                     }
                 },
@@ -76,6 +78,22 @@ namespace Boxyz.Data
                     {
                         new object[] { "name", "text", "Название", "Name" },
                         new object[] { "whatToSee", "text", "Что посмотреть", "What to see" }
+                    }
+                },
+                new object[] { "purchases", "fruit", "Фрукты", "Fruit",
+                    new List<object[]>
+                    {
+                        new object[] { "name", "text", "Название", "Name" },
+                        new object[] { "weight", "float", "Вес", "Weight" }
+                    }
+                },
+                new object[] { "figures", "triangles", "Треугольники", "Triangles",
+                    new List<object[]>
+                    {
+                        new object[] { "name", "text", "Название", "Name" },
+                        new object[] { "a", "point", "A", "A" },
+                        new object[] { "b", "point", "B", "B" },
+                        new object[] { "c", "point", "C", "C" },
                     }
                 },
             };
@@ -130,34 +148,34 @@ namespace Boxyz.Data
             {
                 new object[] { "books",
                     new List<object[]>
-                    { 
+                    {
                         new object[] { "authorName", "Анна Ахматова", "Анна Ахматова", "Anna Akhmatova" },
                         new object[] { "bookName", "Вечер", "Вечер", "Vecher (Evening)" },
                         new object[] { "year", "1912" }
-                    } 
+                    }
                 },
                 new object[] { "dolls",
                     new List<object[]>
                     {
                         new object[] { "dollName", "Barbie", "Барби", "Barbie" },
-                        new object[] { "size", "29" },
-                        new object[] { "price", "9,99" }
+                        new object[] { "size", 29, "cm" },
+                        new object[] { "price", 9.99m, "$" }
                     }
                 },
                 new object[] { "dolls",
                     new List<object[]>
                     {
                         new object[] { "dollName", "Sindy", "Синди", "Sindy" },
-                        new object[] { "size", "29" },
-                        new object[] { "price", "10,99" }
+                        new object[] { "size", 29, "cm"  },
+                        new object[] { "price", 10.99m, "$" }
                     }
                 },
                 new object[] { "dolls",
                     new List<object[]>
                     {
                         new object[] { "dollName", "Susy", "Сюзи", "Susy" },
-                        new object[] { "size", "29" },
-                        new object[] { "price", "5,99" }
+                        new object[] { "size", 29, "cm"  },
+                        new object[] { "price", 5.99m, "$" }
                     }
                 },
                 new object[] { "cities",
@@ -172,6 +190,22 @@ namespace Boxyz.Data
                     {
                         new object[] { "name", "London", "Лондон", "London" },
                         new object[] { "whatToSee", "Buckingham Palace", "Букингемский дворец", "Buckingham Palace" },
+                    }
+                },
+                new object[] { "fruit",
+                    new List<object[]>
+                    {
+                        new object[] { "name", "Яблоки", "Яблоки", "Apples" },
+                        new object[] { "weight", 2.0, "kg" },
+                    }
+                },
+                new object[] { "triangles",
+                    new List<object[]>
+                    {
+                        new object[] { "name", "Первый", "Первый", "First" },
+                        new object[] { "a", 0.0, 0.0, 0.0 },
+                        new object[] { "b", 0.0, 2.0, 0.0 },
+                        new object[] { "c", 1.0, 0.0, 0.0 },
                     }
                 }
             };
@@ -197,19 +231,34 @@ namespace Boxyz.Data
 
                 foreach (var sideLine in boxLine[1] as List<object[]>)
                 {
+                    var shapeSide = shape.Versions.First().Sides.First(s => s.ConstName == sideLine[0].ToString());
                     var side = new BoxSide
                     {
-                        ShapeSideId = shape.Versions.First().Sides.First(s => s.ConstName == sideLine[0].ToString()).Id,
+                        ShapeSideId = shapeSide.Id,
                         UniversalValue = sideLine[1].ToString(),
                     };
 
-                    if (sideLine.Length > 2)
+                    switch (shapeSide.DataType)
                     {
-                        side.Cultures = new List<BoxSideCulture>
-                        {
-                            new BoxSideCulture { Culture = "ru", Value = sideLine[2].ToString() },
-                            new BoxSideCulture { Culture = "en", Value = sideLine[3].ToString() }
-                        };
+                        case "text":
+                            side.Cultures = new List<BoxSideCulture>
+                            {
+                                new BoxSideCulture { Culture = "ru", Value = sideLine[2].ToString() },
+                                new BoxSideCulture { Culture = "en", Value = sideLine[3].ToString() }
+                            };
+                            break;
+                        case "integer":
+                            side.Integer = new BoxSideInteger { Value = (int)sideLine[1], Measure = sideLine[2].ToString() };
+                            break;
+                        case "float":
+                            side.Float = new BoxSideFloat { Value = (double)sideLine[1], Measure = sideLine[2].ToString() };
+                            break;
+                        case "money":
+                            side.Money = new BoxSideMoney { Value = (decimal)sideLine[1], Currency = sideLine[2].ToString() };
+                            break;
+                        case "point":
+                            side.Point = new BoxSidePoint { X = (double)sideLine[1], Y = (double)sideLine[2], Z = (double)sideLine[3] };
+                            break;
                     }
 
                     box.Versions.First().Sides.Add(side);

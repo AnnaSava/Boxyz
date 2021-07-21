@@ -16,6 +16,8 @@ namespace Boxyz.Data.Entities
 
         public string DataType { get; set; }
 
+        public int OrderNumber { get; set; }
+
         public virtual ICollection<ShapeSideCulture> Cultures { get; set; }
     }
 }

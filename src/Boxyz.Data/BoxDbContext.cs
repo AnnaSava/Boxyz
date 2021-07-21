@@ -34,6 +34,16 @@ namespace Boxyz.Data
 
         public DbSet<BoxSideCulture> BoxSideCultures { get; set; }
 
+        public DbSet<BoxSideFloat> BoxSideFloats { get; set; }
+
+        public DbSet<BoxSideInteger> BoxSideIntegers { get; set; }
+
+        public DbSet<BoxSideMoney> BoxSideMoneys { get; set; }
+
+        public DbSet<BoxSidePoint> BoxSidePoints { get; set; }
+
+        public DbSet<BoxSideLink> BoxSideLinks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -121,6 +131,23 @@ namespace Boxyz.Data
                     .WithOne(m => m.Content)
                     .HasForeignKey(m => m.ContentId)
                     .IsRequired();
+
+                b.HasOne(m => m.Float)
+                    .WithOne(m => m.BoxSide);
+
+                b.HasOne(m => m.Integer)
+                    .WithOne(m => m.BoxSide);
+
+                b.HasOne(m => m.Money)
+                    .WithOne(m => m.BoxSide);
+
+                b.HasOne(m => m.Point)
+                    .WithOne(m => m.BoxSide);
+
+                b.HasMany(m => m.Links)
+                    .WithOne(m => m.BoxSide)
+                    .HasForeignKey(m => m.BoxSideId)
+                    .IsRequired();                
             });
 
             builder.Entity<ShapeBoardCulture>()
@@ -134,6 +161,11 @@ namespace Boxyz.Data
 
             builder.Entity<BoxSideCulture>()
                 .HasKey(m => new { m.Culture, m.ContentId });
+
+            builder.Entity<BoxSideFloat>().HasKey(m => m.BoxSideId);
+            builder.Entity<BoxSideInteger>().HasKey(m => m.BoxSideId);
+            builder.Entity<BoxSidePoint>().HasKey(m => m.BoxSideId);
+            builder.Entity<BoxSideMoney>().HasKey(m => m.BoxSideId);
         }
     }
 }

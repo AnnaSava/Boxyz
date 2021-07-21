@@ -3,15 +3,17 @@ using System;
 using Boxyz.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Boxyz.Migrations.PostgreSql.Box
 {
     [DbContext(typeof(BoxDbContext))]
-    partial class BoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210721091751_DataTypes")]
+    partial class DataTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

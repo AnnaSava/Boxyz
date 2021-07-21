@@ -19,5 +19,15 @@ namespace Boxyz.Data.Entities
         public string UniversalValue { get; set; }
 
         public virtual ICollection<BoxSideCulture> Cultures { get; set; }
+
+        public virtual BoxSideFloat Float { get; set; }
+
+        public virtual BoxSideInteger Integer { get; set; }
+
+        public virtual BoxSideMoney Money { get; set; }
+
+        public virtual BoxSidePoint Point { get; set; }
+
+        public virtual ICollection<BoxSideLink> Links { get; set; }
     }
 }
