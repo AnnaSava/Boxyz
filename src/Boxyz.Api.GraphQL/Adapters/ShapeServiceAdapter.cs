@@ -1,11 +1,10 @@
-﻿using Boxyz.Data.Contract;
-using System;
+﻿using Boxyz.Proto.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Adapters
+namespace Boxyz.Proto.Api.GraphQL.Adapters
 {
     public class ShapeServiceAdapter
     {

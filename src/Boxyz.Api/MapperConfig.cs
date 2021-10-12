@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using Boxyz.Data.Mapper;
+using Boxyz.Proto.Data.Mapper;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Boxyz.Api
+namespace Boxyz.Proto.Api
 {
     public static class MapperConfig
     {

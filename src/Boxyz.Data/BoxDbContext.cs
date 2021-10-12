@@ -1,8 +1,7 @@
-﻿using Boxyz.Data.Entities;
+﻿using Boxyz.Proto.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
 
-namespace Boxyz.Data
+namespace Boxyz.Proto.Data.Services
 {
     public class BoxDbContext : DbContext
     {

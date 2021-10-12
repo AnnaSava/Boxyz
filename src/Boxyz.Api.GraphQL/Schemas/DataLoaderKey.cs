@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Schemas
+namespace Boxyz.Proto.Api.GraphQL.Schemas
 {
     internal static class DataLoaderKey
     {

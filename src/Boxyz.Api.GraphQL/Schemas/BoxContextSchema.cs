@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL
+namespace Boxyz.Proto.Api.GraphQL
 {
     public class BoxContextSchema : Schema
     {

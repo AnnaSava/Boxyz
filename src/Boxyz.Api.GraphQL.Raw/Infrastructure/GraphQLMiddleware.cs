@@ -1,17 +1,15 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Boxyz.Api.GraphQL.Infrastructure;
+﻿using Boxyz.Proto.Api.GraphQL.Infrastructure;
 using GraphQL;
-using GraphQL.DataLoader;
 using GraphQL.Instrumentation;
 using GraphQL.SystemTextJson;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Raw
+namespace Boxyz.Proto.Api.GraphQL.Raw
 {
     public class GraphQLMiddleware
     {

@@ -1,9 +1,10 @@
-﻿using Boxyz.Data;
+﻿using Boxyz.Proto.Data;
+using Boxyz.Proto.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
-namespace Boxyz.Seeder
+namespace Boxyz.Proto.Seeder
 {
     class Program
     {

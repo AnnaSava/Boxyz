@@ -1,4 +1,4 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
+﻿using Boxyz.Proto.Api.GraphQL.ForDbContext;
 //using GraphQL.Globalization.Common.Extensions;
 //using GraphQL.Globalization.Entities;
 //using GraphQL.Globalization.Entities.Extensions;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.ForDbContext
+namespace Boxyz.Proto.Api.GraphQL.ForDbContext
 {
     // https://github.com/fenomeno83/graphql-dotnet-globalization-demo
 

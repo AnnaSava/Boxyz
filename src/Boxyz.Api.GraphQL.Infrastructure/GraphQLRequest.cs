@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Infrastructure
+namespace Boxyz.Proto.Api.GraphQL.Infrastructure
 {
     public class GraphQLRequest
     {

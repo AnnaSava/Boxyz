@@ -1,11 +1,9 @@
-﻿using Boxyz.Data.Entities;
+﻿using Boxyz.Proto.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Boxyz.Data
+namespace Boxyz.Proto.Data
 {
     public static class TestData
     {

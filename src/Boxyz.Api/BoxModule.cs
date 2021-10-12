@@ -1,16 +1,10 @@
 ﻿using AutoMapper;
-using Boxyz.Data.Contract;
-using Boxyz.Data.Services;
+using Boxyz.Proto.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Boxyz.Data
+namespace Boxyz.Proto.Data
 {
     public static class BoxModule
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Boxyz.Api.GraphQL.Infrastructure;
+using Boxyz.Proto.Api.GraphQL.Infrastructure;
 using GraphQL;
 using GraphQL.DataLoader;
 using GraphQL.Instrumentation;
@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Boxyz.Api.GraphQL
+namespace Boxyz.Proto.Api.GraphQL
 {
     public class GraphQLMiddleware
     {

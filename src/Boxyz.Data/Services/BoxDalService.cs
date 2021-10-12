@@ -1,15 +1,13 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Boxyz.Data.Contract;
-using Boxyz.Data.Entities;
+using Boxyz.Proto.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Boxyz.Data.Services
+namespace Boxyz.Proto.Data.Services
 {
     public class BoxDalService : BaseService, IBoxDalService
     {

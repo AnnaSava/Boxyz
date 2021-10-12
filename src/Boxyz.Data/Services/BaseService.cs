@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Boxyz.Data.Services
+namespace Boxyz.Proto.Data.Services
 {
     public abstract class BaseService
     {

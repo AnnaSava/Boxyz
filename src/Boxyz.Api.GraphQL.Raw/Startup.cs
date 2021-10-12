@@ -1,5 +1,5 @@
-using Boxyz.Api.GraphQL.Infrastructure;
-using Boxyz.Data;
+using Boxyz.Proto.Api.GraphQL.Infrastructure;
+using Boxyz.Proto.Data.Services;
 using GraphQL;
 using GraphQL.Execution;
 using GraphQL.Instrumentation;
@@ -7,20 +7,16 @@ using GraphQL.SystemTextJson;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Raw
+namespace Boxyz.Proto.Api.GraphQL.Raw
 {
     public class Startup
     {

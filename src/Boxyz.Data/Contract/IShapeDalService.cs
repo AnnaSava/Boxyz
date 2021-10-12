@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Boxyz.Data.Contract
+namespace Boxyz.Proto.Data
 {
     public interface IShapeDalService
     {

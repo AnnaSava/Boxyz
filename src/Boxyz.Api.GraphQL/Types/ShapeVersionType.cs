@@ -1,17 +1,12 @@
-﻿using Boxyz.Api.GraphQL.Adapters;
-using Boxyz.Api.GraphQL.ForDbContext;
-using Boxyz.Api.GraphQL.Schemas;
-using Boxyz.Data.Contract;
+﻿using Boxyz.Proto.Api.GraphQL.Adapters;
+using Boxyz.Proto.Api.GraphQL.Schemas;
+using Boxyz.Proto.Data;
 using GraphQL;
 using GraphQL.DataLoader;
 using GraphQL.Types;
-using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Types
+namespace Boxyz.Proto.Api.GraphQL.Types
 {
     public class ShapeVersionType : ObjectGraphType<ShapeVersionModel>
     {

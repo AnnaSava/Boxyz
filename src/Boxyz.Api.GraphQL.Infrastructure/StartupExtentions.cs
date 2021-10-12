@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Boxyz.Api.GraphQL.Infrastructure
+namespace Boxyz.Proto.Api.GraphQL.Infrastructure
 {
     public static class StartupExtentions
     {

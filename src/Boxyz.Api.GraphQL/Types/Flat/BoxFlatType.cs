@@ -1,16 +1,10 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
-using Boxyz.Data;
-using Boxyz.Data.Contract;
-using GraphQL;
+﻿using Boxyz.Proto.Api.GraphQL.ForDbContext;
+using Boxyz.Proto.Data;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Types
+namespace Boxyz.Proto.Api.GraphQL.Types
 {
     public class BoxFlatType : ObjectGraphType<BoxFlatModel>
     {

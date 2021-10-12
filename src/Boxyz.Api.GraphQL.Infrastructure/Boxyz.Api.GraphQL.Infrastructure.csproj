@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Boxyz.Proto.Api.GraphQL.Infrastructure</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

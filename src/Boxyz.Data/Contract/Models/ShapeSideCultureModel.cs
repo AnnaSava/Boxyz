@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Boxyz.Data.Contract
+namespace Boxyz.Proto.Data
 {
     public class ShapeSideCultureModel : BaseCultureModel
     {

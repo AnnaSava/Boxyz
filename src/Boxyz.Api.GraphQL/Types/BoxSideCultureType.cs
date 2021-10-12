@@ -1,12 +1,7 @@
-﻿using Boxyz.Data.Contract;
-using GraphQL;
+﻿using Boxyz.Proto.Data;
 using GraphQL.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.Types
+namespace Boxyz.Proto.Api.GraphQL.Types
 {
     public class BoxSideCultureType : ObjectGraphType<BoxSideCultureModel>
     {

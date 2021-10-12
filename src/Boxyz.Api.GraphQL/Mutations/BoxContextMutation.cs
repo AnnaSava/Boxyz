@@ -1,15 +1,11 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
-using Boxyz.Api.GraphQL.Types;
-using Boxyz.Data.Contract;
+﻿using Boxyz.Proto.Api.GraphQL.Types;
+using Boxyz.Proto.Api.GraphQL.ForDbContext;
+using Boxyz.Proto.Data;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL
+namespace Boxyz.Proto.Api.GraphQL
 {
     public class BoxContextMutation : ObjectGraphType<object>
     {

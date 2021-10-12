@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL.ForDbContext
+namespace Boxyz.Proto.Api.GraphQL.ForDbContext
 {
     // https://github.com/fenomeno83/graphql-dotnet-globalization-demo
 

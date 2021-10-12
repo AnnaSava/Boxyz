@@ -1,18 +1,12 @@
-﻿using Boxyz.Api.GraphQL.ForDbContext;
-using Boxyz.Api.GraphQL.Types;
-using Boxyz.Data;
-using Boxyz.Data.Contract;
+﻿using Boxyz.Proto.Api.GraphQL.ForDbContext;
+using Boxyz.Proto.Api.GraphQL.Types;
+using Boxyz.Proto.Data;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace Boxyz.Api.GraphQL
+namespace Boxyz.Proto.Api.GraphQL
 {
     public class BoxContextQuery : ObjectGraphType<object>
     {

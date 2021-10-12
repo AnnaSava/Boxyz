@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Boxyz.Data.Entities
+namespace Boxyz.Proto.Data.Entities
 {
     public class BoxSide : BaseEntity
     {
