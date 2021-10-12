@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Api.GraphQL", "Boxyz.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Api", "Boxyz.Api\Boxyz.Api.csproj", "{E6DB6EF7-58E0-4D1A-A206-CAD1D0DFBA0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boxyz.Api.GraphQL.Raw", "Boxyz.Api.GraphQL.Raw\Boxyz.Api.GraphQL.Raw.csproj", "{7AFC13FC-9990-43AA-BF00-80B3B57D085C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Api.GraphQL.Raw", "Boxyz.Api.GraphQL.Raw\Boxyz.Api.GraphQL.Raw.csproj", "{7AFC13FC-9990-43AA-BF00-80B3B57D085C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boxyz.Api.GraphQL.Infrastructure", "Boxyz.Api.GraphQL.Infrastructure\Boxyz.Api.GraphQL.Infrastructure.csproj", "{E9B00CFA-AF05-445F-B878-E2DFF4C91865}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boxyz.Api.GraphQL.Infrastructure", "Boxyz.Api.GraphQL.Infrastructure\Boxyz.Api.GraphQL.Infrastructure.csproj", "{E9B00CFA-AF05-445F-B878-E2DFF4C91865}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{1C8A01A3-5E83-4AE1-877A-6B05FCB7B1B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +56,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{014A8BF0-1628-470C-8FE8-FA2862EBFAC8} = {1C8A01A3-5E83-4AE1-877A-6B05FCB7B1B9}
+		{E6DB6EF7-58E0-4D1A-A206-CAD1D0DFBA0A} = {1C8A01A3-5E83-4AE1-877A-6B05FCB7B1B9}
+		{7AFC13FC-9990-43AA-BF00-80B3B57D085C} = {1C8A01A3-5E83-4AE1-877A-6B05FCB7B1B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0FF6379A-4477-4FC9-BF91-F15E64A24B18}
