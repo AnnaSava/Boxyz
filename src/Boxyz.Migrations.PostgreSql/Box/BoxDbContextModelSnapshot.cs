@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Boxyz.Migrations.PostgreSql.Box
 {
-    [DbContext(typeof(BoxDbContext))]
+    [DbContext(typeof(BoxContext))]
     partial class BoxDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

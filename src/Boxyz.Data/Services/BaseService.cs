@@ -9,10 +9,10 @@ namespace Boxyz.Proto.Data.Services
 {
     public abstract class BaseService
     {
-        protected readonly BoxDbContext _dbContext;
+        protected readonly BoxContext _dbContext;
         protected readonly IMapper _mapper;
 
-        public BaseService(BoxDbContext dbContext, IMapper mapper)
+        public BaseService(BoxContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;

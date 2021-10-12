@@ -11,7 +11,7 @@ namespace Boxyz.Proto.Data.Services
 {
     public static class BoxDbActionExtentions
     {
-        public static async Task<IEnumerable<TModel>> GetCultures<TEntity, TModel>(this BoxDbContext dbContext, IEnumerable<(long, string)> keys, IMapper mapper)
+        public static async Task<IEnumerable<TModel>> GetCultures<TEntity, TModel>(this BoxContext dbContext, IEnumerable<(long, string)> keys, IMapper mapper)
             where TEntity : class, ICultureEntity
             where TModel : BaseCultureModel
         {
@@ -38,7 +38,7 @@ namespace Boxyz.Proto.Data.Services
         // FROM WeatherReports
         //) WHERE rn = 1
         //https://www.tutorialguruji.com/c-sharp/first-could-not-be-translated-when-accessing-first-group-element-linq-groupby/amp/
-        public static async Task<IEnumerable<TModel>> GetActualVersions<TEntity, TModel>(this BoxDbContext dbContext, IEnumerable<long> contentIds, IMapper mapper)
+        public static async Task<IEnumerable<TModel>> GetActualVersions<TEntity, TModel>(this BoxContext dbContext, IEnumerable<long> contentIds, IMapper mapper)
             where TEntity : class, IVersion
         {
             var versions = await dbContext.Set<TEntity>()

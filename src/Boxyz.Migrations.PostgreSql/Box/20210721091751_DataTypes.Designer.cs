@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Boxyz.Migrations.PostgreSql.Box
 {
-    [DbContext(typeof(BoxDbContext))]
+    [DbContext(typeof(BoxContext))]
     [Migration("20210721091751_DataTypes")]
     partial class DataTypes
     {

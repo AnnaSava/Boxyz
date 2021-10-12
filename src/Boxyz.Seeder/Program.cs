@@ -38,14 +38,14 @@ namespace Boxyz.Proto.Seeder
 
         }
 
-        private static BoxDbContext GetContext()
+        private static BoxContext GetContext()
         {
             var options = GetOptionsAction();
 
-            var optionsBuilder = new DbContextOptionsBuilder<BoxDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<BoxContext>();
             options.Invoke(optionsBuilder);
 
-            return new BoxDbContext(optionsBuilder.Options);
+            return new BoxContext(optionsBuilder.Options);
         }
         private static Action<DbContextOptionsBuilder> GetOptionsAction() => options =>
             options

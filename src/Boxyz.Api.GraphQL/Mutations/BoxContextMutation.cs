@@ -20,7 +20,7 @@ namespace Boxyz.Proto.Api.GraphQL
                 {
                     using var scope = httpContextAccessor.CreateScope();
                     var board = context.GetArgument<ShapeBoardInputModel>("shapeBoard");
-                    return await scope.GetService<IShapeBoardDalService>().Create(board);
+                    return await scope.GetService<IShapeBoardService>().Create(board);
                 });
         }
     }

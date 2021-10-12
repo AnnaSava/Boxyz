@@ -38,7 +38,7 @@ namespace Boxyz.Proto.Api.GraphQL.Raw
                 return new ErrorInfoProvider(new ErrorInfoProviderOptions { ExposeExceptionStackTrace = settings.Value.ExposeExceptions });
             });
 
-            services.AddDbContext<BoxDbContext>(options =>
+            services.AddDbContext<BoxContext>(options =>
             {
                 options.UseLazyLoadingProxies();
 

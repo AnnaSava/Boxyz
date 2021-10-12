@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Proto.Data
 {
-    public interface IShapeBoardDalService
+    public interface IShapeBoardService
     {
         Task<ShapeBoardModel> Create(ShapeBoardInputModel model);
 

@@ -22,7 +22,7 @@ namespace Boxyz.Proto.Api.GraphQL.Types
                 resolve: async context =>
                 {
                     using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeDalService>().GetFlatSides(context.Source.VersionId, context.Source.Culture);
+                    return await scope.GetService<IShapeService>().GetFlatSides(context.Source.VersionId, context.Source.Culture);
                 });
         }
     }

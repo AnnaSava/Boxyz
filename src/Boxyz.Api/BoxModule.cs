@@ -10,7 +10,7 @@ namespace Boxyz.Proto.Data
     {
         public static void AddBox(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<BoxDbContext>(options =>
+            services.AddDbContext<BoxContext>(options =>
             {
                 options.UseLazyLoadingProxies();
 
@@ -19,21 +19,21 @@ namespace Boxyz.Proto.Data
                     .UseSnakeCaseNamingConvention();
             }); 
 
-            services.AddScoped<IShapeBoardDalService>(s => new ShapeBoardDalService(
-                s.GetService<BoxDbContext>(),
+            services.AddScoped<IShapeBoardService>(s => new ShapeBoardService(
+                s.GetService<BoxContext>(),
                 s.GetService<IMapper>()));
 
-            services.AddScoped<IShapeDalService>(s => new ShapeDalService(
-                s.GetService<BoxDbContext>(),
-                s.GetService<IMapper>()));
-
-            services.AddScoped<IBoxDalService>(s => new BoxDalService(
-                s.GetService<BoxDbContext>(),
+            services.AddScoped<IShapeService>(s => new ShapeService(
+                s.GetService<BoxContext>(),
                 s.GetService<IMapper>()));
 
             services.AddScoped<IBoxService>(s => new BoxService(
-                s.GetService<IBoxDalService>(),
-                s.GetService<IShapeDalService>(),
+                s.GetService<BoxContext>(),
+                s.GetService<IMapper>()));
+
+            services.AddScoped<IBoxViewService>(s => new BoxViewService(
+                s.GetService<IBoxService>(),
+                s.GetService<IShapeService>(),
                 s.GetService<IMapper>()));
         }
     }

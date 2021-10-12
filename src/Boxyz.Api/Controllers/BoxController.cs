@@ -8,9 +8,9 @@ namespace Boxyz.Proto.Api.Controllers
     [ApiController]
     public class BoxController : ControllerBase
     {
-        private readonly IBoxService _boxService;
+        private readonly IBoxViewService _boxService;
 
-        public BoxController(IBoxService boxService)
+        public BoxController(IBoxViewService boxService)
         {
             _boxService = boxService;
         }

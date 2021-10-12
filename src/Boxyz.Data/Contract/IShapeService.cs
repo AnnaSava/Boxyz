@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Boxyz.Proto.Data
 {
-    public interface IShapeDalService
+    public interface IShapeService
     {
         Task<ShapeModel> GetOne(long Id);
 

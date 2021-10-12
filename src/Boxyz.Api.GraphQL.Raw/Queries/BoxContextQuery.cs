@@ -8,12 +8,12 @@ namespace Boxyz.Proto.Api.GraphQL
 {
     public class BoxContextQuery : ObjectGraphType<object>
     {
-        public BoxContextQuery(BoxDbContext dbContext)
+        public BoxContextQuery(BoxContext dbContext)
         {
             AddRawEntitiesQueries(dbContext);
         }
 
-        private void AddRawEntitiesQueries(BoxDbContext dbContext)
+        private void AddRawEntitiesQueries(BoxContext dbContext)
         {
             FieldAsync<ShapeBoardRawType>(
                "rawBoard",

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Boxyz.Proto.Data.Services
 {
-    public class BoxDbContext : DbContext
+    public class BoxContext : DbContext
     {
-        public BoxDbContext(DbContextOptions<BoxDbContext> options)
+        public BoxContext(DbContextOptions<BoxContext> options)
             : base(options)
         {
             //Database.EnsureCreated();
