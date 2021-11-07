@@ -24,6 +24,8 @@ namespace Boxyz.Proto.Data
 
         Task<IEnumerable<ShapeBoardModel>> GetAll(int page, int count);
 
+        Task<IEnumerable<ShapeBoardModel>> GetManyByIds(IEnumerable<long> ids);
+
         Task<IEnumerable<ShapeBoardFlatModel>> GetAllFlat(int page, int count, string culture);
     }
 }

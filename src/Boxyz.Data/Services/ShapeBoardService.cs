@@ -96,6 +96,16 @@ namespace Boxyz.Proto.Data.Services
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<ShapeBoardModel>> GetManyByIds(IEnumerable<long> ids)
+        {
+            return await _dbContext.ShapeBoards
+                .AsNoTracking()
+                .OrderBy(m => m.Id)
+                .Where(m => ids.Contains(m.Id))
+                .ProjectTo<ShapeBoardModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<ShapeBoardFlatModel>> GetAllFlat(int page, int count, string culture)
         {
             return await _dbContext.ShapeBoards

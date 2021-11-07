@@ -21,7 +21,9 @@ namespace Boxyz.Proto.Api.GraphQL.Types
                 .Name("cultures")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddCollectionBatchLoader<long, ShapeBoardCultureModel>(DataLoaderKey.GetShapeBoardCultures, shapeBoardServiceAdapter.GetCulturesByBoardId);
+                    var loader = accessor.Context
+                        .GetOrAddCollectionBatchLoader<long, ShapeBoardCultureModel>(DataLoaderKey.GetShapeBoardCultures, 
+                            shapeBoardServiceAdapter.GetCulturesByBoardId);
                     return loader.LoadAsync(ctx.Source.Id);
                 });
 
@@ -30,7 +32,9 @@ namespace Boxyz.Proto.Api.GraphQL.Types
                 .Argument<StringGraphType>("culture")
                 .ResolveAsync(ctx =>
                 {
-                    var loader = accessor.Context.GetOrAddBatchLoader<(long, string), ShapeBoardCultureModel>(DataLoaderKey.GetShapeBoardCulture, shapeBoardServiceAdapter.GetSingleCultures);
+                    var loader = accessor.Context
+                        .GetOrAddBatchLoader<(long, string), ShapeBoardCultureModel>(DataLoaderKey.GetShapeBoardCulture, 
+                        shapeBoardServiceAdapter.GetSingleCultures);
                     return loader.LoadAsync((ctx.Source.Id, ctx.GetArgument<string>("culture")));
                 });
         }

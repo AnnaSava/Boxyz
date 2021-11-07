@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -7,9 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EFCore.NamingConventions" Version="5.0.2" />
+    <PackageReference Include="GreenDonut" Version="12.0.1" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.0.1" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.0.1" />
     <PackageReference Include="HotChocolate.Data" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Boxyz.Data\Boxyz.Data.csproj" />
   </ItemGroup>
 
 </Project>

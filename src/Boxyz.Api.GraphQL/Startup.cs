@@ -84,7 +84,8 @@ namespace Boxyz.Proto.Api.GraphQL
                 var schema = new BoxContextSchema(services);
                 if (settings.Value.EnableMetrics)
                 {
-                    var middlewares = services.GetRequiredService<IEnumerable<IFieldMiddleware>>();
+                    var middlewares = services
+                        .GetRequiredService<IEnumerable<IFieldMiddleware>>();
                     foreach (var middleware in middlewares)
                         schema.FieldMiddleware.Use(middleware);
                 }

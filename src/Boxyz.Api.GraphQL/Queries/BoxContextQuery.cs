@@ -41,7 +41,8 @@ namespace Boxyz.Proto.Api.GraphQL
                 resolve: async context =>
                 {
                     using var scope = httpContextAccessor.CreateScope();
-                    return await scope.GetService<IShapeBoardService>().GetOne(context.GetArgument<long>("id"));
+                    return await scope.GetService<IShapeBoardService>()
+                        .GetOne(context.GetArgument<long>("id"));
                 }
             );
 
