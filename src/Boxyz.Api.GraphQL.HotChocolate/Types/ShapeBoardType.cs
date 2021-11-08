@@ -26,10 +26,11 @@ namespace Boxyz.Proto.Api.GraphQL.HotChocolate.Types
             Path = shapeBoard.Path;
         }
 
-        public async Task<ShapeBoardCultureType> GetCulture(string culture, [Service] IShapeBoardService _shapeBoardService)
-        {
-            var cultureModel = await _shapeBoardService.GetCulture(Id, culture);
-            return new ShapeBoardCultureType(cultureModel);
-        }
+        // TODO Переделать на DataLoader
+        //public async Task<ShapeBoardCultureType> GetCulture(string culture, [Service] IShapeBoardService _shapeBoardService)
+        //{
+        //    var cultureModel = await _shapeBoardService.GetCulture(Id, culture);
+        //    return new ShapeBoardCultureType(cultureModel);
+        //}
     }
 }

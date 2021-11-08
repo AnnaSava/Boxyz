@@ -21,8 +21,8 @@ namespace Boxyz.Proto.Api.GraphQL.HotChocolate
             return new ShapeBoardType(shapeBoard);
         }
 
-        public async Task<ShapeBoardType> GetShapeBoard(
-        int id,
+        public async Task<ShapeBoardType> ShapeBoardViaLoader(
+        long id,
         ShapeBoardDataLoader dataLoader)
         => await dataLoader.LoadAsync(id);
     }

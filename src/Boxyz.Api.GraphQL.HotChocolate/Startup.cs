@@ -1,3 +1,4 @@
+using Boxyz.Proto.Api.GraphQL.HotChocolate.DataLoaders;
 using Boxyz.Proto.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +20,7 @@ namespace Boxyz.Proto.Api.GraphQL.HotChocolate
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMapper();
             services.AddBox(Configuration);
 
             services

@@ -10,7 +10,16 @@ namespace Boxyz.Proto.Data
     {
         public static void AddBox(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<BoxContext>(options =>
+            //services.AddDbContext<BoxContext>(options =>
+            //{
+            //    options.UseLazyLoadingProxies();
+
+            //    options
+            //        .UseNpgsql(config.GetConnectionString("BoxConnection"), b => b.MigrationsAssembly("Boxyz.Migrations.PostgreSql"))
+            //        .UseSnakeCaseNamingConvention();
+            //});
+
+            services.AddPooledDbContextFactory<BoxContext>(options =>
             {
                 options.UseLazyLoadingProxies();
 
@@ -19,8 +28,12 @@ namespace Boxyz.Proto.Data
                     .UseSnakeCaseNamingConvention();
             });
 
+            //services.AddScoped<BoxContext>(p =>
+            //    p.GetRequiredService<IDbContextFactory<BoxContext>>()
+            //    .CreateDbContext());
+
             services.AddScoped<IShapeBoardService>(s => new ShapeBoardService(
-                s.GetService<BoxContext>(),
+                s.GetRequiredService<IDbContextFactory<BoxContext>>().CreateDbContext(),
                 s.GetService<IMapper>()));
 
             services.AddScoped<IShapeService>(s => new ShapeService(
