@@ -5,6 +5,10 @@
     <RootNamespace>Boxyz.Proto.Api.GraphQL</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget></PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="EFCore.NamingConventions" Version="5.0.2" />
